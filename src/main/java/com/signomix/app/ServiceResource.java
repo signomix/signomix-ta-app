@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import io.quarkus.runtime.configuration.ProfileManager;
 import io.vertx.mutiny.core.Vertx;
 
 @ApplicationScoped
@@ -27,6 +26,16 @@ public class ServiceResource {
     private static final Logger LOG = Logger.getLogger(ServiceResource.class);
 
     private final Vertx vertx;
+
+    @ConfigProperty(name = "signomix.statuspage.url", defaultValue = "")
+    String statusPageUrl;
+
+    @ConfigProperty(name = "signomix.release", defaultValue = "")
+    String releaseNumber;
+
+    @ConfigProperty(name = "signomix.google.tracking.id", defaultValue = "")
+    String trackingId;
+
 
     @Inject
     public ServiceResource(Vertx vertx) {
@@ -102,15 +111,6 @@ public class ServiceResource {
         }
         return fileContent;
     }
-
-    @ConfigProperty(name = "signomix.statuspage.url", defaultValue = "")
-    String statusPageUrl;
-
-    @ConfigProperty(name = "signomix.release", defaultValue = "")
-    String releaseNumber;
-
-    @ConfigProperty(name = "signomix.google.tracking.id", defaultValue = "")
-    String trackingId;
 
     @GET
     @Path("/api/app/health")
