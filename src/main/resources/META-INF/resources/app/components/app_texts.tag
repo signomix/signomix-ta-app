@@ -1333,10 +1333,10 @@
             "pl": "Home"
         },
         "mainpage": {
-            "en": "signomix.com",
-            "it": "signomix.com",
-            "fr": "signomix.com",
-            "pl": "signomix.com"
+            "en": "Go to the start page.",
+            "it": "Go to the start page.",
+            "fr": "Go to the start page.",
+            "pl": "Przejdź do strony startowej"
         }
     }
         
