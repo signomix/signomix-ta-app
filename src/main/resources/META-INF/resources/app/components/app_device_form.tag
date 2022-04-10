@@ -33,7 +33,7 @@
                     <select class="form-control" id="type" name="type" value={ device.type } onchange={ changeType } disabled={ !(allowEdit && !device.EUI) } required>
                         <option value="GENERIC">DEFAULT</option>
                         <option value="TTN">TTN</option>
-                        <option value="LORA">LORA</option>
+                        <option value="LORA">ChirpStack</option>
                         <option value="KPN">KPN</option>
                         <option value="GATEWAY">HOME GATEWAY</option>
                         <option value="VIRTUAL">VIRTUAL</option>

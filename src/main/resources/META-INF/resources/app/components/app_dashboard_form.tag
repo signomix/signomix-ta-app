@@ -61,6 +61,7 @@
                                 <option value="report" selected={self.editedWidget.type=='report'}>{self.getTypeName('report')}</option>
                                 <option value="multimap" selected={self.editedWidget.type=='multimap'}>{self.getTypeName('multimap')}</option>
                                 <option value="button" selected={self.editedWidget.type=='button'}>{self.getTypeName('button')}</option>
+                                <option value="filter" selected={self.editedWidget.type=='filter'}>{self.getTypeName('filter')}</option>
                                 <option value="stopwatch" selected={self.editedWidget.type=='stopwatch'}>{self.getTypeName('stopwatch')}</option>
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
@@ -107,7 +108,7 @@
                         </div>
                         </div>
                         <div class="row" if={ self.editedWidget.type!='text' }>
-                        <div class="form-group col-md-12" if={ self.editedWidget.type!='button' }>
+                        <div class="form-group col-md-12" if={ self.editedWidget.type!='button' && self.editedWidget.type!='filter' }>
                             <form_input 
                                 id="w_channel"
                                 name="w_channel"
@@ -156,7 +157,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='button' && self.editedWidget.type!='plan'}>
+                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='button' && self.editedWidget.type!='filter' && self.editedWidget.type!='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_query"
@@ -735,6 +736,9 @@
                     break
                 case 'button':
                     return app.texts.dashboard_form.type_button[app.language]
+                    break
+                case 'filter':
+                    return app.texts.dashboard_form.type_filter[app.language]
                     break
                 case 'map':
                     return app.texts.dashboard_form.type_map[app.language]

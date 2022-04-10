@@ -462,6 +462,12 @@
             "fr": "Bouton",
             "pl": "Przycisk"
         },
+        "type_filter": {
+            "en": "Filter",
+            "it": "Filter",
+            "fr": "Filter",
+            "pl": "Filtr"
+        },
         "type_gauge": {
             "en": "Gauge",
             "it": "Indicatore",
@@ -1090,10 +1096,10 @@
             "pl": "Urządzenie IoT zarejestrowane w infrastrukturze The Things Network"
         },
         "lora_desc": {
-            "en": "IoT node registered in LoRaWAN infrastructure running on the LoRa Server software",
-            "it": "Nodo IoT registrato nell'infrastruttura LoRaWAN in esecuzione sul software del Server LoRa",
-            "fr": "IoT node registered in LoRaWAN infrastructure running on the LoRa Server software",
-            "pl": "Urządzenie IoT zarejestrowane w infrastrukturze LoRaWAN opartej na oprogramowaniu LoRa Server"
+            "en": "IoT node registered in LoRaWAN infrastructure running on the ChirpStack software",
+            "it": "Nodo IoT registrato nell'infrastruttura LoRaWAN in esecuzione sul software del ChirpStack",
+            "fr": "IoT node registered in LoRaWAN infrastructure running on the ChirpStack software",
+            "pl": "Urządzenie IoT zarejestrowane w infrastrukturze LoRaWAN opartej na oprogramowaniu ChirpStack"
         },
         "kpn_desc": {
             "en": "IoT node registered in the KPN Network infrastructure",
@@ -1943,6 +1949,57 @@
     }
     
     app.texts.widget_button = {
+        "confirm": {
+            "en": "Confirmed. Send!",
+            "it": "Confermato. Invia!",
+            "fr": "Confirmé. Envoyer!",
+            "pl": "Potwierdzone. Wysyłaj!"
+        },
+        "save": {
+            "en": "OK",
+            "it": "OK",
+            "fr": "OK",
+            "pl": "OK"
+        },
+        "cancel": {
+            "en": "Cancel",
+            "it": "Annulla",
+            "fr": "Annuler",
+            "pl": "Porzuć"
+        },
+        "title": {
+            "en": "Confirm the command",
+            "it": "Conferma il comando",
+            "fr": "Confirmer la commande",
+            "pl": "Potwierdź polecenie"
+        },
+        "device": {
+            "en": "Device",
+            "it": "Dispositivo",
+            "fr": "Device",
+            "pl": "Urządzenie"
+        },
+        "line1": {
+            "en": "You are going to send the data listed below to the device:",
+            "it": "Si inviano al dispositivo i dati elencati di seguito:",
+            "fr": "Vous allez envoyer les données listées ci-dessous à l'appareil:",
+            "pl": "Zamierzasz wysłać do urządzenia dane wyświetlone poniżej:"
+        },
+        "line2": {
+            "en": "This operation could be potentially hazardous.",
+            "it": "Questa operazione potrebbe essere potenzialmente pericolosa.",
+            "fr": "Cette opération pourrait être potentiellement dangereuse.",
+            "pl": "Ta operacja może być potencjalnie niebezpieczna."
+        },
+        "line3": {
+            "en": "Make sure in the device manual that the command is correct and that its effects are as intended.",
+            "it": "Assicurarsi nel manuale dell'apparecchio che il comando sia corretto e che i suoi effetti siano quelli previsti.",
+            "fr": "Assurez-vous dans le manuel de l'appareil que la commande est correcte et que ses effets sont tels que prévus.",
+            "pl": "Upewnij się w instrukcji obsługi urządzenia, że polecenie jest prawidłowe i że jego efekty są zgodne z zamierzonymi."
+        }
+    }
+
+    app.texts.widget_filter = {
         "confirm": {
             "en": "Confirmed. Send!",
             "it": "Confermato. Invia!",

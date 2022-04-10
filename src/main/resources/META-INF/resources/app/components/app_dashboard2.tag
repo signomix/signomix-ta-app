@@ -52,6 +52,7 @@
                     <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_button>
                     <widget_chart ref={ getRefName(i,j) } if={w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped'}></widget_chart>
                     <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date'}></widget_date>
+                    <widget_filter ref={ getRefName(i,j) } if={w_line[i][j]['type']=='filter'}></widget_filter>
                     <widget_map ref={ getRefName(i,j) } if={w_line[i][j]['type']=='map'}></widget_map>
                     <widget_raw ref={ getRefName(i,j) } if={w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text'}></widget_raw>
                     <widget_led ref={ getRefName(i,j) } if={w_line[i][j]['type']=='led'}></widget_led>
@@ -218,7 +219,7 @@
 
     // get data from IoT devices
     var readDashboardData = function (config, callback, row, column) {
-        if(config['type']=='button'){
+        if(config['type']=='button' || config['type']=='filter'){
             return
         }
         var query
