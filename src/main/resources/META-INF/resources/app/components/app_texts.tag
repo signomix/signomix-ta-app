@@ -546,6 +546,12 @@
             "fr": "OpenWeatherMap",
             "pl": "OpenWeatherMap"
         },
+        "type_custom": {
+            "en": "Custom widget",
+            "it": "Custom widget",
+            "fr": "Custom widget",
+            "pl": "Niestandardowy"
+        },
         "f_remove_question": {
             "en": "Do you want to remove this widget?",
             "it": "Vuoi eliminare questo widget?",
@@ -1879,6 +1885,20 @@
         }
     }
     
+    app.texts.widget = {
+        "nodata": {
+            "en": "Waiting for data ...",
+            "it": "In attesa di dati ...",
+            "fr": "En attente de données ...",
+            "pl": "Oczekiwanie na dane ..."
+        },
+        "timestamp": {
+            "en": "timestamp",
+            "it": "timestamp",
+            "fr": "torodatage",
+            "pl": "znacznik czasu"
+        }
+    }
     app.texts.widget_chart = {
         "timestamp": {
             "en": "timestamp",

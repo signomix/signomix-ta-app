@@ -358,9 +358,9 @@
 
         getStatus(lastSeen, interval) {
             if (self.now - lastSeen > interval) {
-                return 'images/KO.svg'
+                return '/app/images/KO.svg'
             } else {
-                return 'images/OK.svg'
+                return '/app/images/OK.svg'
             }
         }
 

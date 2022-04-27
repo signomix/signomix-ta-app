@@ -66,6 +66,7 @@
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
                                 <option value="openweather" selected={self.editedWidget.type=='openweather'}>{self.getTypeName('openweather')}</option>
+                                <option value="custom" selected={self.editedWidget.type=='custom'}>{self.getTypeName('custom')}</option>
                             </select>
                         </div>
                         </div>
@@ -561,6 +562,8 @@
                 switch(params[i]){
                     case "last":
                     case "average":
+                    case "minimum":
+                    case "maximum":
                         if( params.length<(i+2) || !Number.isInteger(parseInt(params[i+1])) ){
                             return false
                         }
@@ -570,10 +573,15 @@
                     case "state":
                     case "channel":
                     case "group":
+                    case "new":
+                    case "from":
+                    case "to":
                         if(params.length<i+2) return false
                         i=i+2;
                         break;
                     case "timeseries":
+                    case "csv.timeseries":
+                    case "virtual":
                         i=i+1;
                         break;
                     default:
@@ -582,6 +590,7 @@
             }
             return true
         }
+
         
         self.saveWidget = function(e){
             e.preventDefault()
@@ -769,6 +778,9 @@
                     break
                 case 'openweather':
                     return app.texts.dashboard_form.type_openweather[app.language]
+                    break
+                case 'custom':
+                    return app.texts.dashboard_form.type_custom[app.language]
                     break
                 default:
                     return name
