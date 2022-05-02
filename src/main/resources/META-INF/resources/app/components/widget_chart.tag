@@ -1,5 +1,5 @@
 <widget_chart>
-    <div id="{opts.ref}" if="{type == 'line' || type == 'stepped'}" class="container-fluid bg-white border border-info rounded topspacing p-0">
+    <div id="{ref}" ref={ref} if="{type == 'line' || type == 'stepped'}" class="container-fluid bg-white border border-info rounded topspacing p-0">
         <div class="row px-3 pt-1 pb-0">
             <div class="col-12 text-center" onclick={ switchCard()}>{title}</div>
         </div> 
@@ -42,11 +42,6 @@
     </div>
     <script>
         var self = this
-        // opts: poniższe przypisanie nie jest używane
-        //       wywołujemy update() tego taga żeby zminieć parametry
-        self.type = opts.type
-        self.title = opts.title
-        // opts
 
         self.front = true
         self.rawdata = "[]"
@@ -60,6 +55,7 @@
         self.dataAvailable=false;
 
         self.show2 = function(){
+            app.log(this.rawdata)
             self.jsonData = JSON.parse(this.rawdata)
             app.log(self.jsonData)
             if (self.jsonData.length == 0 || self.jsonData[0].length == 0){
@@ -72,7 +68,7 @@
             self.showMultiLineGraph(self.type,false,self.chartOption)
         }
         
-        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption){
+        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption){  
             if (!self.front || self.jsonData[0].length == 0 ){ 
                 app.log('return because '+self.front+' '+self.jsonData[0].length)
                 return 
@@ -82,9 +78,19 @@
             var minWidth = 400
             var largeSize = self.width > minWidth
             var numberOfLines = self.multiLine?self.jsonData[0].length:1
-            var colors = ['blue','green','red','black']
-            var areaColors = ['powderblue','palegreen','lightpink','silver']
-            var axesNames = ['axis1','axis2','axis3','axis4']
+            var colors = [
+                'rgb(54, 162, 235)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)'
+            ]
+            var areaColors = [
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ]
+            var axesNames = ['yAxis1','yAxis2','yAxis3','yAxis4']
             
             var chartData = {
                 labels: [],
@@ -108,33 +114,33 @@
             var lastDate = ''
             var dFirst,dLast
             if(self.multiLine){
-                for (var i = 0; i < self.jsonData.length; i++){
-                    for (var j=0; j < self.jsonData[i].length && j < 4; j++){
-                        chartData.datasets[j].data.push({x:self.jsonData[i][j]['timestamp'], y:self.jsonData[i][j]['value']})
+                for (var j=0; j < self.jsonData[0].length && j<4; j++){
+                    for (var i = 0; i < self.jsonData.length; i++){
+                        chartData.datasets[j].data.push(self.jsonData[i][j]['value'])
                     }
                 }
-                dFirst=self.jsonData[0][0]['timestamp']
-                dLast=self.jsonData[self.jsonData.length - 1][0]['timestamp']
             }else{
                 for (var i = 0; i < self.jsonData[0].length; i++){
-                    chartData.datasets[0].data.push({x:new Date(self.jsonData[0][i]['timestamp']), y:self.jsonData[0][i]['value']})
-                }
-                dFirst=self.jsonData[0][0]['timestamp']
-                dLast=self.jsonData[0][self.jsonData[0].length - 1]['timestamp']
+                    chartData.datasets[0].data.push(self.jsonData[0][i]['value'])
+                }  
             }
-            if (self.toLocaleTimeStringSupportsLocales()){
-                firstDate = new Date(dFirst).toLocaleDateString(app.language)
-                lastDate = new Date(dLast).toLocaleDateString(app.language)    
+            dFirst=self.jsonData[0][0]['timestamp']
+            dLast=self.jsonData[0][self.jsonData[0].length - 1]['timestamp']
+            if (self.toLocaleTimeStringSupportsLocales()){    
+                firstDate = new Date(dFirst).toLocaleString(app.language)
+                lastDate = new Date(dLast).toLocaleString(app.language)    
             }else{
-                firstDate = new Date(dFirst).toISOString().substring(0, 10)
-                lastDate = new Date(dLast).toISOString().substring(0, 10)
+                firstDate = new Date(dFirst).toString()
+                lastDate = new Date(dLast).toString()
             }
 
             var options = {
                 responsive: true,
-                title:{
-                    display:true,
-                    text: self.title + ' ' + firstDate + ' - ' + lastDate
+                plugins: {
+                    title: {
+                    display: false,
+                    text: firstDate + ' - ' + lastDate
+                    }
                 },
                 tooltips: {
                     callbacks: {
@@ -152,19 +158,13 @@
                     }
                 },
                 scales: {
-                    xAxes: [{
-                        display: false,
-                        type: 'linear',
-                        ticks:{
-                            min:dFirst,
-                            max:dLast
-                        },
-                        scaleLabel: {
-                            display: false,
-                            labelString: ''
+                    x: {
+                        ticks: {
+                        callback: function(val, index) {
+                        return ''+index;
                         }
-                    }],
-                    yAxes: []
+                        }
+                    }
                 },
                 elements: {
                     point:{
@@ -172,26 +172,69 @@
                     }
                 }
             }
-            for(i=0; i<numberOfLines; i++){
-                options.scales.yAxes.push(
-                    {
-                        id: axesNames[i],
+            options.scales.yAxis1={
                         type: 'linear',
-                        position: i==0?'left':'right',
+                        position: 'left',
                         display: true,
-                        scaleLabel: {
+                        title: {
                             display: true,
-                            labelString: self.jsonData[0][i].name
+                            text: self.jsonData[0][0]['name']
                         }
+                        }
+            options.scales.yAxis2={
+                        type: 'linear',
+                        position: 'right',
+                        display: (self.multiLine && self.jsonData[0].length>1),
+                        title: {
+                            display: true,
+                            text: (self.multiLine && self.jsonData[0].length>1)?self.jsonData[0][1]['name']:''
+                        }
+                        }
+            options.scales.yAxis3={
+                        type: 'linear',
+                        position: 'right',
+                        display: (self.multiLine && self.jsonData[0].length>2),
+                        title: {
+                            display: true,
+                            text: (self.multiLine && self.jsonData[0].length>2)?self.jsonData[0][2]['name']:''
+                        }
+                        }
+            options.scales.yAxis4={
+                        type: 'linear',
+                        position: 'right',
+                        display: (self.multiLine && self.jsonData[0].length>3),
+                        title: {
+                            display: true,
+                            text: (self.multiLine && self.jsonData[0].length>3)?self.jsonData[0][0]['name']:''
+                        }
+                        }
+            if(numberOfLines==1){
+                for (var i = 0; i < self.jsonData[0].length; i++){
+                    if (self.toLocaleTimeStringSupportsLocales()){
+                        chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toLocaleString(app.language))
+                    }else{
+                        chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toString())
                     }
-                )
+                }
+            }else{
+                for (var i = 0; i < self.jsonData.length; i++){
+                    if (self.toLocaleTimeStringSupportsLocales()){
+                        chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toLocaleString(app.language))
+                    }else{
+                        chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toString())
+                    }
+                }
             }
-
+            var chartConfig={
+                    type: 'line',
+                    data: chartData,
+                    options: options
+                }
             try{
                 if(self.chart && !afterSwitch){
                     self.chart.data = chartData
                     self.chart.options = options
-                    self.chart.update({duration:0})
+                    self.chart.update()
                 }else{
                     self.chart = new Chart(self.ctxL, {
                         type: 'line',
@@ -200,11 +243,7 @@
                     })
                 }
             }catch(err){
-                self.chart = new Chart(self.ctxL, {
-                    type: 'line',
-                    data: chartData,
-                    options: options
-                })
+                self.chart = new Chart(self.ctxL, chartConfig)
             }
     
         }

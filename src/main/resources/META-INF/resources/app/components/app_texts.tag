@@ -522,6 +522,12 @@
             "fr": "Stepped line chart",
             "pl": "Wykres schodkowy"
         },
+        "type_bar": {
+            "en": "Bar chart",
+            "it": "Bar chart",
+            "fr": "Bar chart",
+            "pl": "Wykres słupkowy"
+        },
         "type_stopwatch": {
             "en": "Stopwatch",
             "it": "Stopwatch",

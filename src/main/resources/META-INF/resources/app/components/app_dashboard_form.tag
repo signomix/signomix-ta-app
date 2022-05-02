@@ -54,6 +54,7 @@
                                 <option value="raw" selected={self.editedWidget.type=='raw'}>{self.getTypeName('raw')}</option>
                                 <option value="line" selected={self.editedWidget.type=='line'}>{self.getTypeName('line')}</option>
                                 <option value="stepped" selected={self.editedWidget.type=='stepped'}>{self.getTypeName('stepped')}</option>
+                                <option value="bar" selected={self.editedWidget.type=='bar'}>{self.getTypeName('bar')}</option>
                                 <option value="map" selected={self.editedWidget.type=='map'}>{self.getTypeName('map')}</option>
                                 <option value="plan" selected={self.editedWidget.type=='plan'}>{self.getTypeName('plan')}</option>
                                 <option value="date" selected={self.editedWidget.type=='date'}>{self.getTypeName('date')}</option>
@@ -742,6 +743,9 @@
                     break
                 case 'stepped':
                     return app.texts.dashboard_form.type_stepped[app.language]
+                    break
+                case 'bar':
+                    return app.texts.dashboard_form.type_bar[app.language]
                     break
                 case 'button':
                     return app.texts.dashboard_form.type_button[app.language]

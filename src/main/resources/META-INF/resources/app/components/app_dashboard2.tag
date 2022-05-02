@@ -28,6 +28,35 @@
         </div>
     </div>
     </div>
+
+    <div class="modal fade" id="filterView" tabindex="-1" role="dialog" aria-labelledby="filter view" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{ app.texts.dashboard2.dialogTitle[app.language] }</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <p>{ app.texts.dashboard2.line1[app.language] }</p>
+                        <input type="text" class="form-control" id="link" onclick="this.select();" value={ sharedLink }/>
+                    </div>
+                    <div class="form-group">
+                        <p>{ app.texts.dashboard2.line2[app.language] }</p>
+                        <textarea class="form-control" rows="5" onclick='this.select();'>{ sharedEmbeded }</textarea>
+                        <p>{ app.texts.dashboard2.line3[app.language] }</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{ app.texts.dashboard2.close[app.language] }</button>
+            </div>
+        </div>
+    </div>
+    </div>
 <!-- Modal -->
     <div class="row" if={ !accessOK }>
         <div class="col-md-12">
@@ -35,11 +64,16 @@
         </div>
     </div>
     <div class="row" if={ !app.embeded }>
-        <div class="col-md-12">
-            <h2 class="module-title text-center">{ dashboardConfig.title }
-                <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
+        <div class="col-md-10">
+            <h2 class="module-title">{ dashboardConfig.title }
+            </h2>
+        </div>
+        <div class="col-md-2">
+            <h2 class="module-title text-right">
+            <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
                 <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
                    if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}>link</i>
+                <i class="material-icons clickable" onclick={ editFilter } if={app.user.status == 'logged-in' && !app.user.guest}>filter_alt</i>
             </h2>
         </div>
     </div>
@@ -51,6 +85,7 @@
                     <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol'}></widget_a1>
                     <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_button>
                     <widget_chart ref={ getRefName(i,j) } if={w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped'}></widget_chart>
+                    <widget_bar ref={ getRefName(i,j) } if={w_line[i][j]['type']=='bar'}></widget_bar>
                     <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date'}></widget_date>
                     <widget_filter ref={ getRefName(i,j) } if={w_line[i][j]['type']=='filter'}></widget_filter>
                     <widget_map ref={ getRefName(i,j) } if={w_line[i][j]['type']=='map'}></widget_map>
@@ -124,6 +159,10 @@
         //self.mounted=true
         self.mounted=false
     })
+
+    editFilter(e){
+        
+    }
 
     refresh(e){
         app.log('REFRESHING DATA')
