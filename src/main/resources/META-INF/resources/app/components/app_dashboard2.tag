@@ -29,34 +29,44 @@
     </div>
     </div>
 
-    <div class="modal fade" id="filterView" tabindex="-1" role="dialog" aria-labelledby="filter view" aria-hidden="true" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">{ app.texts.dashboard2.dialogTitle[app.language] }</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <p>{ app.texts.dashboard2.line1[app.language] }</p>
-                        <input type="text" class="form-control" id="link" onclick="this.select();" value={ sharedLink }/>
+    <div class="modal fade" id="filterView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">{app.texts.dashboard_filter.title[app.language]}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label={app.texts.mydevices.cancel[app.language]}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <p>{ app.texts.dashboard2.line2[app.language] }</p>
-                        <textarea class="form-control" rows="5" onclick='this.select();'>{ sharedEmbeded }</textarea>
-                        <p>{ app.texts.dashboard2.line3[app.language] }</p>
+                    <div class="modal-body">
+                        <form onSubmit="{saveFilter}" >
+                            <div class="form-group">
+                                { app.texts.dashboard_filter.description[app.language] }
+                            </div>
+                            <div class="form-group">
+                                { app.texts.dashboard_filter.from_date[app.language] }
+                                <input type="text" id="from_date" class="form-control" value={ filter.fromDate }/>
+                            </div>
+                            <div class="form-group">
+                                { app.texts.dashboard_filter.to_date[app.language] }
+                                <input type="text" id="to_date" class="form-control" value={ filter.toDate }/>
+                            </div>
+                            <div class="form-group">
+                                { app.texts.dashboard_filter.project[app.language] }
+                                <input type="text" id="project" class="form-control" value={ filter.project }/>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-link" onClick={clearFilter}>{ app.texts.common.clear[app.language]}</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">{ app.texts.dashboard2.close[app.language] }</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">{app.texts.common.apply[app.language]}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.common.cancel[app.language]}</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
 <!-- Modal -->
     <div class="row" if={ !accessOK }>
         <div class="col-md-12">
@@ -73,7 +83,7 @@
             <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
                 <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
                    if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}>link</i>
-                <i class="material-icons clickable" onclick={ editFilter } if={app.user.status == 'logged-in' && !app.user.guest}>filter_alt</i>
+                <i class="material-icons clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest}>filter_alt</i>
             </h2>
         </div>
     </div>
@@ -120,6 +130,11 @@
     self.consolidationRequired=false
     self.accessOK = true
     self.refreshInterval = app.dashboardRefreshInterval
+    self.filter={
+        fromDate:'',
+        toDate:'',
+        project:''
+    }
     
     globalEvents.on('pageselected:dashboard',function(event){
         if(self.mounted){
@@ -160,8 +175,21 @@
         self.mounted=false
     })
 
-    editFilter(e){
-        
+    saveFilter(e){
+        try{
+            if(e) e.preventDefault()
+            self.filter.fromDate = e.target.elements['from_date'].value
+            self.filter.toDate = e.target.elements['to_date'].value
+            self.filter.project = e.target.elements['project'].value
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    clearFilter(e){
+        self.filter.fromDate=''
+        self.filter.toDate=''
+        self.filter.project=''
     }
 
     refresh(e){
@@ -281,7 +309,8 @@
         }else if(config.type=='report'||config.type=='multimap'||config.type=='plan'){
             url=app.groupAPI + "/" + config.group + "/"+channelName+(app.shared!=''?'?tid='+app.shared:'')
         }else if(config.dev_id){
-            url=app.iotAPI + "/" + config.dev_id + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + query
+            var queryWithFilter=applyFilter(query,self.filter)
+            url=app.iotAPI + "/" + config.dev_id + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }
         if(url.length>0) {
             getData(

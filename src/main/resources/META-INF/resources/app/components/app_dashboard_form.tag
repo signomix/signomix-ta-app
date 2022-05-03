@@ -555,51 +555,13 @@
             riot.update()
         }
         
-        self.parseDQL=function(text){
-            var dql=text.trim()
-            if(dql=='' || dql=='1' || dql=='last') return true
-            var params=dql.split(' ')
-            for(i=0; i<params.length;){
-                switch(params[i]){
-                    case "last":
-                    case "average":
-                    case "minimum":
-                    case "maximum":
-                        if( params.length<(i+2) || !Number.isInteger(parseInt(params[i+1])) ){
-                            return false
-                        }
-                        i=i+2;
-                        break;
-                    case "project":
-                    case "state":
-                    case "channel":
-                    case "group":
-                    case "new":
-                    case "from":
-                    case "to":
-                        if(params.length<i+2) return false
-                        i=i+2;
-                        break;
-                    case "timeseries":
-                    case "csv.timeseries":
-                    case "virtual":
-                        i=i+1;
-                        break;
-                    default:
-                        return false
-                }
-            }
-            return true
-        }
-
-        
         self.saveWidget = function(e){
             e.preventDefault()
             var query=''
             try{
                 query=e.target.elements['w_query'].value
             }catch(err){}
-            if(query!='' && !self.parseDQL(query)){
+            if(query!='' && !checkQuerySyntax(query)){
                 self.invalidQuery=true
                 return
             }

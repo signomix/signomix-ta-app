@@ -1,6 +1,32 @@
 <app_texts>
     <script>
     app.texts={}
+    app.texts.common={
+        "save": {
+            "en": "Save",
+            "it": "Save",
+            "pl": "Zapisz",
+            "fr": "Save"
+        },
+        "cancel": {
+            "en": "Cancel",
+            "it": "Cancel",
+            "pl": "Anuluj",
+            "fr": "Cancel"
+        },
+        "clear": {
+            "en": "Clear",
+            "it": "Clear",
+            "pl": "Wyczyść",
+            "fr": "Clear"
+        },
+        "apply": {
+            "en": "Apply",
+            "it": "Apply",
+            "pl": "Zastosuj",
+            "fr": "Apply"
+        }
+    }
     app.texts.footer= {
         "home": {
             "en": "Home",
@@ -326,6 +352,39 @@
             "it": "Accesso negato o dashboard assente",
             "fr": "Accès refusé ou absent au tableau de bord",
             "pl": "Nie masz uprawnień lub nie znaleziono pulpitu"
+        }
+    }
+
+    app.texts.dashboard_filter = {
+        "title": {
+            "en": "Dashboard filter",
+            "it": "Dashboard filter",
+            "fr": "Dashboard filter",
+            "pl": "Filtr dla pulpitu"
+        },
+        "description": {
+            "en": "Parameters changing the range of data retrieved by controls on this dashboard:",
+            "it": "Parameters changing the range of data retrieved by controls on this dashboard:",
+            "fr": "Parameters changing the range of data retrieved by controls on this dashboard:",
+            "pl": "Parametry zmieniające zakres danych pobieranych przez kontrolki tym pulpicie:"
+        },
+        "from_date": {
+            "en": "From date",
+            "it": "From date",
+            "fr": "From date",
+            "pl": "Od daty"
+        },
+        "to_date": {
+            "en": "To date",
+            "it": "To date",
+            "fr": "To date",
+            "pl": "Do daty"
+        },
+        "project": {
+            "en": "Project",
+            "it": "Project",
+            "fr": "Project",
+            "pl": "Projekt"
         }
     }
     
@@ -1975,57 +2034,6 @@
     }
     
     app.texts.widget_button = {
-        "confirm": {
-            "en": "Confirmed. Send!",
-            "it": "Confermato. Invia!",
-            "fr": "Confirmé. Envoyer!",
-            "pl": "Potwierdzone. Wysyłaj!"
-        },
-        "save": {
-            "en": "OK",
-            "it": "OK",
-            "fr": "OK",
-            "pl": "OK"
-        },
-        "cancel": {
-            "en": "Cancel",
-            "it": "Annulla",
-            "fr": "Annuler",
-            "pl": "Porzuć"
-        },
-        "title": {
-            "en": "Confirm the command",
-            "it": "Conferma il comando",
-            "fr": "Confirmer la commande",
-            "pl": "Potwierdź polecenie"
-        },
-        "device": {
-            "en": "Device",
-            "it": "Dispositivo",
-            "fr": "Device",
-            "pl": "Urządzenie"
-        },
-        "line1": {
-            "en": "You are going to send the data listed below to the device:",
-            "it": "Si inviano al dispositivo i dati elencati di seguito:",
-            "fr": "Vous allez envoyer les données listées ci-dessous à l'appareil:",
-            "pl": "Zamierzasz wysłać do urządzenia dane wyświetlone poniżej:"
-        },
-        "line2": {
-            "en": "This operation could be potentially hazardous.",
-            "it": "Questa operazione potrebbe essere potenzialmente pericolosa.",
-            "fr": "Cette opération pourrait être potentiellement dangereuse.",
-            "pl": "Ta operacja może być potencjalnie niebezpieczna."
-        },
-        "line3": {
-            "en": "Make sure in the device manual that the command is correct and that its effects are as intended.",
-            "it": "Assicurarsi nel manuale dell'apparecchio che il comando sia corretto e che i suoi effetti siano quelli previsti.",
-            "fr": "Assurez-vous dans le manuel de l'appareil que la commande est correcte et que ses effets sont tels que prévus.",
-            "pl": "Upewnij się w instrukcji obsługi urządzenia, że polecenie jest prawidłowe i że jego efekty są zgodne z zamierzonymi."
-        }
-    }
-
-    app.texts.widget_filter = {
         "confirm": {
             "en": "Confirmed. Send!",
             "it": "Confermato. Invia!",
