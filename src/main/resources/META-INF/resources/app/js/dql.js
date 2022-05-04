@@ -33,7 +33,7 @@ function replaceDQL(query, key, value){
 function sweepSpaces(t){return t.trim().replace(/ +(?= )/g,'')}
 
 function checkQuerySyntax(text){
-    var dql=sweepSpaces(t)
+    var dql=sweepSpaces(text)
     if(dql=='' || dql=='1' || dql=='last') return true
     var params=dql.split(' ')
     for(i=0; i<params.length;){
