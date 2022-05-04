@@ -126,10 +126,9 @@
                         suggestedMin: 0
                     },
                     x:{
-                        //type: 'time'//,
                         ticks: {
                             callback: function(value, index, ticks) {
-                                return '' + index;
+                                return '' + (index+1);
                             }
                           }
                     }

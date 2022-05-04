@@ -161,7 +161,7 @@
                     x: {
                         ticks: {
                         callback: function(val, index) {
-                        return ''+index;
+                        return ''+(index+1);
                         }
                         }
                     }
@@ -215,6 +215,7 @@
                     }else{
                         chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toString())
                     }
+                    //chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toISOString())
                 }
             }else{
                 for (var i = 0; i < self.jsonData.length; i++){
@@ -223,6 +224,7 @@
                     }else{
                         chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toString())
                     }
+                    //chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toISOString())
                 }
             }
             var chartConfig={
