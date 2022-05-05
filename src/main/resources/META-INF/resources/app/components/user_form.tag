@@ -242,25 +242,25 @@
         self.smsAlert = false
         self.autologi=false
         self.user = {
-            'uid': '',
-            'email': '',
-            'name':'',
-            'surname':'',
-            'type': '',
-            'role': '',
-            'confirmString': '',
-            'confirmed': false,
-            'password': '',
-            'generalNotificationChannel': '',
-            'infoNotificationChannel': '',
-            'warningNotificationChannel': '',
-            'alertNotificationChannel': '',
-            'unregisterRequested': false,
-            'services':0,
-            'phonePrefix':'',
-            'credits':0,
-            'autologin':false,
-            'preferredLanguage':'en'
+            uid: '',
+            email: '',
+            name:'',
+            surname:'',
+            type: '',
+            role: '',
+            confirmString: '',
+            confirmed: false,
+            password: '',
+            generalNotificationChannel: '',
+            infoNotificationChannel: '',
+            warningNotificationChannel: '',
+            alertNotificationChannel: '',
+            unregisterRequested: false,
+            services:0,
+            phonePrefix:'',
+            credits:0,
+            autologin:false,
+            preferredLanguage:'en'
         }
 
         globalEvents.on('data:submitted', function(event){

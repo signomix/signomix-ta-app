@@ -49,13 +49,13 @@
         self.drawContent = function(){
             if(!self.front) return;
             self.canvasElement = this.refs[(self.ref)+'_canvas']
-            if(!drawDedicated(self.canvasElement, self.jsonData)) {
+            if(!drawDedicated(self.canvasElement, self.jsonData), self.unitName, self.rounding) {
                 drawDefault(self.canvasElement)
             }
             riot.update()
         }
 
-        function drawDedicated(canvas,list){
+        function drawDedicated(canvas,list,unitName, rounding){
             //put your code here and return true
             app.log('drawCustom() is not used')
             return false;
