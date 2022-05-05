@@ -19,12 +19,6 @@
     </div>
     <script>
         var self = this
-        // opts: poniższe przypisanie nie jest używane
-        //       wywołujemy update() tego taga żeby zminieć parametry
-        //self.type = opts.type
-        //self.title = opts.title
-        //self.ref = opts.ref
-        // opts
 
         self.front = true
         self.rawdata = "[]"

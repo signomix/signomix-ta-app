@@ -159,6 +159,19 @@
                             ></form_input>
                         </div>
                         </div>
+                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom'}>
+                        <div class="form-group col-md-12">
+                            <form_input 
+                                id="w_rounding"
+                                name="w_rounding"
+                                label={ app.texts.dashboard_form.f_widget_rounding[app.language] }
+                                type="text"
+                                content={ self.editedWidget.rounding }
+                                readonly={ !allowEdit }
+                                hint={ app.texts.dashboard_form.f_widget_rounding_hint[app.language] }
+                            ></form_input>
+                        </div>
+                        </div>
                         <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='button' && self.editedWidget.type!='filter' && self.editedWidget.type!='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
@@ -333,6 +346,19 @@
                         ></form_input>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <form_input 
+                        id="refresh_interval"
+                        name="refresh_interval"
+                        label={ app.texts.dashboard_form.refresh_interval[app.language] }
+                        type="text"
+                        content={ dashboard.refresh_interval?(dashboard.refresh_interval):(app.dashboardRefreshInterval/1000) }
+                        readonly={ !allowEdit }
+                        hint={ app.texts.dashboard_form.refresh_interval_hint[app.language] }
+                        ></form_input>
+                </div>
+            </div>
             <div class="form-row" if={ !allowEdit }>
                 <div class="form-group col-md-12">
                     <label for="status">{ app.texts.device_form.owner[app.language] }</label>
@@ -395,6 +421,7 @@
                         'userID': '',
                         'team': '',
                         'administrators': '',
+                        'refresh_interval': (app.dashboardRefreshInterval/1000),
                         'shared': false,
                         'widgets':[]
         }
@@ -405,6 +432,7 @@
                 'channel':'',
                 'channelTranslated':'',
                 'unitName':'',
+                'rounding':'',
                 'type':'text',
                 'query':'last 1',
                 'range':'',
@@ -467,6 +495,7 @@
             formData.userID = app.user.name
             formData.team = e.target.elements['team'].value
             formData.administrators = e.target.elements['admins'].value
+            formData.refresh_interval = e.target.elements['refresh_interval'].value
             formData.shared = e.target.elements['shared'].checked
             formData.widgets = self.dashboard.widgets
             app.log(JSON.stringify(formData))
@@ -538,7 +567,7 @@
                     //}
                 } else{
                     self.editedWidget = {'name':'', 'dev_id':'', 'channel':'',
-                    'unitName':'', 'type':'text', 'query':'last', 'range':'', 
+                    'unitName':'', 'rounding':'', 'type':'text', 'query':'last', 'range':'', 
                     'title':'','icon':'', 'width':1, 'description':'', 'queryvalue':'1',
                     'format':'standard','chartOption':'dots', 'group':''}
                 }
@@ -592,6 +621,11 @@
                 self.editedWidget.unitName = e.target.elements['w_unit'].value
             }catch(err){
                 self.editedWidget.unitName = ''
+            }
+            try{
+                self.editedWidget.rounding = e.target.elements['w_rounding'].value
+            }catch(err){
+                self.editedWidget.rounding = ''
             }
             try{
                 var n=parseInt(e.target.elements['w_query'].value.trim())

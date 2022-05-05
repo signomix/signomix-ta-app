@@ -479,6 +479,18 @@
             "fr": "Dashboard can be shared",
             "pl": "Pulpit może być współdzielony"
         },
+        "refresh_interval": {
+            "en": "Refresh interval [s]",
+            "it": "Refresh interval [s]",
+            "fr": "Refresh interval [s]",
+            "pl": "Cza odświeżania [sek]"
+        },
+        "refresh_interval_hint": {
+            "en": "Interval between desktop refresh (minimum 5 seconds).",
+            "it": "Interval between desktop refresh (minimum 5 seconds)",
+            "fr": "Interval between desktop refresh (minimum 5 seconds)",
+            "pl": "Odstęp czasu pomiędzy odświeżeniami pulpitu (minimum 5 sekund)"
+        },
         "cancel": {
             "en": "Cancel",
             "it": "Annulla",
@@ -724,6 +736,18 @@
             "it": "Inserire il simbolo dell'unità se deve essere visualizzato sul widget",
             "fr": "Entrez le symbole de l'unité s'il doit être affiché sur le widget",
             "pl": "Podaj symbol jednostki jeśli ma się wyświetlać na kontrolce"
+        },
+        "f_widget_rounding": {
+            "en": "Rounding",
+            "it": "Rounding",
+            "fr": "Rounding",
+            "pl": "Zaokrąglenie"
+        },
+        "f_widget_rounding_hint": {
+            "en": "Rounding of displayed value - number of decimal places",
+            "it": "Rounding of displayed value - number of decimal places",
+            "fr": "Rounding of displayed value - number of decimal places",
+            "pl": "Zaokrąglenie wyświetlanej wartości - liczba miejsc po przecinku"
         },
         "f_widget_query": {
             "en": "Data query",

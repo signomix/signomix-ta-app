@@ -159,13 +159,17 @@
         self.sharedLink = ''
         self.sharedEmbeded
         self.accessOK=true
+        readDashboardConfig(app.user.dashboardID, updateDashboard)
         if(app.embeded){
             self.refreshInterval=app.publicDashboardRefreshInterval;
         }
         if(app.user.status != 'logged-in' || app.user.guest){
-            self.refreshInterval=app.publicDashboardRefreshInterval;
+            if(self.dashboardConfig.refresh_interval){
+                self.refreshInterval=self.dashboardConfig.refresh_interval
+            }else{
+                self.refreshInterval=app.publicDashboardRefreshInterval
+            }
         }
-        readDashboardConfig(app.user.dashboardID, updateDashboard)
         self.mounted=true
     })
     

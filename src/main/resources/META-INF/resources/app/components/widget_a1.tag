@@ -12,7 +12,7 @@
                     </h1>
                 </div>
                 <div class="col-8 text-right">
-                    <h1 if={front}>{value} <raw content={ unitName }></raw></h1>
+                    <h1 if={front}>{getRoundedValue(value,rounding)} <raw content={ unitName }></raw></h1>
                     <h5 if={ !front }>{measureDate}</h5>
                 </div>
         </div>
@@ -146,6 +146,10 @@
                 return e.name === 'RangeError';
             };
             return false;
+        }
+
+        self.getRoundedValue = function(v,r){
+            return getRounded(v,r)
         }
         //
         $(window).on('resize', resize);
