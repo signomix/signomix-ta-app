@@ -146,7 +146,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol'}>
+                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_unit"
