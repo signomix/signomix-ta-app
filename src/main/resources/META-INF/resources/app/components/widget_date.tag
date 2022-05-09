@@ -1,7 +1,7 @@
 <widget_date>
     <div id={opts.ref} class="container bg-white border border-info rounded topspacing p-0">
         <div class="row px-3 pt-1 pb-0">
-            <div class="col-12 text-center">{title}</div>
+            <div class="col-12 text-center text-info sgx-wt"><span class="text-body">{title.length>0?('&nbsp;'+title+'&nbsp;'):''}</span></div>
         </div>    
         <div class="row px-3 py-1">
                 <div class="col-4">

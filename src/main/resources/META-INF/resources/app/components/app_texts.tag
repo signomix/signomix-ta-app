@@ -624,10 +624,16 @@
             "pl": "OpenWeatherMap"
         },
         "type_custom": {
-            "en": "Custom widget",
-            "it": "Custom widget",
-            "fr": "Custom widget",
-            "pl": "Niestandardowy"
+            "en": "Custom widget (0)",
+            "it": "Custom widget (0)",
+            "fr": "Custom widget (0)",
+            "pl": "Niestandardowy (0)"
+        },
+        "type_custom1": {
+            "en": "Custom widget (1)",
+            "it": "Custom widget (1)",
+            "fr": "Custom widget (1)",
+            "pl": "Niestandardowy (1)"
         },
         "f_remove_question": {
             "en": "Do you want to remove this widget?",

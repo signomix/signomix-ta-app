@@ -108,6 +108,7 @@
                     <widget_time ref={ getRefName(i,j) } if={w_line[i][j]['type']=='time'}></widget_time>
                     <widget_devinfo ref={ getRefName(i,j) } if={w_line[i][j]['type']=='devinfo'}></widget_devinfo>
                     <widget_custom ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom'}></widget_custom>
+                    <widget_custom1 ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom1'}></widget_custom1>
                 </div>
             </virtual>
         </div>

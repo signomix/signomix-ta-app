@@ -68,6 +68,7 @@
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
                                 <option value="openweather" selected={self.editedWidget.type=='openweather'}>{self.getTypeName('openweather')}</option>
                                 <option value="custom" selected={self.editedWidget.type=='custom'}>{self.getTypeName('custom')}</option>
+                                <option value="custom1" selected={self.editedWidget.type=='custom1'}>{self.getTypeName('custom1')}</option>
                             </select>
                         </div>
                         </div>
@@ -146,7 +147,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom'}>
+                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_unit"
@@ -159,7 +160,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom'}>
+                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_rounding"
@@ -781,6 +782,8 @@
                     break
                 case 'custom':
                     return app.texts.dashboard_form.type_custom[app.language]
+                case 'custom1':
+                    return app.texts.dashboard_form.type_custom1[app.language]
                     break
                 default:
                     return name
