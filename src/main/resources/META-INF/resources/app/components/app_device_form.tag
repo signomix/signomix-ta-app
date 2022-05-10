@@ -283,7 +283,9 @@
                 app.log('UNKNOWN TARGET OF: ' + e)
             }
             if('EXTERNAL'==self.device.type){
-                self.template['pattern']=",type,eui,name,key,description,team,active,groups,downlink"
+                self.template['pattern']=",type,eui,name,key,description,team,administrator,active,groups,downlink"
+            }else if('VIRTUAL'==self.device.type){
+                self.template['pattern']=",type,eui,name,key,description,team,administrator,active,groups,project,transmissionInterval"
             }
         }
         

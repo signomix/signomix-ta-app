@@ -458,11 +458,35 @@
         var update = function (text) {
             app.log("USER: " + text)
             self.user = JSON.parse(text);
-            self.smsEnabled=(self.user.services & 00000001) == 00000001
-            self.smsGeneral = self.user.generalNotificationChannel.startsWith('SMS')
-            self.smsInfo = self.user.infoNotificationChannel.startsWith('SMS')
-            self.smsWarning = self.user.warningNotificationChannel.startsWith('SMS')
-            self.smsAlert = self.user.alertNotificationChannel.startsWith('SMS')
+            if(!self.user.generalNotificationChannel){self.user.generalNotificationChannel=''}
+            if(!self.user.infoNotificationChannel){self.user.infoNotificationChannel=''}
+            if(!self.user.warningNotificationChannel){self.user.warningNotificationChannel=''}
+            if(!self.user.alertNotificationChannel){self.user.alertNotificationChannel=''}
+            try{
+                self.smsEnabled=(self.user.services & 00000001) == 00000001
+            }catch(err){
+                self.smsEnabled=false
+            }
+            try{
+                self.smsGeneral = self.user.generalNotificationChannel.startsWith('SMS')
+            }catch(err){
+                self.smsGeneral=false
+            }
+            try{
+                self.smsInfo = self.user.infoNotificationChannel.startsWith('SMS')
+            }catch(err){
+                self.smsInfo=false
+            }
+            try{
+                self.smsWarning = self.user.warningNotificationChannel.startsWith('SMS')
+            }catch(err){
+                self.smsWarning=false
+            }
+            try{
+                self.smsAlert = self.user.alertNotificationChannel.startsWith('SMS')
+            }catch(err){
+                self.smsAlert=false
+            }
             riot.update();
         }
         
