@@ -132,6 +132,11 @@
                             }
                           }
                     }
+                },
+                plugins: {
+                    legend :{
+                        display: false
+                    }
                 }
             }
             var barCharConfig={

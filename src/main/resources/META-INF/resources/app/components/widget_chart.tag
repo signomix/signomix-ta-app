@@ -217,6 +217,9 @@
                     }
                     //chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toISOString())
                 }
+                options.plugins.legend={
+                    display: false
+                }
             }else{
                 for (var i = 0; i < self.jsonData.length; i++){
                     if (self.toLocaleTimeStringSupportsLocales()){
