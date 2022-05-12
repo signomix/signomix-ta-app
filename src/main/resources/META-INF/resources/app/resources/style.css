@@ -46,6 +46,7 @@ html {
     min-height: 100%;
 }
 
+/* Widget title bar */
 .sgx-wt{
     position:relative
   }

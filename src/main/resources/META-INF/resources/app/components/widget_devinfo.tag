@@ -1,9 +1,19 @@
 <widget_devinfo>
     <div id={opts.ref} class="container bg-white border border-info rounded topspacing p-0">
         <div class="row px-3 pt-1 pb-0">
-            <div class="col-12 text-center text-info sgx-wt"><span class="text-body">{title.length>0?('&nbsp;'+title+'&nbsp;'):''}</span></div>
+            <div class="col-12 text-center {app.wt_color||'text-white'} sgx-wt"><span class="text-body">{title.length>0?('&nbsp;'+title+'&nbsp;'):''}</span></div>
         </div>    
         <div class="row px-3 py-1" if="{visualisation=='time'||visualisation=='number'}">
+                <div class="col-4">
+                    <h1>
+                        <i class="las {icon} text-primary" style="height: 1em;"></i>
+                    </h1>
+                </div>
+                <div class="col-8 text-right">
+                    <h2>{dt}</h2>
+                </div>
+        </div>
+        <div class="row px-3 py-1" if="{visualisation=='led'}">
                 <div class="col-4">
                     <h1>
                         <i class="las {icon} text-primary" style="height: 1em;"></i>
@@ -49,7 +59,7 @@
             self.visualisation='date'
         }else if(self.channel.indexOf('@state')){
             let subt=self.channel.substring(0,self.channel.indexOf('@'))
-            if(subt=='time'||subt=='date'||subt=='number'){
+            if(subt=='time'||subt=='date'||subt=='number'||subt=='led'){
                 self.visualisation=subt
             }
         }else if(self.channel=='state'){
@@ -66,7 +76,7 @@
                 self.s=self.value-self.h*3600-(60*self.m)
                 self.dt = getStopwatchFormatted(self.h, self.m, self.s)
             }
-        }else if(self.visualisation=='number'){
+        }else if(self.visualisation=='number'||self.visualisation=='led'){
             self.dt=Math.floor(parseFloat(self.jsonData['state']))
         }
         getWidth()
