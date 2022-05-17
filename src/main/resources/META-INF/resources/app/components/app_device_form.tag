@@ -399,7 +399,7 @@
             e.preventDefault()
             devicePath = ''
             if (self.mode == 'update') {
-                devicePath = (self.method == 'PUT') ? '/' + e.target.elements['eui'].value : ''
+                devicePath = (self.method == 'PUT') ? '/' + e.target.elements['eui_input'].value : ''
             }
             var formData = {
                 eui: '',
@@ -425,7 +425,7 @@
                 longitude:'',
                 downlink:''
             }
-            if(e.target.elements['eui_input']) formData.eui = e.target.elements['eui'].value
+            if(e.target.elements['eui_input']) formData.eui = e.target.elements['eui_input'].value
             if (self.device.type == 'TTN') {
                 if(e.target.elements['appeui_input']) {
                     formData.appeui = e.target.elements['appeui_input'].value

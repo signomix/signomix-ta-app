@@ -395,7 +395,7 @@
             e.preventDefault()
             devicePath = ''
             if (self.mode == 'update') {
-                devicePath = (self.method == 'PUT') ? '/' + e.target.elements['eui'].value : ''
+                devicePath = (self.method == 'PUT') ? '/' + e.target.elements['eui_input'].value : ''
             }
             var formData = {
                 eui: '',
