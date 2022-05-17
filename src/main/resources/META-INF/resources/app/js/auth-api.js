@@ -21,15 +21,19 @@ function loginSubmit(oFormElement, eventBus, successEventName, errorEventName, d
     var password;
     var oField = "";
     var sEncoded;
+    //console.log("LOGIN")
     for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
         oField = oFormElement.elements[nItem];
+        //console.log(oField.name)
         if (!oField.hasAttribute("name")) {
             continue;
         }
-        if (oField.name === "login") {
+        if (oField.name === "login_input") {
             login = oField.value;
-        } else if (oField.name === "password") {
+            //console.log("login: "+login)
+        } else if (oField.name === "password_input") {
             password = oField.value;
+            //console.log("password: "+password)
         }
     }
     var oReq = new XMLHttpRequest();
