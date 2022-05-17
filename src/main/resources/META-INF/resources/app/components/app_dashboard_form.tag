@@ -36,7 +36,7 @@
     </div>
     <!-- Central Modal: REMOVE -->
     
-    
+    <!-- EDIT WIDGET -->
     <div class="modal fade" id="widgetEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog cascading-modal" role="document">
             <div class="modal-content">
@@ -44,7 +44,18 @@
                     <h4 class="title"><i class="material-icons clickable">mode_edit</i> {app.texts.dashboard_form.f_widget_formtitle[app.language]}</h4>
                 </div>
                 <div class="modal-body mb-0">
-                    <form onsubmit={saveWidget}>
+                    <ul class="nav nav-tabs mb-1">
+                        <li class="nav-item">
+                            <a class="nav-link { active: activeTab=='basic' }" onclick="{ selectBasic() }">Basic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link { active: activeTab=='extended' }" onclick="{ selectExtended() }">Extended</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link { active: activeTab=='description' }" onclick="{ selectDescription() }">Description</a>
+                        </li>
+                    </ul>
+                    <form if={activeTab==='basic'}>
                         <div class="row">
                         <div class="form-group col-md-12">
                             <label for="w_type" class="active">{app.texts.dashboard_form.f_widget_type[app.language]}</label>
@@ -62,7 +73,6 @@
                                 <option value="report" selected={self.editedWidget.type=='report'}>{self.getTypeName('report')}</option>
                                 <option value="multimap" selected={self.editedWidget.type=='multimap'}>{self.getTypeName('multimap')}</option>
                                 <option value="button" selected={self.editedWidget.type=='button'}>{self.getTypeName('button')}</option>
-                                <option value="filter" selected={self.editedWidget.type=='filter'}>{self.getTypeName('filter')}</option>
                                 <option value="stopwatch" selected={self.editedWidget.type=='stopwatch'}>{self.getTypeName('stopwatch')}</option>
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
@@ -83,6 +93,19 @@
                                 content={ self.editedWidget.name }
                                 readonly={ !allowEdit }
                                 hint={ app.texts.dashboard_form.f_widget_name_hint[app.language] }
+                            ></form_input>
+                        </div>
+                        </div>
+                        <div class="row" if={ self.editedWidget.type!='text' }>
+                        <div class="form-group col-md-12">
+                            <form_input 
+                                id="w_title"
+                                name="w_title"
+                                label={ app.texts.dashboard_form.f_widget_title[app.language] }
+                                type="text"
+                                content={ self.editedWidget.title }
+                                readonly={ !allowEdit }
+                                hint={ app.texts.dashboard_form.f_widget_title_hint[app.language] }
                             ></form_input>
                         </div>
                         </div>
@@ -110,18 +133,44 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' }>
-                        <div class="form-group col-md-12" if={ self.editedWidget.type!='button' && self.editedWidget.type!='filter' }>
+                        <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="w_width" class="active">{app.texts.dashboard_form.f_widget_width[app.language]}</label>
+                            <select class="form-control" id="w_width" disabled={!allowEdit}>
+                                <option value="1" selected={self.editedWidget.width==1}>1</option>
+                                <option value="2" selected={self.editedWidget.width==2}>2</option>
+                                <option value="3" selected={self.editedWidget.width==3}>3</option>
+                                <option value="4" selected={self.editedWidget.width==4}>4</option>
+                            </select>
+                        </div>
+                        </div>
+                    </form>
+                    <form if={activeTab==='description'}>
+                        <div class="row">
+                        <div class="form-group col-md-12">
                             <form_input 
-                                id="w_channel"
-                                name="w_channel"
-                                label={ app.texts.dashboard_form.f_widget_channel[app.language] }
-                                type="text"
-                                content={ self.editedWidget.channel }
+                                id="w_description"
+                                name="w_description"
+                                label={ self.editedWidget.type!='plan'?app.texts.dashboard_form.f_widget_description[app.language]:app.texts.dashboard_form.f_widget_svg[app.language] }
+                                type="textarea"
+                                content={ self.editedWidget.description.trim() }
                                 readonly={ !allowEdit }
-                                hint={ app.texts.dashboard_form.f_widget_channel_hint[app.language] }
+                                hint={ app.texts.dashboard_form.f_widget_description_hint[app.language] }
                             ></form_input>
                         </div>
+                        </div>
+                    </form>
+                    <form if={activeTab==='extended'}>
+                        <div class="row" if={ self.editedWidget.type=='raw'}>
+                        <div class="form-group col-md-12">
+                            <label for="w_format" class="active">{app.texts.dashboard_form.f_widget_format[app.language]}</label>
+                            <select class="form-control" id="w_format" disabled={!allowEdit}>
+                                <option value="standard" selected={self.editedWidget.format=='standard'}>standard</option>
+                                <option value="timeseries" selected={self.editedWidget.format=='timeseries'}>time series</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="row" if={ self.editedWidget.type!='text' }>
                         <div class="form-group col-md-12" if={ self.editedWidget.type==='button' }>
                             <form_input 
                                 id="w_channel"
@@ -131,6 +180,19 @@
                                 content={ self.editedWidget.channel }
                                 readonly={ !allowEdit }
                                 hint={ app.texts.dashboard_form.f_widget_datatype_hint[app.language] }
+                            ></form_input>
+                        </div>
+                        </div>
+                        <div class="row" if={ self.editedWidget.type!='text' }>
+                        <div class="form-group col-md-12" if={ self.editedWidget.type!='button' }>
+                            <form_input 
+                                id="w_channel"
+                                name="w_channel"
+                                label={ app.texts.dashboard_form.f_widget_channel[app.language] }
+                                type="text"
+                                content={ self.editedWidget.channel }
+                                readonly={ !allowEdit }
+                                hint={ app.texts.dashboard_form.f_widget_channel_hint[app.language] }
                             ></form_input>
                         </div>
                         </div>
@@ -180,31 +242,11 @@
                                 name="w_query"
                                 label={ app.texts.dashboard_form.f_widget_query[app.language] }
                                 type="text"
-                                content={ self.editedWidget.queryvalue }
+                                content={ self.editedWidget.query }
                                 readonly={ !allowEdit }
                                 hint={ app.texts.dashboard_form.f_widget_query_hint[app.language] }
                             ></form_input>
                             <div class="alert alert-danger" if="{ self.invalidQuery}">{ app.texts.dashboard_form.f_widget_query_error[app.language] }</div>
-                        </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='raw'}>
-                        <div class="form-group col-md-12">
-                            <label for="w_format" class="active">{app.texts.dashboard_form.f_widget_format[app.language]}</label>
-                            <select class="form-control" id="w_format" disabled={!allowEdit}>
-                                <option value="standard" selected={self.editedWidget.format=='standard'}>standard</option>
-                                <option value="timeseries" selected={self.editedWidget.format=='timeseries'}>time series</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='line'}>
-                        <div class="form-group col-md-12">
-                            <label for="w_chartOption" class="active">{app.texts.dashboard_form.f_widget_chartOption[app.language]}</label>
-                            <select class="form-control" id="w_chartOption" disabled={!allowEdit}>
-                                <option value="dots" selected={self.editedWidget.chartOption=='dots'}>show dots</option>
-                                <option value="plain" selected={self.editedWidget.chartOption=='plain'}>line only</option>
-                                <option value="area" selected={self.editedWidget.chartOption=='area'}>area below</option>
-                                <option value="areaWithDots" selected={self.editedWidget.chartOption=='areaWithDots'}>area with dots</option>
-                            </select>
                         </div>
                         </div>
                         <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='led' || self.editedWidget.type=='plan' || self.editedWidget.type=='multimap'}>
@@ -220,20 +262,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' }>
-                        <div class="form-group col-md-12">
-                            <form_input 
-                                id="w_title"
-                                name="w_title"
-                                label={ app.texts.dashboard_form.f_widget_title[app.language] }
-                                type="text"
-                                content={ self.editedWidget.title }
-                                readonly={ !allowEdit }
-                                hint={ app.texts.dashboard_form.f_widget_title_hint[app.language] }
-                            ></form_input>
-                        </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' }>
+                        <div class="row" if={ self.editedWidget.type=='symbol'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_icon"
@@ -246,39 +275,40 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="w_width" class="active">{app.texts.dashboard_form.f_widget_width[app.language]}</label>
-                            <select class="form-control" id="w_width" disabled={!allowEdit}>
-                                <option value="1" selected={self.editedWidget.width==1}>1</option>
-                                <option value="2" selected={self.editedWidget.width==2}>2</option>
-                                <option value="3" selected={self.editedWidget.width==3}>3</option>
-                                <option value="4" selected={self.editedWidget.width==4}>4</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div class="row">
+                        <div class="row" if={ self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
                         <div class="form-group col-md-12">
                             <form_input 
-                                id="w_description"
-                                name="w_description"
-                                label={ self.editedWidget.type!='plan'?app.texts.dashboard_form.f_widget_description[app.language]:app.texts.dashboard_form.f_widget_svg[app.language] }
+                                id="w_config"
+                                name="w_config"
+                                label={ app.texts.dashboard_form.f_widget_config[app.language] }
                                 type="textarea"
-                                content={ self.editedWidget.description }
+                                content={ self.editedWidget.config }
                                 readonly={ !allowEdit }
-                                hint={ app.texts.dashboard_form.f_widget_description_hint[app.language] }
+                                hint={ app.texts.dashboard_form.f_widget_config_hint[app.language] }
                             ></form_input>
                         </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" disabled={!allowEdit}>{app.texts.dashboard_form.save[app.language]}</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.dashboard_form.cancel[app.language]}</button>
+                        <div class="row" if={ self.editedWidget.type=='line'}>
+                        <div class="form-group col-md-12">
+                            <label for="w_chartOption" class="active">{app.texts.dashboard_form.f_widget_chartOption[app.language]}</label>
+                            <select class="form-control" id="w_chartOption" disabled={!allowEdit}>
+                                <option value="dots" selected={self.editedWidget.chartOption=='dots'}>show dots</option>
+                                <option value="plain" selected={self.editedWidget.chartOption=='plain'}>line only</option>
+                                <option value="area" selected={self.editedWidget.chartOption=='area'}>area below</option>
+                                <option value="areaWithDots" selected={self.editedWidget.chartOption=='areaWithDots'}>area with dots</option>
+                            </select>
+                        </div>
                         </div>
                     </form>
+                    <div class="modal-footer">
+                        <button type="button" onClick={saveWidget} class="btn btn-primary" disabled={!allowEdit}>{app.texts.dashboard_form.save[app.language]}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.dashboard_form.cancel[app.language]}</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- END EDIT WIDGET -->
     
     <!-- DASHBOARD form -->
     <div class="row">
@@ -354,7 +384,7 @@
                         name="refresh_interval"
                         label={ app.texts.dashboard_form.refresh_interval[app.language] }
                         type="text"
-                        content={ dashboard.refresh_interval?(dashboard.refresh_interval):(app.dashboardRefreshInterval/1000) }
+                        content={ dashboard.refresh_interval }
                         readonly={ !allowEdit }
                         hint={ app.texts.dashboard_form.refresh_interval_hint[app.language] }
                         ></form_input>
@@ -416,42 +446,44 @@
         self.invalidQuery = false
         self.isCopy = false
         self.dashboard = {
-            'id': '',
-            'name': '',
-                        'title': '',
-                        'userID': '',
-                        'team': '',
-                        'administrators': '',
-                        'refresh_interval': (app.dashboardRefreshInterval/1000),
-                        'shared': false,
-                        'widgets':[]
+            id: '',
+            name: '',
+            title: '',
+            userID: '',
+            team: '',
+            administrators: '',
+            refresh_interval: (app.dashboardRefreshInterval/1000),
+            shared: false,
+            widgets:[]
         }
         self.newWidget = function(){
             return {
-                'name':'',
-                'dev_id': '',
-                'channel':'',
-                'channelTranslated':'',
-                'unitName':'',
-                'rounding':'',
-                'type':'text',
-                'query':'last 1',
-                'range':'',
-                'title':'',
-                'icon': '',
-                'width':1,
-                'description':'',
-                'queryvalue':'1',
-                'format': 'standard',
-                'chartOption': 'dots',
-                'group': '',
-                'modified': false
+                name:'',
+                dev_id: '',
+                channel:'',
+                channelTranslated:'',
+                unitName:'',
+                rounding:'',
+                type:'text',
+                query:'last 1',
+                range:'',
+                title:'',
+                icon: '',
+                width:1,
+                description:'',
+                format: 'standard',
+                chartOption: 'dots',
+                group: '',
+                config:'',
+                modified: false
             }
         }
         self.selectedForRemove = - 1
         self.selectedForEdit = - 1
         self.editedWidget = {}
         self.myDevices=[]
+        self.previousTab='basic'
+        self.activeTab='basic'
 
         globalEvents.on('data:submitted', function(event){
             app.log("Submitted!")
@@ -489,15 +521,16 @@
                 //if(e.target.elements['id']){
             dashboardPath = (self.method == 'PUT') ? '/' + self.dashboard['id'] : ''
                 //}
-            var formData = {id:'', name:'', title:'', userID:'', shared:false, team:'', widgets:[]}
+            var formData = {id:'', name:'', title:'', userID:'', shared:false, team:'', administrators: '', refresh_interval:0 , widgets:[]}
+            console.log(e.target)
             formData.id = self.dashboard.id
-            formData.name = e.target.elements['name'].value
-            formData.title = e.target.elements['title'].value
+            formData.name = e.target.elements['name_input'].value
+            formData.title = e.target.elements['title_input'].value
             formData.userID = app.user.name
-            formData.team = e.target.elements['team'].value
-            formData.administrators = e.target.elements['admins'].value
-            formData.refresh_interval = e.target.elements['refresh_interval'].value
-            formData.shared = e.target.elements['shared'].checked
+            formData.team = e.target.elements['team_input'].value
+            formData.administrators = e.target.elements['admins_input'].value
+            formData.refresh_interval = e.target.elements['refresh_interval_input'].value
+            formData.shared = e.target.elements['shared_input'].checked
             formData.widgets = self.dashboard.widgets
             app.log(JSON.stringify(formData))
             e.target.reset()
@@ -535,6 +568,9 @@
             for(i=0; i<self.dashboard.widgets.length; i++){
                 self.dashboard.widgets[i].modified=false
             }
+            if(self.dashboard.refresh_interval == null || isNaN(self.dashboard.refresh_interval) || self.dashboard.refresh_interval<0){
+                self.dashboard.refresh_interval=app.dashboardRefreshInterval/1000
+            }
             riot.update();
         }
 
@@ -559,18 +595,27 @@
                 self.selectedForEdit = index
                 if (index > - 1){
                     self.editedWidget = self.dashboard.widgets[index]
-                    //if(self.editedWidget.query!='' && self.editedWidget.query.indexOf('last ')==0 && self.editedWidget.query.indexOf(' ',5)==-1){
-                    //    self.editedWidget.queryvalue = self.editedWidget.query.substring(self.editedWidget.query.indexOf(' ')+1)
-                    //}else if(self.editedWidget.query!=''){
-                        self.editedWidget.queryvalue=self.editedWidget.query
-                    //}else{
-                    //    self.editedWidget.queryvalue = '1'
-                    //}
                 } else{
-                    self.editedWidget = {'name':'', 'dev_id':'', 'channel':'',
-                    'unitName':'', 'rounding':'', 'type':'text', 'query':'last', 'range':'', 
-                    'title':'','icon':'', 'width':1, 'description':'', 'queryvalue':'1',
-                    'format':'standard','chartOption':'dots', 'group':''}
+                    self.editedWidget = {
+                    name:'',
+                    dev_id:'',
+                    channel:'',
+                    channelTranslated:'',
+                    unitName:'',
+                    rounding:'',
+                    type:'text',
+                    query:'last',
+                    range:'', 
+                    title:'',
+                    icon:'',
+                    width:1, 
+                    description:'',
+                    format:'standard',
+                    chartOption:'dots',
+                    group:'',
+                    config:'',
+                    mofified: false
+                    }
                 }
                 app.log(index)
                 app.log(self.editedWidget)
@@ -587,93 +632,16 @@
         
         self.saveWidget = function(e){
             e.preventDefault()
-            var query=''
-            try{
-                query=e.target.elements['w_query'].value
-            }catch(err){}
+            savePreviousTab('')
+            var query=self.editedWidget.query
             if(query!='' && !checkQuerySyntax(query)){
                 self.invalidQuery=true
+                self.activeTab = 'extended'
                 return
             }
             $('#widgetEdit').modal('hide');
             //
-            self.editedWidget.name = e.target.elements['w_name'].value
-            try{
-                self.editedWidget.dev_id = e.target.elements['w_dev_id'].value.replace(/\s+/g,'')
-            }catch(err){
-                self.editedWidget.dev_id = ''
-            }
-            try{
-                self.editedWidget.group = e.target.elements['w_group'].value.replace(/\s+/g,'')
-            }catch(err){
-                self.editedWidget.group = ''
-            }
-            try{
-                self.editedWidget.channel = e.target.elements['w_channel'].value.replace(/\s+/g,'')
-            }catch(err){
-                self.editedWidget.channel = ''
-            }
-            try{
-                self.editedWidget.channelTranslated = e.target.elements['w_channel_translated'].value.replace(/\s+/g,'')
-            }catch(err){
-                self.editedWidget.channelTranslated = ''
-            }
-            try{
-                self.editedWidget.unitName = e.target.elements['w_unit'].value
-            }catch(err){
-                self.editedWidget.unitName = ''
-            }
-            try{
-                self.editedWidget.rounding = e.target.elements['w_rounding'].value
-            }catch(err){
-                self.editedWidget.rounding = ''
-            }
-            try{
-                var n=parseInt(e.target.elements['w_query'].value.trim())
-                if(Number.isInteger(n)){
-                    self.editedWidget.query = 'last '+n
-                }else{
-                    self.editedWidget.query = e.target.elements['w_query'].value.trim()
-                }
-            }catch(err){
-                self.editedWidget.query = 'last 1'
-            }
-            try{
-                self.editedWidget.range = e.target.elements['w_range'].value
-            }catch(err){
-                self.editedWidget.range = ''
-            }
-            try{
-                self.editedWidget.format = e.target.elements['w_format'].value
-            }catch(err){
-                self.editedWidget.format = 'standard'
-            }
-            try{
-                self.editedWidget.chartOption = e.target.elements['w_chartOption'].value
-            }catch(err){
-                self.editedWidget.chartOption = 'dots'
-            }
-            self.editedWidget.type = e.target.elements['w_type'].value
-            try{    
-                self.editedWidget.title = e.target.elements['w_title'].value
-            }catch(err){
-                self.editedWidget.title = ''
-            }
-            try{    
-                self.editedWidget.icon = e.target.elements['w_icon'].value
-            }catch(err){
-                self.editedWidget.icon = ''
-            }
-            self.editedWidget.width = parseInt(e.target.elements['w_width'].value, 10)
-            self.editedWidget.description = e.target.elements['w_description'].value
-                
-            if(self.editedWidget.width == null || isNaN(self.editedWidget.width) || self.editedWidget.width<1 || self.editedWidget.width >4){
-                self.editedWidget.width = 1
-            }else{
-                app.log("WIDTH:"+self.editedWidget.width)
-            }
             self.editedWidget.modified=true
-            delete self.editedWidget.queryvalue
             //
             if (self.selectedForEdit > - 1){
                 self.dashboard.widgets[self.selectedForEdit] = self.editedWidget
@@ -682,9 +650,11 @@
             }
             self.selectedForEdit = - 1
             self.editedWidget = self.newWidget()
-            e.target.reset()
+            //e.target.reset()
             riot.update()
         }
+
+
 
         removeWidget(index){
             return function(e){
@@ -806,6 +776,113 @@
         var updateMyDevices = function (text) {
             self.myDevices = JSON.parse(text);
             riot.update();
+        }
+
+        selectBasic(e){
+            console.log('basic selected')
+            return function(e){
+                e.preventDefault()
+                savePreviousTab('basic')
+                self.activeTab = 'basic'
+                readMyDevices()
+            }
+        }
+        selectDescription(e){
+            return function(e){
+                e.preventDefault()
+                savePreviousTab('description')
+                self.activeTab = 'description'
+            }
+        }
+        selectExtended(e){
+            return function(e){
+                e.preventDefault()
+                savePreviousTab('extended')
+                self.activeTab = 'extended'
+            }
+        }
+
+        savePreviousTab = function(nextTab){
+            if(self.activeTab===nextTab) return;
+            console.log('tab name (active/next): '+self.activeTab+'/'+nextTab)
+            if(self.activeTab==='basic'){
+                try{
+                  self.editedWidget.name = document.getElementById('w_name_input').value
+                }catch(err){console.log(err)}
+                try{
+                  self.editedWidget.width = parseInt(document.getElementById('w_width_input').value,10)
+                  if(self.editedWidget.width == null || isNaN(self.editedWidget.width) || self.editedWidget.width<1 || self.editedWidget.width >4){
+                  self.editedWidget.width = 1
+                  }
+                }catch(err){console.log(err)}
+                try{
+                  self.editedWidget.dev_id = document.getElementById('w_dev_id').value.replace(/\s+/g,'')
+                }catch(err){
+                  self.editedWidget.dev_id = ''
+                }
+                try{
+                  self.editedWidget.group = document.getElementById('w_group_input').value.replace(/\s+/g,'')
+                }catch(err){
+                  self.editedWidget.group = ''
+                }
+                try{
+                  self.editedWidget.title= document.getElementById('w_title_input').value
+                }catch(err){}
+                self.editedWidget.type = document.getElementById('w_type').value
+            }
+            
+            if(self.activeTab==='description'){
+                try{
+                self.editedWidget.description = document.getElementById('w_description_input').value
+                }catch(err){console.log(err)}
+            }
+
+            if(self.activeTab==='extended'){
+                try{
+                  self.editedWidget.format = document.getElementById('w_format').value
+                }catch(err){
+                  self.editedWidget.format = 'standard'
+                }
+                try{
+                  self.editedWidget.chartOption = document.getElementById('w_chartOption').value
+                }catch(err){
+                  self.editedWidget.chartOption = 'plain'
+                }
+                try{
+                self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.channelTranslated = document.getElementById('w_channel_translated_input').value.replace(/\s+/g,'')
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.unitName = document.getElementById('w_unit_input').value
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.rounding = document.getElementById('w_rounding_input').value
+                }catch(err){console.log(err)}
+                try{
+                  self.editedWidget.query = document.getElementById('w_query_input').value.trim()
+                  try{
+                    var n=parseInt(self.editedWidget.query)
+                    if(Number.isInteger(n)){
+                        self.editedWidget.query = 'last '+n
+                    }
+            }catch(err){
+                self.editedWidget.query = 'last 1'
+            }
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.range = document.getElementById('w_range_input').value
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.config = document.getElementById('w_config_input').value
+                }catch(err){console.log(err)}
+                try{    
+                  self.editedWidget.icon = document.getElementById('w_icon_input').value
+                }catch(err){
+                  self.editedWidget.icon = ''
+            }
+            }
         }
 
     </script>

@@ -821,6 +821,18 @@
             "fr": "Description du widget. Dans le cas du widget 'info box', il sera affiché à l'intérieur de la boîte.",
             "pl": "Opis kontrolki. Dla kontrolek typu 'ramka inforamcyjna' pojawi się w ramce."
         },
+        "f_widget_config": {
+            "en": "Configuration",
+            "it": "Configuration",
+            "fr": "Configuration",
+            "pl": "Konfiguracja"
+        },
+        "f_widget_config_hint": {
+            "en": "Additional configuration (JSON).",
+            "it": "Additional configuration (JSON)",
+            "fr": "Additional configuration (JSON)",
+            "pl": "Konfiguracja dodatkowa (JSON)"
+        },
         "f_widget_title": {
             "en": "Widget title",
             "it": "Titolo del widget",

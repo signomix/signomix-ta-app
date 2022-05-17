@@ -13,8 +13,8 @@
                     <li class="nav-item">
                         <a class="nav-link text-signo" href="#!" onclick={ goto('#!') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.main.home[app.language] }</a>
                     </li>
-                    <li class="nav-item" if={app.user.status == 'logged-in' && !app.user.guest && app.user.alerts }>
-                        <a class="nav-link text-signo" href="#!alerts" onclick={ goto('#!alerts') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.header.alerts[app.language] } <span if={ app.user.alerts.length>0 } class="badge badge-pill badge-danger">{app.user.alerts.length}</span></a>
+                    <li class="nav-item" if={app.user.status == 'logged-in' && !app.user.guest }>
+                        <a class="nav-link text-signo" href="#!alerts" onclick={ goto('#!alerts') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.header.alerts[app.language] } <span if={ getNumberOfNotifications()>0 } class="badge badge-pill badge-danger">{app.user.alerts.length}</span></a>
                     </li>
                     <li class="nav-item" if={app.user.status == 'logged-in' && !app.user.guest }>
                         <a class="nav-link text-signo" href="#!mydashboards" onclick={ goto('#!mydashboards') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.header.mydashboards[app.language] }</a>
@@ -70,7 +70,13 @@
                 return ''
             }
         }
-
+        getNumberOfNotifications(){
+            try{
+                return app.user.alerts.length
+            }catch(err){
+                return 0
+            }
+        }
         self.isIndicatorVisible = function(){
             if (app.requests > 0){
                 return 'visibility: visible'

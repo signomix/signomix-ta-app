@@ -15,6 +15,7 @@ function afterLogin(newKey, name) {
     }
     //riot.update()
 }
+
 function loginSubmit(oFormElement, eventBus, successEventName, errorEventName, debug) {
     var login;
     var password;
