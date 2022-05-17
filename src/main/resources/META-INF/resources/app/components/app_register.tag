@@ -126,15 +126,15 @@
             type: 'USER',
             confirmed: false
         }
-        formData.uid = e.target.elements['login'].value
-        formData.password = e.target.elements['password'].value
-        formData.email = e.target.elements['email'].value
-        formData.name = e.target.elements['name'].value
-        formData.surname = e.target.elements['surname'].value
-        formData.preferredLanguage = e.target.elements['preferredLanguage'].value
-        formData.accept = e.target.elements['accept'].value
+        formData.uid = e.target.elements['login_input'].value
+        formData.password = e.target.elements['password_input'].value
+        formData.email = e.target.elements['email_input'].value
+        formData.name = e.target.elements['name_input'].value
+        formData.surname = e.target.elements['surname_input'].value
+        formData.preferredLanguage = e.target.elements['preferredLanguage_input'].value
+        formData.accept = e.target.elements['accept_input'].value
         self.registeredEmail = formData.email
-        if (self.validate(formData,e.target.elements['password2'].value) == 0) {
+        if (self.validate(formData,e.target.elements['password2_input'].value) == 0) {
             //send
             app.log(JSON.stringify(formData))
             urlPath = ''

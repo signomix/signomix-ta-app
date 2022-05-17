@@ -90,10 +90,10 @@
         var formData = {
             confirmed: false
         }
-        formData.email = e.target.elements['email'].value
-        formData.name = e.target.elements['name'].value
-        formData.accept = e.target.elements['accept'].value
-        formData.preferredLanguage=e.target.elements['preferredLanguage'].value
+        formData.email = e.target.elements['email_input'].value
+        formData.name = e.target.elements['name_input'].value
+        formData.accept = e.target.elements['accept_input'].value
+        formData.preferredLanguage=e.target.elements['preferredLanguage_input'].value
         self.registeredEmail = formData.email
             //send
             app.log(JSON.stringify(formData))

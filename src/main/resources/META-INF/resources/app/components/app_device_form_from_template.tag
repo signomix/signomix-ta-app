@@ -415,27 +415,27 @@
                 commandscript: '',
                 template: ''
             }
-            formData.eui = e.target.elements['eui'].value
+            formData.eui = e.target.elements['eui_input'].value
             if (self.device.type == 'TTN') {
-                formData.appeui = e.target.elements['appeui'].value
-                formData.appid = e.target.elements['appid'].value
+                formData.appeui = e.target.elements['appeui_input'].value
+                formData.appid = e.target.elements['appid_input'].value
             }
-            formData.name = e.target.elements['name'].value
-            formData.key = e.target.elements['key'].value
-            formData.type = e.target.elements['type'].value
-            formData.team = e.target.elements['team'].value
-            formData.administrators = e.target.elements['admins'].value
-            formData.channels = e.target.elements['channels'].value
-            formData.groups = e.target.elements['groups'].value
-            formData.description = e.target.elements['description'].value
+            formData.name = e.target.elements['name_input'].value
+            formData.key = e.target.elements['key_input'].value
+            formData.type = e.target.elements['type_input'].value
+            formData.team = e.target.elements['team_input'].value
+            formData.administrators = e.target.elements['admins_input'].value
+            formData.channels = e.target.elements['channels_input'].value
+            formData.groups = e.target.elements['groups_input'].value
+            formData.description = e.target.elements['description_input'].value
             //formData.code = escape(trimSpaces(e.target.elements['code'].value))
             //formData.encoder = escape(trimSpaces(e.target.elements['encoder'].value))
-            formData.code = trimSpaces(e.target.elements['code'].value)
-            formData.encoder = trimSpaces(e.target.elements['encoder'].value)
+            formData.code = trimSpaces(e.target.elements['code_input'].value)
+            formData.encoder = trimSpaces(e.target.elements['encoder_input'].value)
             formData.pattern = self.device.pattern
             formData.commandscript = self.device.commandscript
             formData.template = self.device.template
-            formData.transmissionInterval = 60000 * Number(e.target.elements['interval'].value)
+            formData.transmissionInterval = 60000 * Number(e.target.elements['interval_input'].value)
             app.log(JSON.stringify(formData))
             sendData(
                 formData,

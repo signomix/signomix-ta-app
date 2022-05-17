@@ -425,107 +425,107 @@
                 longitude:'',
                 downlink:''
             }
-            if(e.target.elements['eui']) formData.eui = e.target.elements['eui'].value
+            if(e.target.elements['eui_input']) formData.eui = e.target.elements['eui'].value
             if (self.device.type == 'TTN') {
-                if(e.target.elements['appeui']) {
-                    formData.appeui = e.target.elements['appeui'].value
+                if(e.target.elements['appeui_input']) {
+                    formData.appeui = e.target.elements['appeui_input'].value
                 }else{
                     formData.appeui = self.device.applicationEUI
                 }
-                if(e.target.elements['appid']) {
-                    formData.appid = e.target.elements['appid'].value
+                if(e.target.elements['appid_input']) {
+                    formData.appid = e.target.elements['appid_input'].value
                 }else{
                     formData.appid = self.device.applicationID
                 }
             }
-            if(e.target.elements['name']) {
-                formData.name = e.target.elements['name'].value
+            if(e.target.elements['name_input']) {
+                formData.name = e.target.elements['name_input'].value
             }else{
                 formData.name = self.device.name
             }
-            if(e.target.elements['key']) {
-                formData.key = e.target.elements['key'].value
+            if(e.target.elements['key_input']) {
+                formData.key = e.target.elements['key_input'].value
             }else{
                 formData.key = self.device.key
             }
-            if(e.target.elements['type']) {
-                formData.type = e.target.elements['type'].value
+            if(e.target.elements['type_input']) {
+                formData.type = e.target.elements['type_input'].value
             }else{
                 formData.type = self.device.type
             }
-            if(e.target.elements['team']) {
-                formData.team = e.target.elements['team'].value
+            if(e.target.elements['team_input']) {
+                formData.team = e.target.elements['team_input'].value
             }else{
                 formData.team = self.device.team
             }
-            if(e.target.elements['admins']) {
-                formData.administrators = e.target.elements['admins'].value
+            if(e.target.elements['admins_input']) {
+                formData.administrators = e.target.elements['admins_input'].value
             }else{
                 formData.administrators = self.device.administrators
             }
-            if(e.target.elements['channels']) {
-                formData.channels = e.target.elements['channels'].value
+            if(e.target.elements['channels_input']) {
+                formData.channels = e.target.elements['channels_input'].value
             }else{
                 formData.channels = self.device.channels
             }
-            if(e.target.elements['groups']) {
-                formData.groups = e.target.elements['groups'].value
+            if(e.target.elements['groups_input']) {
+                formData.groups = e.target.elements['groups_input'].value
             }else{
                 formData.groups = self.device.groups
             }
-            if(e.target.elements['project']) {
-                formData.project = e.target.elements['project'].value
+            if(e.target.elements['project_input']) {
+                formData.project = e.target.elements['project_input'].value
             }else{
                 formData.project = self.device.project
             }
-            if(e.target.elements['active']) {
-                var aCheck = e.target.elements['active']
+            if(e.target.elements['active_input']) {
+                var aCheck = e.target.elements['active_input']
                 formData.active = aCheck.checked?'true':'false'
             }else{
                 formData.active = self.device.active
             }
-            if(e.target.elements['description']) {
-                formData.description = e.target.elements['description'].value
+            if(e.target.elements['description_input']) {
+                formData.description = e.target.elements['description_input'].value
             }else{
                 formData.description = self.device.description
             }
             //formData.code = escape(trimSpaces(e.target.elements['code'].value))
             //formData.encoder = escape(trimSpaces(e.target.elements['encoder'].value))
-            if(e.target.elements['code']) {
-                formData.code = trimSpaces(e.target.elements['code'].value)
+            if(e.target.elements['code_input']) {
+                formData.code = trimSpaces(e.target.elements['code_input'].value)
             }else{
                 formData.code = self.device.code
             }
-            if(e.target.elements['encoder']) {
-                formData.encoder = trimSpaces(e.target.elements['encoder'].value)
+            if(e.target.elements['encoder_input']) {
+                formData.encoder = trimSpaces(e.target.elements['encoder_input'].value)
             }else{
                 formData.encoder = self.device.encoder
             }
             
             formData.commandscript = self.device.commandscript
             formData.template = self.device.template
-            if(e.target.elements['interval']) {
-                formData.transmissionInterval = 60000 * Number(e.target.elements['interval'].value)
+            if(e.target.elements['interval_input']) {
+                formData.transmissionInterval = 60000 * Number(e.target.elements['interval_input'].value)
             }else{
                 formData.transmissionInterval = self.device.intervalnterval
             }
-            if(e.target.elements['state']) {
-                formData.state = e.target.elements['state'].value
+            if(e.target.elements['state_input']) {
+                formData.state = e.target.elements['state_input'].value
             }else{
                 formData.state = self.device.state
             }
-            if(e.target.elements['latitude']) {
-                formData.latitude = e.target.elements['latitude'].value
+            if(e.target.elements['latitude_input']) {
+                formData.latitude = e.target.elements['latitude_input'].value
             }else{
                 formData.latitude = self.device.latitude
             }
-            if(e.target.elements['longitude']) {
-                formData.longitude = e.target.elements['longitude'].value
+            if(e.target.elements['longitude_input']) {
+                formData.longitude = e.target.elements['longitude_input'].value
             }else{
                 formData.longitude = self.device.longitude
             }
-            if(e.target.elements['downlink']) {
-                formData.downlink = e.target.elements['downlink'].value
+            if(e.target.elements['downlink_input']) {
+                formData.downlink = e.target.elements['downlink_input'].value
             }else{
                 formData.downlink = self.device.downlink
             }

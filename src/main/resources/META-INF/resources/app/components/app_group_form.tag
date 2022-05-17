@@ -180,12 +180,12 @@
                 channels: '',
                 description: ''
             }
-            formData.eui = e.target.elements['eui'].value
-            formData.name = e.target.elements['name'].value
-            formData.team = e.target.elements['team'].value
-            formData.administrators = e.target.elements['admins'].value
-            formData.channels = e.target.elements['channels'].value
-            formData.description = e.target.elements['description'].value
+            formData.eui = e.target.elements['eui_input'].value
+            formData.name = e.target.elements['name_input'].value
+            formData.team = e.target.elements['team_input'].value
+            formData.administrators = e.target.elements['admins_input'].value
+            formData.channels = e.target.elements['channels_input'].value
+            formData.description = e.target.elements['description_input'].value
             app.log(JSON.stringify(formData))
             sendData(
                 formData,
