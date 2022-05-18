@@ -596,26 +596,7 @@
                 if (index > - 1){
                     self.editedWidget = self.dashboard.widgets[index]
                 } else{
-                    self.editedWidget = {
-                    name:'',
-                    dev_id:'',
-                    channel:'',
-                    channelTranslated:'',
-                    unitName:'',
-                    rounding:'',
-                    type:'text',
-                    query:'last',
-                    range:'', 
-                    title:'',
-                    icon:'',
-                    width:1, 
-                    description:'',
-                    format:'standard',
-                    chartOption:'dots',
-                    group:'',
-                    config:'',
-                    mofified: false
-                    }
+                    self.editedWidget = self.newWidget()
                 }
                 app.log(index)
                 app.log(self.editedWidget)
@@ -810,7 +791,7 @@
                   self.editedWidget.name = document.getElementById('w_name_input').value
                 }catch(err){console.log(err)}
                 try{
-                  self.editedWidget.width = parseInt(document.getElementById('w_width_input').value,10)
+                  self.editedWidget.width = parseInt(document.getElementById('w_width').value,10)
                   if(self.editedWidget.width == null || isNaN(self.editedWidget.width) || self.editedWidget.width<1 || self.editedWidget.width >4){
                   self.editedWidget.width = 1
                   }
@@ -859,6 +840,9 @@
                 }catch(err){console.log(err)}
                 try{
                 self.editedWidget.rounding = document.getElementById('w_rounding_input').value
+                }catch(err){console.log(err)}
+                try{
+                self.editedWidget.config = document.getElementById('w_config_input').value
                 }catch(err){console.log(err)}
                 try{
                   self.editedWidget.query = document.getElementById('w_query_input').value.trim()
