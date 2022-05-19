@@ -22,10 +22,10 @@
                 <tbody>
                     <tr each={ device,index in jsonData}>
                         <td class="text-right">{(index+1)}</td>
-                        <td class="text-left"><a href="{'#!dashboard,'+getDeviceEUI(device)+'@'}">{getDeviceEUI(device)}</a></td>
-                        <td class="text-left">{getDeviceName(device)}</td>
-                        <td class="text-right" each={measure in device}>{(measure?measure.value:'')}</td>
-                        <td class="text-right">{getDateFormatted(new Date(getDeviceTimestamp(device)))}</td>
+                        <td class="text-left"><a href="{'#!dashboard,'+getDeviceEUI(device[0])+'@'}">{getDeviceEUI(device[0])}</a></td>
+                        <td class="text-left">{getDeviceName(device[0])}</td>
+                        <td class="text-right" each={measure in device[0]}>{(measure?measure.value:'')}</td>
+                        <td class="text-right">{getDateFormatted(new Date(getDeviceTimestamp(device[0])))}</td>
                         <!--<td class="text-right"><a href="{'#!dashboard,'+device[0].deviceEUI}">{ app.texts.widget_report.MORE[app.language] }</a></td>-->
                     </tr>
                 </tbody>
@@ -49,6 +49,28 @@
     self.color = 'bg-white'
     self.rawdata = "[]"
     self.jsonData = {}
+
+//[ //devices
+//  [ //timestamps
+//    [
+//      {
+//        "deviceEUI":"IOT-EMULATOR",
+//        "name":"latitude",
+//        "value":51.741808,
+//        "timestamp":1652425200123,
+//        "stringValue":null
+//      },
+//      {
+//        "deviceEUI":"IOT-EMULATOR",
+//        "name":"longitude",
+//        "value":19.434113,
+//        "timestamp":1652425200123,
+//        "stringValue":null
+//      }
+//    ]
+//  ]
+//]
+
 
     self.noData = true
     self.width=100
@@ -119,15 +141,22 @@
         var i=0
         var valuesOK=true
         var j
+        var k
         while(i<self.jsonData.length){
-            if(self.jsonData[i]==null || self.jsonData[i].length<minimalMeasures){
+            //eui
+            if(self.jsonData[i]==null || self.jsonData[i].length<1){
+                //minimum 1 timestamp
                 self.jsonData.splice(i,1)
             }else{
                 valuesOK=true
                 j=0
+                k=0
                 while(j<self.jsonData[i].length){
-                    if(self.jsonData[i][j]===null){
-                        self.jsonData[i][j]={'deviceEUI':null,'name':null,'value':null,'timestamp':null}
+                    while(k<self.jsonData[i][j].length){
+                      if(self.jsonData[i][j][k]===null){
+                        self.jsonData[i][j][k]={'deviceEUI':null,'name':null,'value':null,'timestamp':null}
+                      }
+                      k=k+1
                     }
                     j=j+1
                 }

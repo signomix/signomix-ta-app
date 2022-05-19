@@ -309,13 +309,13 @@
         }
 
         var url=''
+        var queryWithFilter=applyFilter(query,self.filter)
         if(config.type=='devinfo'||config.type=='devmap'){
             url=app.iotAPI + "/" + config.dev_id
         }else if(config.type=='report'||config.type=='multimap'||config.type=='plan'){
-            url=app.groupAPI + "/" + config.group + "/"+channelName+(app.shared!=''?'?tid='+app.shared:'')
+            url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }else if(config.dev_id){
-            var queryWithFilter=applyFilter(query,self.filter)
-            url=app.iotAPI + "/" + config.dev_id + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
+            url=app.iotAPI + "/" + config.dev_id + "/"+channelName+"?"+ (app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }
         if(url.length>0) {
             getData(

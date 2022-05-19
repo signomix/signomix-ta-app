@@ -235,7 +235,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='button' && self.editedWidget.type!='filter' && self.editedWidget.type!='plan'}>
+                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='button' && self.editedWidget.type!='filter' && self.editedWidget.type!='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_query"
