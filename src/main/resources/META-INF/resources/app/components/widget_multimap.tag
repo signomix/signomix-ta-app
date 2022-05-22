@@ -7,13 +7,8 @@
     </div>
     <script>
     var self = this
-    //self.refs = this.refs
-    // opts: poniższe przypisanie nie jest używane
-    //       wywołujemy update() tego taga żeby zminieć parametry
     self.title = opts.title
     self.ref = opts.ref
-    // opts
-    
     self.value = '-'
     self.measureDate = '-'
     self.front = true
@@ -21,7 +16,7 @@
     self.rawdata = "[]"
     self.jsonData = {}
     self.testGroup=
-            [
+[
   [
     {
       "deviceEUI":"009FB2FF8EBB8E00",
@@ -51,6 +46,154 @@
     }
   ]
 ]
+
+/*
+[
+  [
+    [
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"latitude",
+        "value":51.741808,
+        "timestamp":1652425200123,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"longitude",
+        "value":19.434113,
+        "timestamp":1652425200123,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"temperature",
+        "value":5.0,
+        "timestamp":1652425200123,
+        "stringValue":null
+      }
+    ],
+    [
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"latitude",
+        "value":51.741319,
+        "timestamp":1652421600000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"longitude",
+        "value":19.425863,
+        "timestamp":1652421600000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"temperature",
+        "value":4.0,
+        "timestamp":1652421600000,
+        "stringValue":null
+      }
+    ],
+    [
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"latitude",
+        "value":51.737721,
+        "timestamp":1652418000000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"longitude",
+        "value":19.425207,
+        "timestamp":1652418000000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"IOT-EMULATOR",
+        "name":"temperature",
+        "value":3.0,
+        "timestamp":1652418000000,
+        "stringValue":null
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"latitude",
+        "value":51.735212,
+        "timestamp":1652425200000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"longitude",
+        "value":19.425521,
+        "timestamp":1652425200000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"temperature",
+        "value":5.0,
+        "timestamp":1652425200000,
+        "stringValue":null
+      }
+    ],
+    [
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"latitude",
+        "value":51.731331,
+        "timestamp":1652421600000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"longitude",
+        "value":19.425171,
+        "timestamp":1652421600000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"temperature",
+        "value":4.0,
+        "timestamp":1652421600000,
+        "stringValue":null
+      }
+    ],
+    [
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"latitude",
+        "value":51.731143,
+        "timestamp":1652418000000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"longitude",
+        "value":19.433445,
+        "timestamp":1652418000000,
+        "stringValue":null
+      },
+      {
+        "deviceEUI":"S-18-0B-DB-36-7E",
+        "name":"temperature",
+        "value":3.0,
+        "timestamp":1652418000000,
+        "stringValue":null
+      }
+    ]
+  ]
+]
+
+*/
 
     // map
     self.prevLat = 0.0
@@ -88,19 +231,25 @@
         var i=0
         var valuesOK=true
         var j
+        var k
         //removing null values
         while(i<self.jsonData.length){
-            if(self.jsonData[i]==null || self.jsonData[i].length<minimalMeasures){
+            //eui
+            if(self.jsonData[i]==null || self.jsonData[i].length<1){
+                //minimum 1 timestamp
                 self.jsonData.splice(i,1)
             }else{
                 valuesOK=true
                 j=0
+                k=0
                 while(j<self.jsonData[i].length){
-                    if(self.jsonData[i][j]===null){
-                        self.jsonData[i].splice(j,1)
-                    }else{
-                        j=j+1
+                    while(k<self.jsonData[i][j].length){
+                      if(self.jsonData[i][j][k]===null){
+                        self.jsonData[i][j][k]={'deviceEUI':null,'name':null,'value':null,'timestamp':null}
+                      }
+                      k=k+1
                     }
+                    j=j+1
                 }
                 i=i+1
             }
@@ -108,7 +257,7 @@
     }
     
     self.showMap = function(){
-        if(self.jsonData.length==0 || self.jsonData[0].length<2){
+        if(self.jsonData.length==0 || self.jsonData[0].length<1){
             self.noData = true
             return
         }
@@ -137,31 +286,31 @@
                 continue;
             }
             if(!markerList[j]){
-                marker=new L.CircleMarker(self.getLatLon(self.jsonData[j]),{
+                marker=new L.CircleMarker(self.getLatLon(self.jsonData[j][0]),{
                     radius: 12,
                     stroke: true,
                     color: 'black',
                     opacity: 1,
                     weight: 1,
                     fill: true,
-                    fillColor: self.getMarkerColor(self.jsonData[j],calcAlert),
+                    fillColor: self.getMarkerColor(self.jsonData[j][0],calcAlert),
                     fillOpacity: 0.3
                 })
-                .bindPopup(self.getDescription(self.jsonData[j]))
+                .bindPopup(self.getDescription(self.jsonData[j][0]))
                 .addTo(map)
                 markerList.push(marker)
             }else{
-                markerList[j].setLatLng(self.getLatLon(self.jsonData[j]),{
+                markerList[j].setLatLng(self.getLatLon(self.jsonData[j][0]),{
                     radius: 12,
                     stroke: true,
                     color: 'black',
                     opacity: 1,
                     weight: 1,
                     fill: true,
-                    fillColor: self.getMarkerColor(self.jsonData[j],calcAlert),
+                    fillColor: self.getMarkerColor(self.jsonData[j][0],calcAlert),
                     fillOpacity: 0.3
                 })
-                .setPopupContent(self.getDescription(self.jsonData[j]));
+                .setPopupContent(self.getDescription(self.jsonData[j][0]));
             }
         }
         //map.locate({setView: true, maxZoom: 12 });

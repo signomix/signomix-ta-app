@@ -557,6 +557,12 @@
             "fr": "Map de groupe",
             "pl": "Mapa grupowa"
         },
+        "type_multitrack": {
+            "en": "Group map with routes",
+            "it": "Group map with routes",
+            "fr": "Group map with routes",
+            "pl": "Mapa grupowa z trasami"
+        },
         "type_date": {
             "en": "Date",
             "it": "Data",

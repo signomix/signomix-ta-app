@@ -35,17 +35,7 @@
         </div>
     </div> 
     <script>
-    var self = this
-    // opts: poniższe przypisanie nie jest używane
-    //       wywołujemy update() tego taga żeby zminieć parametry
-   
-    //self.type = opts.type
-    //self.visible = opts.visible
-    //self.title = opts.title
-    //self.description = opts.description
-    
-    // opts
-    
+    var self = this    
     self.color = 'bg-white'
     self.rawdata = "[]"
     self.jsonData = {}
@@ -70,7 +60,6 @@
 //    ]
 //  ]
 //]
-
 
     self.noData = true
     self.width=100

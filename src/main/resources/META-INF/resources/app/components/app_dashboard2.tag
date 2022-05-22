@@ -104,6 +104,7 @@
                     <widget_plan ref={ getRefName(i,j) } if={w_line[i][j]['type']=='plan'}></widget_plan>
                     <widget_report ref={ getRefName(i,j) } if={w_line[i][j]['type']=='report'}></widget_report>
                     <widget_multimap ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multimap'}></widget_multimap>
+                    <widget_multitrack ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multitrack'}></widget_multitrack>
                     <widget_stopwatch ref={ getRefName(i,j) } if={w_line[i][j]['type']=='stopwatch'}></widget_stopwatch>
                     <widget_time ref={ getRefName(i,j) } if={w_line[i][j]['type']=='time'}></widget_time>
                     <widget_devinfo ref={ getRefName(i,j) } if={w_line[i][j]['type']=='devinfo'}></widget_devinfo>
@@ -201,7 +202,8 @@
         app.log('REFRESHING DATA')
         Object.keys(self.refs).forEach(function(key,index) {
             app.log(key)
-            if(self.dashboardConfig.widgets.length>index && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='plan')){
+            if(self.dashboardConfig.widgets.length>index 
+            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan')){
                 readDashboardData(self.dashboardConfig.widgets[index], updateWidget, 0, index);
             }
         })
@@ -312,7 +314,7 @@
         var queryWithFilter=applyFilter(query,self.filter)
         if(config.type=='devinfo'||config.type=='devmap'){
             url=app.iotAPI + "/" + config.dev_id
-        }else if(config.type=='report'||config.type=='multimap'||config.type=='plan'){
+        }else if(config.type=='report'||config.type=='multimap'||config.type=='multitrack'||config.type=='plan'){
             url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }else if(config.dev_id){
             url=app.iotAPI + "/" + config.dev_id + "/"+channelName+"?"+ (app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter

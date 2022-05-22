@@ -72,6 +72,7 @@
                                 <option value="led" selected={self.editedWidget.type=='led'}>{self.getTypeName('led')}</option>
                                 <option value="report" selected={self.editedWidget.type=='report'}>{self.getTypeName('report')}</option>
                                 <option value="multimap" selected={self.editedWidget.type=='multimap'}>{self.getTypeName('multimap')}</option>
+                                <option value="multitrack" selected={self.editedWidget.type=='multitrack'}>{self.getTypeName('multitrack')}</option>
                                 <option value="button" selected={self.editedWidget.type=='button'}>{self.getTypeName('button')}</option>
                                 <option value="stopwatch" selected={self.editedWidget.type=='stopwatch'}>{self.getTypeName('stopwatch')}</option>
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
@@ -109,7 +110,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='plan' }>
+                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='multitrack' && self.editedWidget.type!='plan' }>
                         <div class="form-group col-md-12">
                             <div class="input-field">
                                 <label for="w_dev_id">{ app.texts.dashboard_form.f_widget_deviceid[app.language] }</label>
@@ -120,7 +121,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='plan'}>
+                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack' || self.editedWidget.type=='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_group"
@@ -196,7 +197,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='plan' }>
+                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack' || self.editedWidget.type=='plan' }>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_channel_translated"
@@ -249,7 +250,7 @@
                             <div class="alert alert-danger" if="{ self.invalidQuery}">{ app.texts.dashboard_form.f_widget_query_error[app.language] }</div>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='led' || self.editedWidget.type=='plan' || self.editedWidget.type=='multimap'}>
+                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='led' || self.editedWidget.type=='plan' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_range"
@@ -258,7 +259,7 @@
                                 type="text"
                                 content={ self.editedWidget.range }
                                 readonly={ !allowEdit }
-                                hint={ self.editedWidget.type=='multimap'?app.texts.dashboard_form.f_widget_range_hint_mm[app.language]:app.texts.dashboard_form.f_widget_range_hint[app.language] }
+                                hint={ (self.editedWidget.type=='multimap'||self.editedWidget.type=='multitrack')?app.texts.dashboard_form.f_widget_range_hint_mm[app.language]:app.texts.dashboard_form.f_widget_range_hint[app.language] }
                             ></form_input>
                         </div>
                         </div>
@@ -706,6 +707,9 @@
                     break
                 case 'multimap':
                     return app.texts.dashboard_form.type_multimap[app.language]
+                    break
+                case 'multitrack':
+                    return app.texts.dashboard_form.type_multitrack[app.language]
                     break
                 case 'date':
                     return app.texts.dashboard_form.type_date[app.language]
