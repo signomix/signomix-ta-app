@@ -236,7 +236,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='button' && self.editedWidget.type!='filter' && self.editedWidget.type!='plan'}>
+                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='button'  && self.editedWidget.type!='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_query"
@@ -698,9 +698,6 @@
                     break
                 case 'button':
                     return app.texts.dashboard_form.type_button[app.language]
-                    break
-                case 'filter':
-                    return app.texts.dashboard_form.type_filter[app.language]
                     break
                 case 'map':
                     return app.texts.dashboard_form.type_map[app.language]

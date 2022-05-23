@@ -31,7 +31,7 @@
     self.mapExternalUrl = ''
     self.noData = false
     self.zoom = 15
-    self.map
+    self.map=null
     self.allPoints=[]
 
     self.heightStr='width:100%;height:100px;'
@@ -45,16 +45,24 @@
         app.log('SHOW2: widget_map')
         self.jsonData = JSON.parse(self.rawdata)
         app.log(self.jsonData)
+        self.allPoints=[]
         //getWidth()
         self.verify()
         
         try{
+            if(self.map!==null){
+                self.map.remove();
+            }
+        }catch(err){
+            console.log(err)
+        }
+        try{
             self.map = L.map(self.ref+'_m')
         }catch(err){
-            app.log(err)
+            console.log(err)
         }
         for(idx=0; idx<self.jsonData.length; idx++){
-            console.log('track '+idx)
+            //console.log('track '+idx)
             self.showMap(idx)
         }
         self.map.fitBounds(self.allPoints);
@@ -92,7 +100,7 @@
         }
         riot.update()
         self.noData=false
-        var marker;
+        var marker=null;
         var p1=self.jsonData[devIndex][0][0]['name'].toLowerCase()
         var p2=self.jsonData[devIndex][0][1]['name'].toLowerCase()
         var lonFirst=false
