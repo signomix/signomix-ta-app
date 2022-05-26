@@ -61,7 +61,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">{app.texts.common.apply[app.language]}</button>
+                        <button type="button" class="btn btn-primary" onClick={saveFilter} data-dismiss="modal">{app.texts.common.apply[app.language]}</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.common.cancel[app.language]}</button>
                     </div>
                 </div>
@@ -177,16 +177,14 @@
     
     this.on('unmount',function(){
         myStopRefresh()
-        //self.mounted=true
         self.mounted=false
     })
 
-    saveFilter(e){
+    saveFilter(){
         try{
-            if(e) e.preventDefault()
-            self.filter.fromDate = e.target.elements['from_date'].value
-            self.filter.toDate = e.target.elements['to_date'].value
-            self.filter.project = e.target.elements['project'].value
+            self.filter.fromDate = document.getElementById('from_date').value
+            self.filter.toDate = document.getElementById('to_date').value
+            self.filter.project = document.getElementById('project').value
         }catch(error){
             console.log(error)
         }
@@ -263,7 +261,6 @@
             app.log(key)
             self.refs[key].update(self.dashboardConfig.widgets[index])
         });
-        //app.log(self.refs.a1)
         app.log('SHARED TOKEN='+self.dashboardConfig.sharedToken)
         if(self.dashboardConfig.sharedToken){
             self.sharedLink = location.origin+'/app/?tid='+self.dashboardConfig.sharedToken+location.hash

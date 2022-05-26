@@ -914,6 +914,24 @@
             "fr": "Definition of a group of devices",
             "pl": "Definicja grupy urządzeń"
         },
+        "header_a_new": {
+            "en": "A new application",
+            "it": "A new application",
+            "fr": "A new application",
+            "pl": "Nowa aplikacja"
+        },
+        "header_a_modify": {
+            "en": "Modification of the appliction",
+            "it": "Modification of the appliction",
+            "fr": "Modification of the appliction",
+            "pl": "Modyfikacja aplikacji"
+        },
+        "header_a_view": {
+            "en": "Definition of the application",
+            "it": "Definition of the application",
+            "fr": "Definition of the application",
+            "pl": "Definicja aplikacji"
+        },
         "template_undefined": {
             "en": "User defined",
             "it": "Definito dall'utente",
@@ -1183,6 +1201,42 @@
             "it": "Lascia vuoto se non sei sicuro del significato.",
             "fr": "Laissez vide si vous n'êtes pas sûr de ce que cela signifie.",
             "pl": "Pozostaw puste jeśli nie wiesz o co chodzi."
+        },
+        "organization": {
+            "en": "Organization ID",
+            "it": "Organization ID",
+            "fr": "Organization ID",
+            "pl": "ID organizacji"
+        },
+        "organization_hint": {
+            "en": "Enter the organization ID or leave it blank",
+            "it": "Enter the organization ID or leave it blank",
+            "fr": "Enter the organization ID or leave it blank",
+            "pl": "Wpisz identyfikator organizacji lub pozostaw puste"
+        },
+        "organizationapp": {
+            "en": "Application ID",
+            "it": "Application ID",
+            "fr": "Application ID",
+            "pl": "ID aplikacji"
+        },
+        "organizationapp_hint": {
+            "en": "Enter the application ID or leave it blank",
+            "it": "Enter the application ID or leave it blank",
+            "fr": "Enter the application ID or leave it blank",
+            "pl": "Wpisz identyfikator aplikacji lub pozostaw puste"
+        },
+        "configuration": {
+            "en": "Configuration",
+            "it": "Configuration",
+            "fr": "Configuration",
+            "pl": "Konfiguracja"
+        },
+        "configuration_hint": {
+            "en": "Enter configuration or leave blank",
+            "it": "Enter configuration or leave blank",
+            "fr": "Enter configuration or leave blank",
+            "pl": "Wprowadź konfigurację lub pozostaw puste"
         },
         "cancel": {
             "en": "Cancel",
@@ -1516,7 +1570,12 @@
             "fr": "Groups",
             "pl": "Grupy"
         },
-        "tab_devices": {
+        "tab_applications": {
+            "en": "Applications",
+            "it": "Applications",
+            "fr": "Applications",
+            "pl": "Aplikacje"
+        },"tab_devices": {
             "en": "Devices",
             "it": "Devices",
             "fr": "Devices",
@@ -1570,6 +1629,12 @@
             "fr": "Voulez-vous supprimer le groupe sélectionné?",
             "pl": "Czy chcesz usunąć wybraną grupę?"
         },
+        "remove_a_question": {
+            "en": "Do you want to remove selected application?",
+            "it": "Do you want to remove selected application?",
+            "fr": "Do you want to remove selected application?",
+            "pl": "Czy chcesz usunąć wybraną aplikację?"
+        },
         "remove_info": {
             "en": "All data collected from this device will be lost.",
             "it": "Tutti i dati raccolti da questo dispositvo andranno persi.",
@@ -1588,6 +1653,12 @@
             "fr": "Suppression d'un groupe",
             "pl": "Usuwanie grupy urządzeń"
         },
+        "remove_a_title": {
+            "en": "Removing application",
+            "it": "Removing application",
+            "fr": "Removing application",
+            "pl": "Usuwanie aplikacji"
+        },
         "header_name": {
             "en": "NAME",
             "it": "NOME",
@@ -1599,6 +1670,12 @@
             "it": "EUI",
             "fr": "EUI",
             "pl": "EUI"
+        },
+        "header_id": {
+            "en": "ID",
+            "it": "ID",
+            "fr": "ID",
+            "pl": "ID"
         },
         "header_type": {
             "en": "TYPE",

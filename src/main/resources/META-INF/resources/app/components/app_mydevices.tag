@@ -1,15 +1,20 @@
 <app_mydevices>
-    <div class="row" if={ selected }>
+    <div class="row" if={ selected!=='' }>
          <div class="col-md-12">
             <app_device_form ref="dev_edit"></app_device_form>
         </div>
     </div>
-    <div class="row" if={ selectedGroup }>
+    <div class="row" if={ selectedGroup!=='' }>
          <div class="col-md-12">
             <app_group_form ref="gr_edit"></app_group_form>
         </div>
     </div>
-    <div class="row" if={ !selected && !selectedGroup}>
+     <div class="row" if={ selectedApplication!=='' }>
+         <div class="col-md-12">
+            <app_application_form ref="app_edit"></app_application_form>
+        </div>
+    </div>
+    <div class="row" if={ !selected && !selectedGroup && !selectedApplication}>
         <div class="col-md-12">
             <h2 class="module-title">{app.texts.mydevices.devices[app.language]}
                 <i class="material-icons clickable" onclick="{ refresh() }" aria-label="refresh" title="REFRESH">refresh</i>
@@ -22,6 +27,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link { active: activeTab=='groups' }" onclick="{ selectGroups() }">{app.texts.mydevices.tab_groups[app.language]}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link { active: activeTab=='applications' }" onclick="{ selectApplications() }">{app.texts.mydevices.tab_applications[app.language]}</a>
                 </li>
             </ul>
             <table id="devices" class="table table-condensed table-striped" if="{activeTab=='devices'}">
@@ -65,6 +73,26 @@
                             <i class="material-icons clickable" onclick={ editGroup(group.EUI, false) }>open_in_browser</i>
                             <i class="material-icons clickable" if={group.userID == app.user.name || group.administrators.includes(','+app.user.name+',')} onclick={ editGroup(group.EUI, true) }>mode_edit</i>
                             <i class="material-icons clickable" if={group.userID == app.user.name || group.administrators.includes(','+app.user.name+',')} onclick={ selectGroupForRemove(group.EUI) } data-toggle="modal" data-target="#myGroupModal">delete</i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="applications" class="table table-condensed table-striped" if="{activeTab=='applications'}">
+                <thead>
+                    <tr>
+                        <th>{app.texts.mydevices.header_id[app.language]}</th>
+                        <th>{app.texts.mydevices.header_name[app.language]}</th>
+                        <th class="text-right">{app.texts.mydevices.header_action[app.language]}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr each={app in myApplications}>
+                        <td>{app.id}</td>
+                        <td>{app.name}</td>
+                        <td class="text-right">
+                            <i class="material-icons clickable" onclick={ editApplication(app.id, false) }>open_in_browser</i>
+                            <i class="material-icons clickable" if={isAdmin()} onclick={ editApplication(app.id, true) }>mode_edit</i>
+                            <i class="material-icons clickable" if={isAdmin()} onclick={ selectApplicationForRemove(app.id) } data-toggle="modal" data-target="#myApplicationModal">delete</i>
                         </td>
                     </tr>
                 </tbody>
@@ -113,6 +141,26 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="myApplicationModal" tabindex="-1" role="dialog" aria-labelledby="myApplicationLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">{app.texts.mydevices.remove_a_title[app.language]}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label={app.texts.common.cancel[app.language]}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>{ selectedApplicationForRemove }</b></p>
+                        <p>{app.texts.mydevices.remove_a_question[app.language]}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick={ removeApplication() } data-dismiss="modal">{app.texts.mydevices.remove[app.language]}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.common.cancel[app.language]}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -144,10 +192,13 @@
         self.info = {}
         self.myDevices = []
         self.myGroups = []
+        self.myApplications = []
         self.selected = ''
         self.selectedGroup= ''
+        self.selectedApplication = ''
         self.selectedForRemove = ''
         self.selectedGroupForRemove = ''
+        self.selectedApplicationForRemove = ''
         self.selectedForDownload=''
         self.downloadPercent=''
         //self.edited = false
@@ -167,6 +218,9 @@
                     if(self.activeTab == 'groups'){
                         self.selectedGroup = ''
                         readMyGroups()
+                    }else if(self.activeTab == 'applications'){
+                        self.selectedApplication = ''
+                        readMyApplications()
                     }else{
                         self.selected = ''
                         readMyDevices()  //this line results in logout,login error
@@ -175,6 +229,7 @@
                 case 'cancelled':
                     self.selected = ''
                     self.selectedGroup = ''
+                    self.selectedApplication = ''
                     self.dataURL = ''
                     break
                 default:
@@ -198,6 +253,14 @@
                 readMyGroups()
             }
         }
+
+        selectApplications(){
+            return function(e){
+                e.preventDefault()
+                self.activeTab = 'applications'
+                readMyApplications()
+            }
+        }
         
         getStatus(lastSeen, interval){
             if(self.now-lastSeen>interval){
@@ -205,6 +268,10 @@
             }else{
                 return '/app/images/OK.svg'
             }
+        }
+
+        isAdmin(){
+            return app.user.roles.indexOf('admin')>-1
         }
         
         create(){
@@ -214,6 +281,10 @@
                     self.selectedGroup='NEW'
                     riot.update()
                     self.refs.gr_edit.init(self.devListener, 'NEW', true)
+                }else if(self.activeTab=='applications'){
+                    self.selectedApplication='NEW'
+                    riot.update()
+                    self.refs.app_edit.init(self.devListener, 'NEW', true)
                 }else{
                     self.selected='NEW'
                     riot.update()
@@ -225,7 +296,7 @@
         createFromTemplate(){
             return function(e){
                 e.preventDefault()
-                if(self.activeTab!='groups'){
+                if(self.activeTab==='devices'){
                     self.selected='NEW'
                     riot.update()
                     self.refs.dev_edit.init(self.devListener, 'NEW', true, true)
@@ -275,6 +346,24 @@
                 riot.update()
             }
         }
+
+        editApplication(appID, allowEdit){
+            return function(e){
+                e.preventDefault()
+                self.selectedApplication=appID
+                console.log('selectedApplication:'+self.selectedApplication)
+                riot.update()
+                self.refs.app_edit.init(self.devListener, appID, allowEdit)
+            }
+        }
+        
+        selectApplicationForRemove(appEUI){
+            return function(e){
+                e.preventDefault()
+                self.selectedApplicationForRemove=appEUI
+                riot.update()
+            }
+        }
         
         removeDevice(){
             return function(e){
@@ -299,7 +388,7 @@
         
         removeGroup(){
             return function(e){
-                app.log('REMOVING ... '+self.selectedForRemove)
+                app.log('REMOVING ... '+self.selectedGroupForRemove)
                 deleteData( 
                     app.groupAPI+'/'+self.selectedGroupForRemove, 
                     app.user.token, 
@@ -312,6 +401,23 @@
                 )
             }
         }
+        removeApplication(){
+            return function(e){
+                app.log('REMOVING ... '+self.selectedApplicationForRemove)
+                deleteData( 
+                    app.applicationAPI+'/'+self.selectedApplicationForRemove, 
+                    app.user.token, 
+                    self.afterApplicationRemove, 
+                    null, //self.listener, 
+                    'submit:OK', 
+                    'submit:ERROR', 
+                    app.debug, 
+                    null //globalEvents
+                )
+            }
+        }
+
+
         
         self.handleFile=function(resp){
             self.dataURL=URL.createObjectURL(resp)
@@ -349,12 +455,18 @@
             self.selectedGroupForRemove = ''
             readMyGroups()
         }
+        self.afterApplicationRemove = function(object){
+            self.selectedApplicationForRemove = ''
+            readMyApplications()
+        }
         
         refresh(){
             return function(e){
                 e.preventDefault()
                 if(self.activeTab == 'groups'){
                     readMyGroups()
+                }else if(self.activeTab == 'applications'){
+                    readMyApplications()
                 }else{
                     readMyDevices()
                 }
@@ -399,7 +511,7 @@
                     updateMyGroups,
                     self.listener, //globalEvents
                     'OK',
-                    null, // in case of error send response code
+                    null, // in case of error send r!mydevicesesponse code
                     app.debug,
                     globalEvents
                     );
@@ -408,6 +520,25 @@
         var updateMyGroups = function (text) {
             app.log("ACCOUNT: " + text)
             self.myGroups = JSON.parse(text);
+            riot.update();
+        }
+        var readMyApplications = function() {
+                app.log('reading applications ...')
+                getData(app.applicationAPI,
+                    null,
+                    app.user.token,
+                    updateMyApplications,
+                    self.listener, //globalEvents
+                    'OK',
+                    null, // in case of error send response code
+                    app.debug,
+                    globalEvents
+                    );
+        }
+
+        var updateMyApplications = function (text) {
+            app.log("ACCOUNT: " + text)
+            self.myApplications = JSON.parse(text);
             riot.update();
         }
     </script> 

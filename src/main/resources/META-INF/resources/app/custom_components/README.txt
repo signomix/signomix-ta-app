@@ -1,0 +1,1 @@
+Place your widget files in this folder.

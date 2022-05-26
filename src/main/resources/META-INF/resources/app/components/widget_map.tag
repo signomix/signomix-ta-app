@@ -36,8 +36,9 @@
     self.noData = false
     
     self.heightStr='width:100%;height:100px;'
-    var map;
-    var marker;
+    self.map;
+    self.marker;
+    self.polyline
     
     
     this.on('mount',function(){
@@ -51,6 +52,13 @@
         app.log(self.jsonData)
         //getWidth()
         self.verify()
+        try{
+            if(self.map!==null){
+                self.map.remove();
+            }
+        }catch(err){
+            console.log(err)
+        }
         self.showMap()
     }
     
@@ -104,29 +112,28 @@
         
         // Leaflet
         
-        var zoom = 15;
+        self.zoom = 15;
         try{
-            map = L.map(self.ref+'_m')
+            self.map = L.map(self.ref+'_m')
         }catch(err){
             app.log(err)
         }
-        map.setView([self.lat, self.lon], zoom)
+        self.map.setView([self.lat, self.lon], self.zoom)
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        }).addTo(self.map);
         
         try{
-            marker.setLatLng([self.lat, self.lon])
-            marker.setPopupContent(self.lat+','+self.lon)
+            self.marker.setLatLng([self.lat, self.lon])
+            self.marker.setPopupContent(self.lat+','+self.lon)
         }catch(err){
-            marker=L.marker([self.lat, self.lon])
-            marker.addTo(map).bindPopup(self.lat+','+self.lon)
+            self.marker=L.marker([self.lat, self.lon])
+            self.marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
         }
         
         if(self.jsonData.length>1){
             var latlngs =[]
-            var polyline
             for(i=0; i<self.jsonData.length; i++){
                 if(lonFirst){
                     latlngs.push(
@@ -145,11 +152,11 @@
                 }
             }
             app.log(latlngs)
-            polyline = L.polyline(latlngs, {
+            self.polyline = L.polyline(latlngs, {
                 color: 'red'
-            }).addTo(map);
+            }).addTo(self.map);
             // zoom the map to the polyline
-            map.fitBounds(polyline.getBounds());
+            self.map.fitBounds(self.polyline.getBounds());
         }
         //
         riot.update()

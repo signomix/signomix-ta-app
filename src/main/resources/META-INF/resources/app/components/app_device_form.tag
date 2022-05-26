@@ -78,7 +78,7 @@
                     <form_input id="team" name="team" label={ app.texts.device_form.team[app.language] } type="text" content={ device.team } readonly={ !allowEdit } hint={ app.texts.device_form.team_hint[app.language] }></form_input>
                 </div>
             </div>
-            <div class="form-row" if="{isVisible('team')}">
+            <div class="form-row" if="{isVisible('admins')}">
                 <div class="form-group col-md-12">
                     <form_input id="admins" name="admins" label={ app.texts.device_form.admins[app.language] } type="text" content={ device.administrators } readonly={ !allowEdit } hint={ app.texts.device_form.admins_hint[app.language] }></form_input>
                 </div>
@@ -141,6 +141,21 @@
             <div class="form-row" if="{isVisible('downlink')}">
                 <div class="form-group col-md-12">
                     <form_input id="downlink" name="downlink" label={ app.texts.device_form.downlink[app.language] } type="text" content={ device.downlink } readonly={ !allowEdit } hint={ app.texts.device_form.downlink_hint[app.language] }></form_input>
+                </div>
+            </div>
+            <div class="form-row" if="{isVisible('organization')}">
+                <div class="form-group col-md-12">
+                    <form_input id="organization" name="organization" label={ app.texts.device_form.organization[app.language] } type="text" content={ device.organizationId } readonly={ !allowEdit } hint={ app.texts.device_form.organization_hint[app.language] }></form_input>
+                </div>
+            </div>
+            <div class="form-row" if="{isVisible('organizationapp')}">
+                <div class="form-group col-md-12">
+                    <form_input id="organizationapp" name="organizationapp" label={ app.texts.device_form.organizationapp[app.language] } type="text" content={ device.orgApplicationId } readonly={ !allowEdit } hint={ app.texts.device_form.organizationapp_hint[app.language] }></form_input>
+                </div>
+            </div>
+            <div class="form-row" if="{isVisible('configuration')}">
+                <div class="form-group col-md-12">
+                    <form_input id="configuration" name="configuration" label={ app.texts.device_form.configuration[app.language] } type="textarea" content={ device.configuration } readonly={ !allowEdit } rows=2></form_input>
                 </div>
             </div>
             <div class="form-row" if="{isVisible('active')}">  
@@ -223,7 +238,10 @@
             'latitude': '',
             'longitude': '',
             'project':'',
-            'downlink':''
+            'downlink':'',
+            'configuration':'',
+            'organizationId':0,
+            'orgApplicationId':0
         }
         self.accepted = 0
 
@@ -379,6 +397,7 @@
             self.device.appeui=self.template.appeui
             self.device.interval=self.template.interval
             self.device.template=self.template.eui
+            self.device.configuration=self.template.configuration
             self.device.active='true'
             self.device.project=''
             self.device.downlink=''
@@ -423,7 +442,10 @@
                 state:'',
                 latitude:'',
                 longitude:'',
-                downlink:''
+                downlink:'',
+                configuration:'',
+                organizationId:0,
+                orgApplicationId:0
             }
             if(e.target.elements['eui_input']) formData.eui = e.target.elements['eui_input'].value
             if (self.device.type == 'TTN') {
@@ -528,6 +550,21 @@
                 formData.downlink = e.target.elements['downlink_input'].value
             }else{
                 formData.downlink = self.device.downlink
+            }
+            if(e.target.elements['configuration_input']) {
+                formData.configuration = e.target.elements['configuration_input'].value
+            }else{
+                formData.configuration = self.device.configuration
+            }
+            if(e.target.elements['organization_input']) {
+                formData.organizationId = e.target.elements['organization_input'].value
+            }else{
+                formData.organizationId = self.device.organizationId
+            }
+            if(e.target.elements['organizationapp_input']) {
+                formData.orgApplicationId = e.target.elements['organizationapp_input'].value
+            }else{
+                formData.orgApplicationId = self.device.orgApplicationId
             }
             app.log(JSON.stringify(formData))
             sendData(

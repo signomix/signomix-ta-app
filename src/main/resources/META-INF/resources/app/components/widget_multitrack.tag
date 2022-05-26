@@ -65,8 +65,11 @@
             //console.log('track '+idx)
             self.showMap(idx)
         }
-        self.map.fitBounds(self.allPoints);
-        //self.map.setView([self.lat, self.lon], self.zoom)
+        try{
+          self.map.fitBounds(self.allPoints);
+        }catch(exc){
+          self.map.setZoom(self.zoom)
+        }
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(self.map);
@@ -131,11 +134,11 @@
             marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
         }
         
-        if(self.jsonData[idx].length>1){
+        if(self.jsonData[idx].length>0){
             var tmpLat, tmpLon
             var latlngs =[]
             var polyline
-            for(i=0; i<self.jsonData[idx].length-1; i++){
+            for(i=0; i<self.jsonData[idx].length; i++){
                 if(lonFirst){
                     tmpLat=parseFloat(self.jsonData[idx][i][1]['value'])
                     tmpLon=parseFloat(self.jsonData[idx][i][0]['value'])
