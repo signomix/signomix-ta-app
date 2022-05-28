@@ -14,7 +14,7 @@
             <app_application_form ref="app_edit"></app_application_form>
         </div>
     </div>
-    <div class="row" if={ !selected && !selectedGroup && !selectedApplication}>
+    <div class="row" if={ selected=='' && selectedGroup==='' && selectedApplication===''}>
         <div class="col-md-12">
             <h2 class="module-title">{app.texts.mydevices.devices[app.language]}
                 <i class="material-icons clickable" onclick="{ refresh() }" aria-label="refresh" title="REFRESH">refresh</i>

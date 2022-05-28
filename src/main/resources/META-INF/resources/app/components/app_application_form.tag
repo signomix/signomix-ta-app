@@ -28,7 +28,7 @@
                         name="configuration" 
                         label={ app.texts.device_form.configuration[app.language] } 
                         type="textarea" 
-                        content={ group.description } 
+                        content={ application.configuration } 
                         readonly={ !allowEdit } 
                         rows=4>
                     </form_input>
@@ -140,7 +140,7 @@
         }
 
         var update = function(text) {
-            app.log("GROUP: " + text)
+            app.log("APPLICATION: " + text)
             self.application = JSON.parse(text);
             riot.update();
         }
