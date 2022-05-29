@@ -1,4 +1,4 @@
-<widget_button>
+<widget_data_form>
     <div if={ type == 'button' } class="container bg-white border border-info rounded topspacing p-0">
         <div class="row px-1 py-1">
             <div if={ !app.user.guest } class="col-12 text-center">
@@ -143,4 +143,4 @@
         }
 
     </style>
-</widget_button>
+</widget_data_form>

@@ -46,23 +46,18 @@
         self.jsonData = JSON.parse(self.rawdata)
         app.log(self.jsonData)
         self.allPoints=[]
-        //getWidth()
         self.verify()
         
         try{
-            if(self.map!==null){
-                self.map.remove();
+            if(self.map!=null){
+                self.map.remove()
             }
         }catch(err){
             console.log(err)
         }
-        try{
-            self.map = L.map(self.ref+'_m')
-        }catch(err){
-            console.log(err)
-        }
+        self.map = L.map(self.ref+'_m')
+
         for(idx=0; idx<self.jsonData.length; idx++){
-            //console.log('track '+idx)
             self.showMap(idx)
         }
         try{
@@ -97,7 +92,7 @@
     }
     
     self.showMap = function(devIndex){
-        if(self.jsonData.length==0 || self.jsonData[devIndex].length<2){
+        if(self.jsonData.length==0 || self.jsonData[devIndex].length==0){
             self.noData = true
             return
         }
@@ -127,11 +122,12 @@
         
         // Leaflet        
         try{
-            marker.setLatLng([self.lat, self.lon])
-            marker.setPopupContent(self.lat+','+self.lon)
-        }catch(err){
             marker=L.marker([self.lat, self.lon])
-            marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
+            marker.setPopupContent(self.lat+','+self.lon)
+            marker.addTo(self.map)
+        }catch(err){
+            console.log(err)
+            //marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
         }
         
         if(self.jsonData[idx].length>0){

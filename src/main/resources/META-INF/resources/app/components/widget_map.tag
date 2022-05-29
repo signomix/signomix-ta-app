@@ -36,7 +36,7 @@
     self.noData = false
     
     self.heightStr='width:100%;height:100px;'
-    self.map;
+    self.map=null;
     self.marker;
     self.polyline
     
@@ -50,15 +50,7 @@
         app.log('SHOW2: widget_map')
         self.jsonData = JSON.parse(self.rawdata)
         app.log(self.jsonData)
-        //getWidth()
         self.verify()
-        try{
-            if(self.map!==null){
-                self.map.remove();
-            }
-        }catch(err){
-            console.log(err)
-        }
         self.showMap()
     }
     
@@ -83,7 +75,7 @@
     }
     
     self.showMap = function(){
-        if(self.jsonData.length==0 || self.jsonData[0].length<2){
+        if(self.jsonData.length==0 || self.jsonData[0].length<1){
             self.noData = true
             return
         }
@@ -105,7 +97,7 @@
         }
         self.measureDate = new Date(self.jsonData[self.jsonData.length-1][0]['timestamp']).toLocaleString(getSelectedLocale())
         if(self.lat==self.prevLat && self.lon==self.prevLon){
-            return
+        //    return
         }
         self.prevLat=self.lat
         self.prevLon=self.lon
@@ -114,10 +106,13 @@
         
         self.zoom = 15;
         try{
-            self.map = L.map(self.ref+'_m')
+            if(self.map!=null){
+                self.map.remove()
+            }
         }catch(err){
-            app.log(err)
+            console.log(err)
         }
+        self.map = L.map(self.ref+'_m')
         self.map.setView([self.lat, self.lon], self.zoom)
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -125,14 +120,17 @@
         }).addTo(self.map);
         
         try{
-            self.marker.setLatLng([self.lat, self.lon])
-            self.marker.setPopupContent(self.lat+','+self.lon)
-        }catch(err){
             self.marker=L.marker([self.lat, self.lon])
-            self.marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
+            //self.marker.setLatLng([self.lat, self.lon])
+            self.marker.setPopupContent(self.lat+','+self.lon)
+            self.marker.addTo(self.map);//.bindPopup(self.lat+','+self.lon)
+        }catch(err){
+            console.log(err)
+            //self.marker=L.marker([self.lat, self.lon])
+            //self.marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
         }
         
-        if(self.jsonData.length>1){
+        if(self.jsonData.length>0){
             var latlngs =[]
             for(i=0; i<self.jsonData.length; i++){
                 if(lonFirst){

@@ -30,7 +30,7 @@
                         type="textarea" 
                         content={ application.configuration } 
                         readonly={ !allowEdit } 
-                        rows=4>
+                        rows=6>
                     </form_input>
                 </div>
             </div>
