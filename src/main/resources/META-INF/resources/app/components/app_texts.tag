@@ -533,6 +533,12 @@
             "fr": "Bouton",
             "pl": "Przycisk"
         },
+        "type_form": {
+            "en": "Data entry form",
+            "it": "Data entry form",
+            "fr": "Data entry form",
+            "pl": "Formularz"
+        },
         "type_filter": {
             "en": "Filter",
             "it": "Filter",

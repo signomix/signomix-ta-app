@@ -93,7 +93,8 @@
             <virtual each={colname, j in colArr }>
                 <div class={ getColumnClass(w_line[i][j]) } if={w_line[i].length>j}>
                     <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol'}></widget_a1>
-                    <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_button>
+                    <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='form'}></widget_button>
+                    <widget_form ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_form>
                     <widget_chart ref={ getRefName(i,j) } if={w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped'}></widget_chart>
                     <widget_bar ref={ getRefName(i,j) } if={w_line[i][j]['type']=='bar'}></widget_bar>
                     <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date'}></widget_date>

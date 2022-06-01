@@ -170,7 +170,7 @@
             e.preventDefault()
             groupPath = ''
             if (self.mode == 'update') {
-                groupPath = (self.method == 'PUT') ? '/' + e.target.elements['eui'].value : ''
+                groupPath = (self.method == 'PUT') ? '/' + e.target.elements['eui_input'].value : ''
             }
             var formData = {
                 eui: '',

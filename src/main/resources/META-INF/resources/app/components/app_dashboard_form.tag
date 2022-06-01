@@ -77,6 +77,7 @@
                                 <option value="stopwatch" selected={self.editedWidget.type=='stopwatch'}>{self.getTypeName('stopwatch')}</option>
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
+                                <option value="form" selected={self.editedWidget.type=='form'}>{self.getTypeName('form')}</option>
                                 <option value="openweather" selected={self.editedWidget.type=='openweather'}>{self.getTypeName('openweather')}</option>
                                 <option value="custom" selected={self.editedWidget.type=='custom'}>{self.getTypeName('custom')}</option>
                                 <option value="custom1" selected={self.editedWidget.type=='custom1'}>{self.getTypeName('custom1')}</option>
@@ -236,7 +237,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='button'  && self.editedWidget.type!='plan'}>
+                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='button' && self.editedWidget.type!='form' && self.editedWidget.type!='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_query"
@@ -698,6 +699,9 @@
                     break
                 case 'button':
                     return app.texts.dashboard_form.type_button[app.language]
+                    break
+                case 'form':
+                    return app.texts.dashboard_form.type_form[app.language]
                     break
                 case 'map':
                     return app.texts.dashboard_form.type_map[app.language]
