@@ -163,30 +163,26 @@
                         </div>
                     </form>
                     <form if={activeTab==='extended'}>
-                        <div class="row" if={ self.editedWidget.type=='raw'}>
-                        <div class="form-group col-md-12">
+
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_format',self.editedWidget.type)}>
                             <label for="w_format" class="active">{app.texts.dashboard_form.f_widget_format[app.language]}</label>
                             <select class="form-control" id="w_format" disabled={!allowEdit}>
                                 <option value="standard" selected={self.editedWidget.format=='standard'}>standard</option>
                                 <option value="timeseries" selected={self.editedWidget.format=='timeseries'}>time series</option>
                             </select>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type!='text' }>
-                        <div class="form-group col-md-12" if={ self.editedWidget.type==='button' }>
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_command_type',self.editedWidget.type) }>
                             <form_input 
-                                id="w_channel"
-                                name="w_channel"
-                                label={ app.texts.dashboard_form.f_widget_datatype[app.language] }
+                                id="w_command_type"
+                                name="w_command_type"
+                                label={ app.texts.dashboard_form.f_widget_commandtype[app.language] }
                                 type="text"
-                                content={ self.editedWidget.channel }
+                                content={ self.editedWidget.commandType }
                                 readonly={ !allowEdit }
-                                hint={ app.texts.dashboard_form.f_widget_datatype_hint[app.language] }
+                                hint={ app.texts.dashboard_form.f_widget_commandtype_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type!='text' }>
-                        <div class="form-group col-md-12" if={ self.editedWidget.type!='button' }>
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_channel',self.editedWidget.type) }>
                             <form_input 
                                 id="w_channel"
                                 name="w_channel"
@@ -197,9 +193,18 @@
                                 hint={ app.texts.dashboard_form.f_widget_channel_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack' || self.editedWidget.type=='plan' }>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_role',self.editedWidget.type) }>
+                            <form_input 
+                                id="w_role"
+                                name="w_role"
+                                label={ app.texts.dashboard_form.f_widget_role[app.language] }
+                                type="text"
+                                content={ self.editedWidget.role }
+                                readonly={ !allowEdit }
+                                hint={ app.texts.dashboard_form.f_widget_role_hint[app.language] }
+                            ></form_input>
+                        </div>                                                
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_channel_translated',self.editedWidget.type) }>
                             <form_input 
                                 id="w_channel_translated"
                                 name="w_channel_translated"
@@ -210,9 +215,7 @@
                                 hint={ app.texts.dashboard_form.f_widget_channel_translated_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_unit',self.editedWidget.type) }>
                             <form_input 
                                 id="w_unit"
                                 name="w_unit"
@@ -222,10 +225,8 @@
                                 readonly={ !allowEdit }
                                 hint={ app.texts.dashboard_form.f_widget_unit_hint[app.language] }
                             ></form_input>
-                        </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
-                        <div class="form-group col-md-12">
+                        </div>                        
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_rounding',self.editedWidget.type) }>
                             <form_input 
                                 id="w_rounding"
                                 name="w_rounding"
@@ -236,9 +237,7 @@
                                 hint={ app.texts.dashboard_form.f_widget_rounding_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='button' && self.editedWidget.type!='form' && self.editedWidget.type!='plan'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_query',self.editedWidget.type) }>
                             <form_input 
                                 id="w_query"
                                 name="w_query"
@@ -250,9 +249,7 @@
                             ></form_input>
                             <div class="alert alert-danger" if="{ self.invalidQuery}">{ app.texts.dashboard_form.f_widget_query_error[app.language] }</div>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol' || self.editedWidget.type=='led' || self.editedWidget.type=='plan' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_range',self.editedWidget.type) }>
                             <form_input 
                                 id="w_range"
                                 name="w_range"
@@ -263,9 +260,7 @@
                                 hint={ (self.editedWidget.type=='multimap'||self.editedWidget.type=='multitrack')?app.texts.dashboard_form.f_widget_range_hint_mm[app.language]:app.texts.dashboard_form.f_widget_range_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='symbol'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_icon',self.editedWidget.type) }>
                             <form_input 
                                 id="w_icon"
                                 name="w_icon"
@@ -276,9 +271,7 @@
                                 hint={ app.texts.dashboard_form.f_widget_icon_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='custom' || self.editedWidget.type=='custom1'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_config',self.editedWidget.type) }>
                             <form_input 
                                 id="w_config"
                                 name="w_config"
@@ -289,9 +282,7 @@
                                 hint={ app.texts.dashboard_form.f_widget_config_hint[app.language] }
                             ></form_input>
                         </div>
-                        </div>
-                        <div class="row" if={ self.editedWidget.type=='line'}>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_chartOption',self.editedWidget.type) }>
                             <label for="w_chartOption" class="active">{app.texts.dashboard_form.f_widget_chartOption[app.language]}</label>
                             <select class="form-control" id="w_chartOption" disabled={!allowEdit}>
                                 <option value="dots" selected={self.editedWidget.chartOption=='dots'}>show dots</option>
@@ -299,7 +290,6 @@
                                 <option value="area" selected={self.editedWidget.chartOption=='area'}>area below</option>
                                 <option value="areaWithDots" selected={self.editedWidget.chartOption=='areaWithDots'}>area with dots</option>
                             </select>
-                        </div>
                         </div>
                     </form>
                     <div class="modal-footer">
@@ -462,6 +452,9 @@
             return {
                 name:'',
                 dev_id: '',
+                dev_auth_key:'',
+                dev_config:'',
+                dev_app_config:'',
                 channel:'',
                 channelTranslated:'',
                 unitName:'',
@@ -788,6 +781,102 @@
             }
         }
 
+        isOnExtendedTab(fieldName, widgetType){
+            var result=false;
+            var fields=[]
+            if('text'===widgetType){
+                fields=[]
+            }else
+            if('symbol'===widgetType){
+                fields=['w_channel','w_unit','w_rounding','w_query','w_range','w_icon']
+            }else
+            if('raw'===widgetType){
+                fields=['w_channel','w_format','w_query']
+            }else
+            if('chart'===widgetType){
+                fields=['w_channel','w_query','w_chartOption']
+            }else
+            if('stepped'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('bar'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('map'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('plan'===widgetType){
+                fields=['w_channel','w_query','w_range']
+            }else
+            if('date'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('led'===widgetType){
+                fields=['w_channel','w_query','w_range']
+            }else
+            if('report'===widgetType){
+                fields=['w_channel','w_query','channel_translated']
+            }else
+            if('multimap'===widgetType){
+                fields=['w_channel','w_query','channel_translated','w_range']
+            }else
+            if('multitrack'===widgetType){
+                fields=['w_channel','w_query','channel_translated','w_range']
+            }else
+            if('button'===widgetType){
+                fields=['w_data_type']
+            }else
+            if('stopwatch'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('time'===widgetType){
+                fields=['w_channel','w_query']
+            }else
+            if('devinfo'===widgetType){
+                fields=['w_channel','w_query','channel_translated']
+            }else
+            if('form'===widgetType){
+                fields=['w_channel','w_role']
+            }else
+            if('openweather'===widgetType){
+                fields=['w_channel','w_query','channel_translated']
+            }else 
+            if('custom'===widgetType || 'custom1'===widgetType){
+                fields=['w_channel','w_unit','w_rounding','w_query','w_config']
+            }
+            result=fields.indexOf(fieldName)>=0
+            console.log('isOnExtendedTab '+fieldName+' '+widgetType+' '+result)
+            return result
+        }
+
+        getAuthKey = function(eui){
+            console.log(self.myDevices)
+            for(i=0;i<self.myDevices.length; i++){
+                if(self.myDevices[i].EUI===eui){
+                    return self.myDevices[i].key
+                }
+            }
+            return ''
+        }
+        getDeviceConfig = function(eui){
+            console.log(self.myDevices)
+            for(i=0;i<self.myDevices.length; i++){
+                if(self.myDevices[i].EUI===eui){
+                    return self.myDevices[i].configuration
+                }
+            }
+            return ''
+        }
+        getApplicationConfig = function(eui){
+            console.log(self.myDevices)
+            for(i=0;i<self.myDevices.length; i++){
+                if(self.myDevices[i].EUI===eui){
+                    return self.myDevices[i].applicationConfig
+                }
+            }
+            return ''
+        }
+
         savePreviousTab = function(nextTab){
             if(self.activeTab===nextTab) return;
             console.log('tab name (active/next): '+self.activeTab+'/'+nextTab)
@@ -805,6 +894,24 @@
                   self.editedWidget.dev_id = document.getElementById('w_dev_id').value.replace(/\s+/g,'')
                 }catch(err){
                   self.editedWidget.dev_id = ''
+                }
+                try{
+                  self.editedWidget.dev_auth_key=getAuthKey(self.editedWidget.dev_id)
+                }catch(err){
+                    console.log(err)
+                  self.editedWidget.dev_auth_key=''
+                }
+                try{
+                  self.editedWidget.dev_config=getDeviceConfig(self.editedWidget.dev_id)
+                }catch(err){
+                    console.log(err)
+                  self.editedWidget.dev_auth_key=''
+                }
+                try{
+                  self.editedWidget.dev_app_config=getApplicationConfig(self.editedWidget.dev_id)
+                }catch(err){
+                    console.log(err)
+                  self.editedWidget.dev_auth_key=''
                 }
                 try{
                   self.editedWidget.group = document.getElementById('w_group_input').value.replace(/\s+/g,'')
@@ -838,6 +945,9 @@
                 self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
                 }catch(err){console.log(err)}
                 try{
+                self.editedWidget.commandType = document.getElementById('w_command_type_input').value
+                }catch(err){console.log(err)}
+                try{
                 self.editedWidget.channelTranslated = document.getElementById('w_channel_translated_input').value.replace(/\s+/g,'')
                 }catch(err){console.log(err)}
                 try{
@@ -851,14 +961,14 @@
                 }catch(err){console.log(err)}
                 try{
                   self.editedWidget.query = document.getElementById('w_query_input').value.trim()
-                  try{
+                    try{
                     var n=parseInt(self.editedWidget.query)
                     if(Number.isInteger(n)){
                         self.editedWidget.query = 'last '+n
                     }
-            }catch(err){
-                self.editedWidget.query = 'last 1'
-            }
+                    }catch(err){
+                    self.editedWidget.query = 'last 1'
+                    }
                 }catch(err){console.log(err)}
                 try{
                 self.editedWidget.range = document.getElementById('w_range_input').value
@@ -870,7 +980,10 @@
                   self.editedWidget.icon = document.getElementById('w_icon_input').value
                 }catch(err){
                   self.editedWidget.icon = ''
-            }
+                }
+                try{
+                self.editedWidget.role = document.getElementById('w_role_input').value
+                }catch(err){console.log(err)}
             }
         }
 

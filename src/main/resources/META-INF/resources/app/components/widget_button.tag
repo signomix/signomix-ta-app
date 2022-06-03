@@ -46,15 +46,15 @@
                 <div class="modal-body">
                     <p>{ app.texts.widget_button.device[app.language] } { dev_id }</p>
                     <form>
-                        <div class="form-group" if="{channel==='HEX'}">
+                        <div class="form-group" if="{commandType==='HEX'}">
                             <label for="hexString">HEX STRING</label>
                             <input type='text' value={dataToSend} name="newvalue" id='hexString'>
                         </div>
-                        <div class="form-group" if="{channel==='JSON'}">
+                        <div class="form-group" if="{commandType==='JSON'}">
                             <label for="jsonText">JSON</label>
                             <textarea class="form-control" id="jsonText" rows="3">{dataToSend}</textarea>
                         </div>
-                        <div class="form-group" if="{channel!=='JSON' && channel!=='HEX'}">
+                        <div class="form-group" if="{commandType!=='JSON' && commandType!=='HEX'}">
                             <p>Unsupported data type. Must be "HEX" or "JSON"!</p>
                         </div>
                     </form>
@@ -76,9 +76,9 @@
         self.show2 = function(){
             //nothing to do
             try{
-            self.channel=self.channel.toUpperCase()
+            self.commandType=self.commandType.toUpperCase()
             }catch(ex){
-                self.channel=''
+                self.commandType=''
             }
             self.dataToSend=''
         }
@@ -102,9 +102,9 @@
         getData(){
             return function(e){
                 e.preventDefault()
-                if(self.channel=='hex'){
+                if(self.commandType=='hex'){
                     self.dataToSend = document.getElementById('hexString').value
-                }else if(self.channel=='json'){
+                }else if(self.commandType=='json'){
                     self.dataToSend= document.getElementById('jsonText').value
                 }
                 self.dataToSend=self.dataToSend.trim()
@@ -115,9 +115,9 @@
             return function(e){
                 e.preventDefault()
                 var url
-                if(self.channel=='hex'){
+                if(self.commandType=='hex'){
                     url=app.actuatorAPI + '/' + self.dev_id + "/hex"
-                }else if(self.channel=='json'){
+                }else if(self.commandType=='json'){
                     url=app.actuatorAPI + '/' + self.dev_id
                 }
                 sendTextData(

@@ -52,7 +52,23 @@
     self.show2 = function(){
         self.icon = 'la-tachometer-alt'
         app.log('SHOW2 '+self.type)
-        self.jsonData = JSON.parse(self.rawdata)
+        try{
+            self.jsonData = JSON.parse(self.rawdata)
+        }catch(err){
+            self.jsonData={}
+        }
+        try{
+            self.devConfig = JSON.parse(self.dev_config)
+        }catch(err){
+            self.devConfig={}
+        }
+        try{
+            self.appConfig = JSON.parse(self.dev_app_config)
+        }catch(err){
+            self.appConfig={}
+        }
+        console.log(self.devConfig)
+        console.log(self.appConfig)
         if(self.channel=='latitude'||self.channel=='longitude'||self.channel=='altitude'){
             self.visualisation='map'
         }else if(self.channel=='lastseen'){

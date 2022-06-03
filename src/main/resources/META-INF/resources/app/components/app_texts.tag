@@ -683,6 +683,18 @@
             "fr": "Le nom unique dans le tableau de bord (alphanumérique)",
             "pl": "Nazwa unikalna w ramach pulpitu (alfanumeryczna)"
         },
+        "f_widget_role": {
+            "en": "User role",
+            "it": "User role",
+            "fr": "User role",
+            "pl": "Rola użytkownika"
+        },
+        "f_widget_role_hint": {
+            "en": "If a role name is given, only users with that role have access",
+            "it": "If a role name is given, only users with that role have access.",
+            "fr": "If a role name is given, only users with that role have access.",
+            "pl": "Jeśli podana nazwa roli, to jedynie użytkownicy mający tę rolę mają dostęp"
+        },
         "f_widget_deviceid": {
             "en": "Device EUI",
             "it": "EUI dispositivo",
@@ -731,13 +743,13 @@
             "fr": "Nom / noms des données présentées dans l'en-tête",
             "pl": "Nazwa/nazwy danych prezentowane w nagłówku"
         },
-        "f_widget_datatype": {
+        "f_widget_commandtype": {
             "en": "Data type",
             "it": "Tipo di dati",
             "fr": "Type de données",
             "pl": "Typ danych"
         },
-        "f_widget_datatype_hint": {
+        "f_widget_commandtype_hint": {
             "en": "The type of data that will be sent to the device. The value can only be hex or json",
             "it": "Il tipo di dati che verranno inviati al dispositivo. Il valore può essere solo hex o json",
             "fr": "Le type de données qui seront envoyées à l'appareil. La valeur ne peut être qu'hexadécimale ou json",

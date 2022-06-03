@@ -200,11 +200,6 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
                     eventBus.trigger(successEventName);
                 }
             } else {
-                /*if (errorEventName == null) {
-                    eventBus.trigger(defaultErrorEventName + this.status);
-                } else {
-                    eventBus.trigger(errorEventName);
-                }*/
                 var tmpErrName
                 if (errorEventName == null) {
                     tmpErrName=defaultErrorEventName + this.status
@@ -261,15 +256,11 @@ function sendData(data, method, url, token, callback, eventBus, successEventName
                 }
             } else {
                 app.log("onreadystatechange")
-                //if (callback != null) {
-                //    callback('error:' + this.status)
-                //} else {
                     if (errorEventName == null) {
                         eventBus.trigger(defaultErrorEventName + this.status);
                     } else {
                         eventBus.trigger(errorEventName);
                     }
-                //}
             }
         }
     }
@@ -280,6 +271,53 @@ function sendData(data, method, url, token, callback, eventBus, successEventName
     if (token != null) {
         oReq.withCredentials = true;
         oReq.setRequestHeader("Authentication", token);
+    }
+    oReq.send(urlEncodedData);
+    return false;
+}
+
+function sendIotData(data, method, url, eui, authKey, callback, eventBus, successEventName, errorEventName, debug, appEventBus) {
+    app.log("sendIotData ...")
+    var urlEncodedData = "";
+    var urlEncodedDataPairs = [];
+    var name;
+    var oReq = new XMLHttpRequest();
+    var defaultErrorEventName = "err:";
+    for (name in data) {
+        urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+    }
+    urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+    oReq.onerror = function (oEvent) {
+        app.log("onerror " + this.status + " " + oEvent.toString())
+        callback(oEvent.toString());
+    }
+    oReq.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            app.requests--;
+            if (this.status > 199 && this.status < 203) {
+                app.log(JSON.parse(this.responseText));
+                if (callback != null) {
+                    callback(this.responseText);
+                } else {
+                    eventBus.trigger(successEventName);
+                }
+            } else {
+                app.log("onreadystatechange")
+                    if (errorEventName == null) {
+                        eventBus.trigger(defaultErrorEventName + this.status);
+                    } else {
+                        eventBus.trigger(errorEventName);
+                    }
+            }
+        }
+    }
+    app.requests++;
+    oReq.open(method, url);
+    oReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    oReq.setRequestHeader('X-device-eui', eui);
+    if (authKey != null) {
+        oReq.withCredentials = true;
+        oReq.setRequestHeader("Authorization", authKey);
     }
     oReq.send(urlEncodedData);
     return false;
@@ -308,15 +346,11 @@ function sendTextData(data, method, url, token, callback, eventBus, successEvent
                 }
             } else {
                 app.log("onreadystatechange")
-                //if (callback != null) {
-                //    callback('error:' + this.status)
-                //} else {
                     if (errorEventName == null) {
                         eventBus.trigger(defaultErrorEventName + this.status);
                     } else {
                         eventBus.trigger(errorEventName);
                     }
-                //}
             }
         }
     }
@@ -354,11 +388,6 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
                     eventBus.trigger(successEventName);
                 }
             } else {
-                /*if (errorEventName == null) {
-                    eventBus.trigger(defaultErrorEventName + this.status);
-                } else {
-                    eventBus.trigger(errorEventName);
-                }*/
                 var tmpErrName
                 if (errorEventName == null) {
                     tmpErrName=defaultErrorEventName + this.status
@@ -376,7 +405,6 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
     }
     app.requests++;
     oReq.open("DELETE", url, true);
-    //oReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     if (token != null) {
         oReq.withCredentials = true;
         oReq.setRequestHeader("Authentication", token);
@@ -414,11 +442,6 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
                     eventBus.trigger(successEventName);
                 }
             } else {
-                /*if (errorEventName == null) {
-                    eventBus.trigger(defaultErrorEventName + this.status);
-                } else {
-                    eventBus.trigger(errorEventName);
-                }*/
                 var tmpErrName
                 if (errorEventName == null) {
                     tmpErrName=defaultErrorEventName + this.status
@@ -467,11 +490,6 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
                     eventBus.trigger(successEventName);
                 }
             } else {
-                /*if (errorEventName == null) {
-                    eventBus.trigger(defaultErrorEventName + this.status);
-                } else {
-                    eventBus.trigger(errorEventName);
-                }*/
                 var tmpErrName
                 if (errorEventName == null) {
                     tmpErrName=defaultErrorEventName + this.status

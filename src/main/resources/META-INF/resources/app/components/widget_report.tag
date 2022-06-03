@@ -24,9 +24,9 @@
                         <td class="text-right">{(index+1)}</td>
                         <td class="text-left"><a href="{'#!dashboard,'+getDeviceEUI(device[0])+'@'}">{getDeviceEUI(device[0])}</a></td>
                         <td class="text-left">{getDeviceName(device[0])}</td>
-                        <td class="text-right" each={measure in device[0]}>{(measure?measure.value:'')}</td>
+                        <!--<td class="text-right" each={measure in device[0]}>{(measure?measure.value:'')}</td>-->
+                        <td class="text-right" each={name in measureNames}>{getDeviceMeasure(device[0],name)}</td>
                         <td class="text-right">{getDateFormatted(new Date(getDeviceTimestamp(device[0])))}</td>
-                        <!--<td class="text-right"><a href="{'#!dashboard,'+device[0].deviceEUI}">{ app.texts.widget_report.MORE[app.language] }</a></td>-->
                     </tr>
                 </tbody>
                 </table>
@@ -106,6 +106,16 @@
                     return self.groups[i].name
                 }
             }
+        return '';
+    }
+    self.getDeviceMeasure = function(device,measureName){
+        for(j=0; j<device.length; j++){
+           if(device[j]!=null){
+             if(device[j].name===measureName){
+               return device[j].value;
+             }
+           }
+        }
         return '';
     }
     self.getDeviceEUI = function(device){
