@@ -593,6 +593,7 @@
                 } else{
                     self.editedWidget = self.newWidget()
                 }
+                self.activeTab = 'basic'
                 app.log(index)
                 app.log(self.editedWidget)
                 self.selectedForRemove = - 1

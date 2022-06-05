@@ -45,11 +45,11 @@
                             </div>
                             <div class="form-group">
                                 { app.texts.dashboard_filter.from_date[app.language] }
-                                <input type="text" id="from_date" class="form-control" value={ filter.fromDate }/>
+                                <input type="datetime-local" id="from_date" class="form-control" value={ filter.fromDate }/>
                             </div>
                             <div class="form-group">
                                 { app.texts.dashboard_filter.to_date[app.language] }
-                                <input type="text" id="to_date" class="form-control" value={ filter.toDate }/>
+                                <input type="datetime-local" id="to_date" class="form-control" value={ filter.toDate }/>
                             </div>
                             <div class="form-group">
                                 { app.texts.dashboard_filter.project[app.language] }
@@ -182,9 +182,18 @@
     })
 
     saveFilter(){
+        var dt;
         try{
             self.filter.fromDate = document.getElementById('from_date').value
+            if(self.filter.fromDate!==''){
+              dt=new Date(evalue)
+              self.filter.fromDate=dt.toISOString()
+            }
             self.filter.toDate = document.getElementById('to_date').value
+            if(self.filter.toDate!==''){
+              dt=new Date(evalue)
+              self.filter.toDate=dt.toISOString()
+            }
             self.filter.project = document.getElementById('project').value
         }catch(error){
             console.log(error)
