@@ -125,10 +125,10 @@
                         <div class="row" if={ self.editedWidget.type==='form' }>
                         <div class="form-group col-md-12">
                             <div class="input-field">
-                                <label for="w_app_id">{ app.texts.dashboard_form.f_widget_deviceid[app.language] }</label>
+                                <label for="w_app_id">{ app.texts.dashboard_form.f_widget_applicationid[app.language] }</label>
                                     <select class="form-control" id="w_app_id" name="w_app_id" disabled={!allowEdit}>
-                                        <option value="">{ app.texts.dashboard_form.f_widget_select_device[app.language] }</option>
-                                        <option each="{d in myApplications}" value="{d.EUI}" selected="{d.EUI==self.editedWidget.app_id}">{ d.EUI+': '+d.name}</option>
+                                        <option value="">{ app.texts.dashboard_form.f_widget_select_application[app.language] }</option>
+                                        <option each="{d in myApplications}" value="{d.id}" selected="{d.id==self.editedWidget.app_id}">{ d.id+': '+d.name}</option>
                                     </select>
                             </div>
                         </div>
@@ -682,6 +682,7 @@
         }
 
         self.getTypeName = function(name){
+            var tmpName
             switch (name){
                 case 'symbol':
                     return app.texts.dashboard_form.type_symbol[app.language]
@@ -749,7 +750,15 @@
                     return app.texts.dashboard_form.type_custom1[app.language]
                     break
                 default:
-                    return name
+                    if(name.startsWith('form_') || name.startsWith('custom_')){
+                        try{
+                            tmpName=app.custom_texts.dashboard_form['type_'+name][app.language]
+                        }catch(err){
+                            return name;
+                        }
+                    }else{
+                        return name
+                    }
             }
         }
         
@@ -865,13 +874,13 @@
             if('devinfo'===widgetType){
                 fields=['w_channel','w_query','channel_translated']
             }else
-            if('form'===widgetType){
+            if(widgetType.startsWith('form')){
                 fields=['w_channel','w_role','w_config','w_app_id']
             }else
             if('openweather'===widgetType){
                 fields=['w_channel','w_query','channel_translated']
             }else 
-            if('custom'===widgetType || 'custom1'===widgetType){
+            if(widgetType.startsWith('custom')){
                 fields=['w_channel','w_unit','w_rounding','w_query','w_config']
             }
             result=fields.indexOf(fieldName)>=0
@@ -897,14 +906,19 @@
             }
             return ''
         }
-        getApplicationConfig = function(eui){
-            console.log(self.myDevices)
-            for(i=0;i<self.myDevices.length; i++){
-                if(self.myDevices[i].EUI===eui){
-                    return self.myDevices[i].applicationConfig
+        getApplicationConfig = function(id){
+            //console.log('applications:')
+            //console.log('getApplicationConfig('+id+')')
+            //console.log(self.myApplications)
+            var cfg=''
+            for(i=0;i<self.myApplications.length; i++){
+                if(self.myApplications[i].id==id){
+                    cfg=self.myApplications[i].configuration
+                    break;
                 }
             }
-            return ''
+            //console.log('configuration: '+cfg)
+            return cfg
         }
 
         savePreviousTab = function(nextTab){
@@ -940,13 +954,13 @@
                   self.editedWidget.dev_config=getDeviceConfig(self.editedWidget.dev_id)
                 }catch(err){
                     console.log(err)
-                  self.editedWidget.dev_auth_key=''
+                  self.editedWidget.dev_config=''
                 }
                 try{
-                  self.editedWidget.dev_app_config=getApplicationConfig(self.editedWidget.dev_id)
+                  self.editedWidget.dev_app_config=getApplicationConfig(self.editedWidget.app_id)
                 }catch(err){
                     console.log(err)
-                  self.editedWidget.dev_auth_key=''
+                  self.editedWidget.dev_app_config=''
                 }
                 try{
                   self.editedWidget.group = document.getElementById('w_group_input').value.replace(/\s+/g,'')
@@ -955,7 +969,8 @@
                 }
                 try{
                   self.editedWidget.title= document.getElementById('w_title_input').value
-                }catch(err){}
+                }catch(err){
+                }
                 self.editedWidget.type = document.getElementById('w_type').value
             }
             

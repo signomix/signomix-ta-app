@@ -707,6 +707,12 @@
             "fr": "EUI de l'appareil auquel vous avez des droits d'accès",
             "pl": "EUI urządzenia, do którego masz uprawnienia"
         },
+        "f_widget_applicationid": {
+            "en": "Application ID",
+            "it": "Application ID",
+            "fr": "Application ID",
+            "pl": "ID Aplikacji"
+        },
         "f_widget_group": {
             "en": "Group EUI",
             "it": "EUI del gruppo",
@@ -888,10 +894,16 @@
             "pl": "Szerokość kontrolki (liczba kolumn)"
         },
         "f_widget_select_device": {
-            "en": "SELECT DEVICE",
-             "it": "SELECT DEVICE",
-            "fr": "SELECT DEVICE",
-            "pl": "WYBIERZ URZĄDZENIE"
+            "en": "Select device",
+             "it": "Select device",
+            "fr": "Select device",
+            "pl": "Wybierz urządzenie"
+        },
+        "f_widget_select_application": {
+            "en": "Select application",
+             "it": "Select application",
+            "fr": "Select application",
+            "pl": "Wybierz aplikację"
         }
     }    
     

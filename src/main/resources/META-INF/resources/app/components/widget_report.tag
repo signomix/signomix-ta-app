@@ -181,6 +181,5 @@
         .topspacing{
             margin-top: 10px;
         }
-       
     </style>
 </widget_report>
