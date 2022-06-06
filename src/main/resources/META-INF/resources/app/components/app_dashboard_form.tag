@@ -122,6 +122,17 @@
                             </div>
                         </div>
                         </div>
+                        <div class="row" if={ self.editedWidget.type==='form' }>
+                        <div class="form-group col-md-12">
+                            <div class="input-field">
+                                <label for="w_app_id">{ app.texts.dashboard_form.f_widget_deviceid[app.language] }</label>
+                                    <select class="form-control" id="w_app_id" name="w_app_id" disabled={!allowEdit}>
+                                        <option value="">{ app.texts.dashboard_form.f_widget_select_device[app.language] }</option>
+                                        <option each="{d in myApplications}" value="{d.EUI}" selected="{d.EUI==self.editedWidget.app_id}">{ d.EUI+': '+d.name}</option>
+                                    </select>
+                            </div>
+                        </div>
+                        </div>
                         <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack' || self.editedWidget.type=='plan'}>
                         <div class="form-group col-md-12">
                             <form_input 
@@ -477,6 +488,7 @@
         self.selectedForEdit = - 1
         self.editedWidget = {}
         self.myDevices=[]
+        self.myApplications=[]
         self.previousTab='basic'
         self.activeTab='basic'
 
@@ -507,6 +519,7 @@
                 self.mode = 'create'
             }
             readMyDevices()
+            readMyApplications()
             riot.update()
         }
 
@@ -757,6 +770,22 @@
             self.myDevices = JSON.parse(text);
             riot.update();
         }
+        var readMyApplications = function() {
+                getData(app.applicationAPI,
+                    null,
+                    app.user.token,
+                    updateMyApplications,
+                    self.listener, //globalEvents
+                    'OK',
+                    null, // in case of error send response code
+                    app.debug,
+                    globalEvents
+                    );
+        }
+        var updateMyApplications = function (text) {
+            self.myApplications = JSON.parse(text);
+            riot.update();
+        }
 
         selectBasic(e){
             console.log('basic selected')
@@ -837,7 +866,7 @@
                 fields=['w_channel','w_query','channel_translated']
             }else
             if('form'===widgetType){
-                fields=['w_channel','w_role']
+                fields=['w_channel','w_role','w_config','w_app_id']
             }else
             if('openweather'===widgetType){
                 fields=['w_channel','w_query','channel_translated']
@@ -895,6 +924,11 @@
                   self.editedWidget.dev_id = document.getElementById('w_dev_id').value.replace(/\s+/g,'')
                 }catch(err){
                   self.editedWidget.dev_id = ''
+                }
+                try{
+                  self.editedWidget.app_id = document.getElementById('w_app_id').value.replace(/\s+/g,'')
+                }catch(err){
+                  self.editedWidget.app_id = ''
                 }
                 try{
                   self.editedWidget.dev_auth_key=getAuthKey(self.editedWidget.dev_id)
