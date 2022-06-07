@@ -131,22 +131,18 @@
         }
         
         if(self.jsonData.length>0){
+            var tmpLat, tmpLon
             var latlngs =[]
             for(i=0; i<self.jsonData.length; i++){
                 if(lonFirst){
-                    latlngs.push(
-                        [
-                        parseFloat(self.jsonData[i][1]['value']),
-                        parseFloat(self.jsonData[i][0]['value'])
-                        ]
-                    )
+                    tmpLat=parseFloat(self.jsonData[i][1]['value'])
+                    tmpLon=parseFloat(self.jsonData[i][0]['value'])
                 }else{
-                    latlngs.push(
-                        [
-                        parseFloat(self.jsonData[i][0]['value']),
-                        parseFloat(self.jsonData[i][1]['value'])
-                        ]
-                    )
+                    tmpLat=parseFloat(self.jsonData[i][1]['value'])
+                    tmpLon=parseFloat(self.jsonData[i][0]['value'])
+                }
+                if(!(isNaN(tmpLat) || isNaN(tmpLon))){
+                    latlngs.push([tmpLat,tmpLon])
                 }
             }
             app.log(latlngs)
