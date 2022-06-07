@@ -144,8 +144,11 @@
                     tmpLat=parseFloat(self.jsonData[idx][i][0]['value']),
                     tmpLon=parseFloat(self.jsonData[idx][i][1]['value'])
                   }
-                  latlngs.push([tmpLat,tmpLon])
-                  self.allPoints.push([tmpLat,tmpLon])
+                  if(!(isNaN(tmpLat) || isNaN(tmpLon))){
+                      //latitude and longitude value is a number
+                      latlngs.push([tmpLat,tmpLon])
+                    self.allPoints.push([tmpLat,tmpLon])
+                  }
                 }catch(err){
                     //latitude or longitude value is not a number
                 }
