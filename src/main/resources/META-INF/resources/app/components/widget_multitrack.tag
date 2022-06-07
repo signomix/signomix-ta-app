@@ -135,16 +135,20 @@
             var latlngs =[]
             var polyline
             for(i=0; i<self.jsonData[idx].length; i++){
-                if(lonFirst){
+                try{
+                  if(lonFirst){
                     tmpLat=parseFloat(self.jsonData[idx][i][1]['value'])
                     tmpLon=parseFloat(self.jsonData[idx][i][0]['value'])
                     
-                }else{
+                  }else{
                     tmpLat=parseFloat(self.jsonData[idx][i][0]['value']),
                     tmpLon=parseFloat(self.jsonData[idx][i][1]['value'])
+                  }
+                  latlngs.push([tmpLat,tmpLon])
+                  self.allPoints.push([tmpLat,tmpLon])
+                }catch(err){
+                    //latitude or longitude value is not a number
                 }
-                latlngs.push([tmpLat,tmpLon])
-                self.allPoints.push([tmpLat,tmpLon])
             }
             app.log(latlngs)
             polyline = L.polyline(latlngs, {
