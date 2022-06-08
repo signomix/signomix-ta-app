@@ -848,7 +848,7 @@
             var result=false;
             var fields=[]
             switch(widgetType){
-                case 'text:
+                case 'text':
                     fields=[]
                     break
                 case 'raw':

@@ -1729,7 +1729,7 @@
             "en": "Downloading data",
             "it": "Download di dati",
             "fr": "Téléchargement de données",
-            "pl": "Pobiranie danych"
+            "pl": "Pobieranie danych"
         },
         "download_download": {
             "en": "Start download",
@@ -1738,10 +1738,16 @@
             "pl": "Rozpocznij pobieranie"
         },
         "download_comment": {
-            "en": "You will start downloading all data of the selected device currently stored in the database",
-            "it": "Inizierai a scaricare tutti i dati del dispositivo selezionato attualmente memorizzati nel database",
-            "fr": "Vous commencerez à télécharger toutes les données du périphérique sélectionné actuellement stockées dans la base de données",
-            "pl": "Rozpoczniesz pobieranie wszystkich danych wybranego urządzenia przechowywanych aktualnie w bazie danych"
+            "en": "Retrieving data received from the device and currently stored in the database.",
+            "it": "Retrieving data received from the device and currently stored in the database.",
+            "fr": "Retrieving data received from the device and currently stored in the database.",
+            "pl": "Pobieranie danych odebranych z urządzenia i przechowywanych aktualnie w bazie danych."
+        },
+        "download_comment2": {
+            "en": "Data filter (optional):",
+            "it": "Data filter (optional):",
+            "fr": "Data filter (optional):",
+            "pl": "Filtr danych (opcjonalnie):"
         },
         "download_open": {
             "en": "Open downloaded file",

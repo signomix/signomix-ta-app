@@ -177,10 +177,17 @@
                         <div if="{dataURL==''}">
                         <p><b>{ selectedForDownload }</b></p>
                         <p>{app.texts.mydevices.download_comment[app.language]} {downloadPercent}</p>
+                        <p>{app.texts.mydevices.download_comment2[app.language]} {downloadPercent}</p>
+                        <div class="form-group col-md-6">
+                        Od daty
+                        <input type="datetime-local" id="from_date" class="form-control" value={ '' }/>
+                        Do daty
+                        <input type="datetime-local" id="to_date" class="form-control" value={ '' }/>
+                        </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="{ download(null) }">{app.texts.mydevices.download_download[app.language]}</button>
+                        <button if="{dataURL==''} type="button" class="btn btn-primary" onclick="{ download(null) }">{app.texts.mydevices.download_download[app.language]}</button>
                         <button type="button" class="btn btn-secondary" onclick="{ dataURL='' }" data-dismiss="modal">{app.texts.mydevices.cancel[app.language]}</button>
                     </div>
                 </div>
@@ -189,6 +196,7 @@
         <script charset="UTF-8">
         var self = this
         self.devListener = riot.observable()
+        self.downloadListener = riot.observable()
         self.info = {}
         self.myDevices = []
         self.myGroups = []
@@ -237,6 +245,13 @@
             }
             riot.update()
         });
+
+        self.downloadListener.on('*', function (eventName) {
+            console.log('download event: '+eventName)
+            if('dataloaded'===eventName){
+
+            }
+        })
         
         selectDevices(){
             return function(e){
@@ -428,24 +443,42 @@
             if (oEvent.lengthComputable) {
             var percentComplete = oEvent.loaded / oEvent.total;
             self.downloadPercent=percentComplete+'%'
+            riot.update()
             } 
         }
         
         download(form){
             return function(e){
-                var query='query=channel%20*%20last%20*%20csv.timeseries'
+                var dt
+                var fromTs=document.getElementById('from_date').value
+                var toTs=document.getElementById('to_date').value
+                var query='query=channel *'    // 'query=channel%20*%20last%20*%20csv.timeseries'
+                if(fromTs!==''){
+                    dt=new Date(fromTs)
+                    fromTs=dt.toISOString()
+                    query=query+' from '+fromTs
+                }
+                if(toTs!==''){
+                    dt=new Date(toTs)
+                    toTs=dt.toISOString()
+                    query=query+' to '+toTs
+                }
+                if(from_date==='' && to_date===''){
+                    query=query+' last *'
+                }
+                query=query+' csv.timeseries' 
                 getData( 
                     app.iotAPI+'/'+self.selectedForDownload+'?'+query,
                     '',
                     app.user.token, 
                     self.handleFile, 
-                    null, //self.listener, 
+                    self.downloadListener, 
                     'submit:OK', 
                     'submit:ERROR', 
                     app.debug, 
                     null, //globalEvents
                     "text/csv",
-                    self.showProgress
+                    null //self.showProgress
                 )
             }    
             

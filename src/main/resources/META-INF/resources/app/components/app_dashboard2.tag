@@ -186,12 +186,12 @@
         try{
             self.filter.fromDate = document.getElementById('from_date').value
             if(self.filter.fromDate!==''){
-              dt=new Date(evalue)
+              dt=new Date(self.filter.fromDate)
               self.filter.fromDate=dt.toISOString()
             }
             self.filter.toDate = document.getElementById('to_date').value
             if(self.filter.toDate!==''){
-              dt=new Date(evalue)
+              dt=new Date(self.filter.fromDate)
               self.filter.toDate=dt.toISOString()
             }
             self.filter.project = document.getElementById('project').value
