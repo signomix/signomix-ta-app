@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type==='form' }>
+                        <div class="row" if={ isOnBasicTab('w_app_id',self.editedWidget.type) }>
                         <div class="form-group col-md-12">
                             <div class="input-field">
                                 <label for="w_app_id">{ app.texts.dashboard_form.f_widget_applicationid[app.language] }</label>
@@ -820,6 +820,17 @@
             }
         }
 
+        isOnBasicTab(fieldName, widgetType){
+            var result=false;
+            var fields=[]
+            if(widgetType.startsWith('form')){
+                fields=['w_app_id']
+            }
+            result=fields.indexOf(fieldName)>=0
+            console.log('isOnBasicTab '+fieldName+' '+widgetType+' '+result)
+            return result
+        }
+
         isOnExtendedTab(fieldName, widgetType){
             var result=false;
             var fields=[]
@@ -875,7 +886,7 @@
                 fields=['w_channel','w_query','channel_translated']
             }else
             if(widgetType.startsWith('form')){
-                fields=['w_channel','w_role','w_config','w_app_id']
+                fields=['w_channel','w_role','w_config']
             }else
             if('openweather'===widgetType){
                 fields=['w_channel','w_query','channel_translated']
