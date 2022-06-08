@@ -56,7 +56,7 @@
                         </li>
                     </ul>
                     <form if={activeTab==='basic'}>
-                        <div class="row">
+                        <div class="row" if={ isOnBasicTab('w_type',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <label for="w_type" class="active">{app.texts.dashboard_form.f_widget_type[app.language]}</label>
                             <select class="form-control" id="w_type" disabled={!allowEdit} onchange={changeType}>
@@ -84,7 +84,7 @@
                             </select>
                         </div>
                         </div>
-                        <div class="row">
+                        <div class="row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_name"
@@ -98,7 +98,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' }>
+                        <div class="row" if={ isOnBasicTab('w_title',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_title"
@@ -111,7 +111,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type!='text' && self.editedWidget.type!='report' && self.editedWidget.type!='multimap' && self.editedWidget.type!='multitrack' && self.editedWidget.type!='plan' }>
+                        <div class="row" if={ isOnBasicTab('w_dev_id',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <div class="input-field">
                                 <label for="w_dev_id">{ app.texts.dashboard_form.f_widget_deviceid[app.language] }</label>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="row" if={ self.editedWidget.type=='report' || self.editedWidget.type=='multimap' || self.editedWidget.type=='multitrack' || self.editedWidget.type=='plan'}>
+                        <div class="row" if={ isOnBasicTab('w_group',self.editedWidget.type) }>
                         <div class="form-group col-md-12">
                             <form_input 
                                 id="w_group"
@@ -146,7 +146,7 @@
                             ></form_input>
                         </div>
                         </div>
-                        <div class="row">
+                        <div class="row" if={ isOnBasicTab('w_width',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <label for="w_width" class="active">{app.texts.dashboard_form.f_widget_width[app.language]}</label>
                             <select class="form-control" id="w_width" disabled={!allowEdit}>
@@ -823,8 +823,21 @@
         isOnBasicTab(fieldName, widgetType){
             var result=false;
             var fields=[]
-            if(widgetType.startsWith('form')){
-                fields=['w_app_id']
+            switch(widgetType){
+                case 'report':
+                case 'multimap':
+                case 'multitrack':
+                case 'plan':
+                    fields=['w_mame','w_title','w_width','w_group']
+                    break
+                default:
+                    if(widgetType.startsWith('form') || widgetType.startsWith('custom')){
+                        fields=['w_mame','w_title','w_width','w_app_id','w_dev_id']
+                    }else if(widgetType==='text'){
+                        fields=['w_mame','w_title','w_width']
+                    }else{
+                        fields=['w_mame','w_title','w_width','w_dev_id']
+                    }
             }
             result=fields.indexOf(fieldName)>=0
             console.log('isOnBasicTab '+fieldName+' '+widgetType+' '+result)
@@ -834,65 +847,49 @@
         isOnExtendedTab(fieldName, widgetType){
             var result=false;
             var fields=[]
-            if('text'===widgetType){
-                fields=[]
-            }else
-            if('symbol'===widgetType){
-                fields=['w_channel','w_unit','w_rounding','w_query','w_range','w_icon']
-            }else
-            if('raw'===widgetType){
-                fields=['w_channel','w_format','w_query']
-            }else
-            if('chart'===widgetType){
-                fields=['w_channel','w_query','w_chartOption']
-            }else
-            if('stepped'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('bar'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('map'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('plan'===widgetType){
-                fields=['w_channel','w_query','w_range']
-            }else
-            if('date'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('led'===widgetType){
-                fields=['w_channel','w_query','w_range']
-            }else
-            if('report'===widgetType){
-                fields=['w_channel','w_query','channel_translated']
-            }else
-            if('multimap'===widgetType){
-                fields=['w_channel','w_query','channel_translated','w_range']
-            }else
-            if('multitrack'===widgetType){
-                fields=['w_channel','w_query','channel_translated','w_range']
-            }else
-            if('button'===widgetType){
-                fields=['w_data_type']
-            }else
-            if('stopwatch'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('time'===widgetType){
-                fields=['w_channel','w_query']
-            }else
-            if('devinfo'===widgetType){
-                fields=['w_channel','w_query','channel_translated']
-            }else
-            if(widgetType.startsWith('form')){
-                fields=['w_channel','w_role','w_config']
-            }else
-            if('openweather'===widgetType){
-                fields=['w_channel','w_query','channel_translated']
-            }else 
-            if(widgetType.startsWith('custom')){
-                fields=['w_channel','w_unit','w_rounding','w_query','w_config']
+            switch(widgetType){
+                case 'text:
+                    fields=[]
+                    break
+                case 'raw':
+                    fields=['w_channel','w_query','w_format']
+                    break
+                case 'stepped':
+                case 'bar':
+                case 'map':
+                case 'date':
+                case 'stopwatch':
+                case 'time':
+                    fields=['w_channel','w_query']
+                    break
+                case 'plan':
+                case 'led':
+                    fields=['w_channel','w_query','w_range']
+                    break
+                case 'report':
+                case 'devinfo':
+                case 'openweather':
+                    fields=['w_channel','w_query','channel_translated']
+                    break
+                case 'multimap':
+                case 'multitrack':
+                    fields=['w_channel','w_query','channel_translated','w_range']
+                    break
+                case 'button':
+                    fields=['w_data_type']
+                    break
+                case 'symbol':
+                    fields=['w_channel','w_query','w_unit','w_rounding','w_range','w_icon']
+                    break
+                case 'chart':
+                    fields=['w_channel','w_query','w_chartOption']
+                    break
+                default:
+                    if(widgetType.startsWith('form')){
+                        fields=['w_channel','w_role','w_config']
+                    }else if(widgetType.startsWith('custom')){
+                        fields=['w_channel','w_unit','w_rounding','w_query','w_config']
+                    }
             }
             result=fields.indexOf(fieldName)>=0
             console.log('isOnExtendedTab '+fieldName+' '+widgetType+' '+result)
