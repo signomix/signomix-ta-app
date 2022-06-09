@@ -210,17 +210,55 @@
 
     refresh(e){
         app.log('REFRESHING DATA')
+        var obj, id, eui
         Object.keys(self.refs).forEach(function(key,index) {
-            self.devices.push(self.dashboardConfig.widgets[index]['dev_id'])
-            self.applications.push(self.dashboardConfig.widgets[index]['app_id'])
             if(self.dashboardConfig.widgets.length>index 
-            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan')){
+            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
+            {
+                obj={}
+                eui=self.dashboardConfig.widgets[index]['dev_id']
+                if(eui!=='' && getDevIdx(eui)===-1){
+                    obj.name=eui
+                    obj.config=''
+                    self.devices.push(obj)
+                }
+                obj={}
+                id=self.dashboardConfig.widgets[index]['app_id']
+                if(!isNaN(id) && id!=='' && getAppIdx(id)===-1){
+                    obj.id=id
+                    obj.config=''
+                    self.applications.push(obj)
+                }
+            }
+        })
+        Object.keys(self.refs).forEach(function(key,index) {
+            if(self.dashboardConfig.widgets.length>index 
+            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
+            {
                 readDashboardData(self.dashboardConfig.widgets[index], updateWidget, 0, index);
             }
         })
+
         app.log(self.devices)
         app.log(self.applications)
         riot.update()
+    }
+
+    function getDevIdx(eui){
+        for(i=0;i<self.devices.length; i++){
+            if(eui===self.devices[i]['name']){
+                return i
+            }
+        }
+        return -1;
+    }
+    function getAppIdx(id){
+        for(i=0;i<self.applications.length; i++){
+            if(id===self.applications[i]['id']){
+                return i
+            }
+        }
+        return -1;
     }
 
     var readDashboardConfig = function(dashboardID, callback){
