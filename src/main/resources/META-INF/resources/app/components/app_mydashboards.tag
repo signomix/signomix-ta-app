@@ -92,6 +92,7 @@
                 self.refs.d_edit.init(self.listener, id, true, true)
             }
         }
+        
         editDefinition(id, allowEdit){
             return function(e){
                 e.preventDefault()

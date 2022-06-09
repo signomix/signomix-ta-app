@@ -138,6 +138,8 @@
         toDate:'',
         project:''
     }
+    self.devices=[]
+    self.applications=[]
     
     globalEvents.on('pageselected:dashboard',function(event){
         if(self.mounted){
@@ -209,12 +211,15 @@
     refresh(e){
         app.log('REFRESHING DATA')
         Object.keys(self.refs).forEach(function(key,index) {
-            app.log(key)
+            self.devices.push(self.dashboardConfig.widgets[index]['dev_id'])
+            self.applications.push(self.dashboardConfig.widgets[index]['app_id'])
             if(self.dashboardConfig.widgets.length>index 
             && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan')){
                 readDashboardData(self.dashboardConfig.widgets[index], updateWidget, 0, index);
             }
         })
+        app.log(self.devices)
+        app.log(self.applications)
         riot.update()
     }
 
@@ -292,6 +297,7 @@
         app.log('UPDATING '+tPos+' '+row+' '+col)
         Object.keys(self.refs).forEach(function(key,index) {
             if(index==col){
+                console.log()
                 self.refs[key].rawdata = d
                 self.refs[key].show2()
             }
