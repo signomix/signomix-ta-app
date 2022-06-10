@@ -256,24 +256,6 @@
         }
     }
 
-
-    function getDevIdx(eui){
-        for(i=0;i<self.devices.length; i++){
-            if(eui===self.devices[i]['name']){
-                return i
-            }
-        }
-        return -1;
-    }
-    function getAppIdx(id){
-        for(i=0;i<self.applications.length; i++){
-            if(id===self.applications[i]['id']){
-                return i
-            }
-        }
-        return -1;
-    }
-
     var readDashboardConfig = function(dashboardID, callback){
         app.log('READING DASHBOARD CONFIG for: '+dashboardID)
         if(!dashboardID){return}
