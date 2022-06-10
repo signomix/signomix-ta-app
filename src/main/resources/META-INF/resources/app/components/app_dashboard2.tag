@@ -140,7 +140,7 @@
     }
     self.devices=[]
     self.applications=[]
-    self.devConfings={}
+    self.devConfigs={}
     self.appConfigs={}
     
     globalEvents.on('pageselected:dashboard',function(event){
@@ -230,6 +230,8 @@
         app.log(self.devices)
         app.log(self.applications)
         reloadConfigs()
+        app.log(self.devConfigs)
+        app.log(self.appConfigs)
         Object.keys(self.refs).forEach(function(key,index) {
             if(self.dashboardConfig.widgets.length>index 
             && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
@@ -244,15 +246,11 @@
         var obj, id, eui
         for(i=0; i<self.devices.length; i++){
             eui=self.devices[i]
-            //TODO: getDevice
-            //obj={}//getDevice
-            //self.devConfings[eui]=obj.configuration
+            readDeviceProperties(eui,updateDevConfigs)
         }
         for(i=0; i<self.applications.length; i++){
             id=self.applications[i]
-            //TODO: getApplication
-            //obj={}//getApplication
-            //self.appConfings[''+id]=obj.configuration
+            readApplicationProperties(id,updateAppConfigs)
         }
     }
 
@@ -281,6 +279,42 @@
             app.debug,                                 //debug switch
             globalEvents                               //application's event listener
         )
+    }
+
+    var readDeviceProperties = function(eui, callback){
+        getData(
+            app.iotAPI + "/" + eui, //url
+            null,                                      //query
+            app.user.token,                            //session token
+            callback,                    //callback
+            null,                           //event listener
+            'OK',                                      //success event name
+            null,                                      //error event name
+            app.debug,                                 //debug switch
+            null                               //application's event listener
+        )
+    }
+    var readApplicationProperties = function(id, callback){
+        getData(
+            app.applicationAPI + "/" + id, //url
+            null,                                      //query
+            app.user.token,                            //session token
+            callback,                    //callback
+            null,                           //event listener
+            'OK',                                      //success event name
+            null,                                      //error event name
+            app.debug,                                 //debug switch
+            null                               //application's event listener
+        )
+    }
+
+    var updateDevConfigs = function(data){
+        var obj=JSON.parse(data)
+        self.devConfigs[''+obj.EUI]=obj.configuration
+    }
+    var updateAppConfigs = function(data){
+        var obj=JSON.parse(data)
+        self.appConfigs[''+obj.id]=obj.configuration
     }
 
     //callback function
@@ -332,6 +366,8 @@
             if(index==col){
                 console.log()
                 self.refs[key].rawdata = d
+                self.refs[key].devConfigs=self.devConfigs
+                self.refs[key].appConfigs=self.appConfigs
                 self.refs[key].show2()
             }
         })

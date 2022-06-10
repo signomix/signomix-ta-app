@@ -828,15 +828,15 @@
                 case 'multimap':
                 case 'multitrack':
                 case 'plan':
-                    fields=['w_type','w_mame','w_title','w_width','w_group']
+                    fields=['w_type','w_name','w_title','w_width','w_group']
                     break
                 default:
                     if(widgetType.startsWith('form') || widgetType.startsWith('custom')){
-                        fields=['w_type','w_mame','w_title','w_width','w_app_id','w_dev_id']
+                        fields=['w_type','w_name','w_title','w_width','w_app_id','w_dev_id']
                     }else if(widgetType==='text'){
-                        fields=['w_type','w_mame','w_title','w_width']
+                        fields=['w_type','w_name','w_title','w_width']
                     }else{
-                        fields=['w_type','w_mame','w_title','w_width','w_dev_id']
+                        fields=['w_type','w_name','w_title','w_width','w_dev_id']
                     }
             }
             result=fields.indexOf(fieldName)>=0

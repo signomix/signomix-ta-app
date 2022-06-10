@@ -23,6 +23,8 @@
         self.front = true
         self.rawdata = "[]"
         self.jsonData = []
+        self.devConfigs={}
+        self.appConfigs={}
         app.log('self.ref: '+self.ref)
         app.log(this.refs)
         self.canvasElement = this.refs[(self.ref)+'_canvas']
@@ -35,6 +37,7 @@
         })
 
         self.show2 = function(){
+            app.log('SHOW custom')
             self.jsonData = JSON.parse(this.rawdata)
             app.log(self.jsonData)
             if (self.jsonData.length == 0 || self.jsonData[0].length == 0){
@@ -57,7 +60,9 @@
 
         function drawDedicated(canvas,list,unitName, rounding){
             //put your code here and return true
-            app.log('drawCustom() is not used')
+            app.log('drawDedicated() is not used')
+            app.log(self.devConfigs)
+            app.log(self.appConfigs)
             return false;
         }
 
