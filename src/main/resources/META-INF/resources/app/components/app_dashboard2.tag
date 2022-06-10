@@ -140,6 +140,8 @@
     }
     self.devices=[]
     self.applications=[]
+    self.devConfings={}
+    self.appConfigs={}
     
     globalEvents.on('pageselected:dashboard',function(event){
         if(self.mounted){
@@ -210,27 +212,24 @@
 
     refresh(e){
         app.log('REFRESHING DATA')
-        var obj, id, eui
+        var id, eui
         Object.keys(self.refs).forEach(function(key,index) {
             if(self.dashboardConfig.widgets.length>index 
             && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
             {
-                obj={}
                 eui=self.dashboardConfig.widgets[index]['dev_id']
-                if(eui!=='' && getDevIdx(eui)===-1){
-                    obj.name=eui
-                    obj.config=''
-                    self.devices.push(obj)
+                if(eui!=='' && !self.devices.includes(eui)){
+                    self.devices.push(eui)
                 }
-                obj={}
                 id=self.dashboardConfig.widgets[index]['app_id']
-                if(!isNaN(id) && id!=='' && getAppIdx(id)===-1){
-                    obj.id=id
-                    obj.config=''
-                    self.applications.push(obj)
+                if(!isNaN(id) && id!=='' && !self.applications.includes(id)){
+                    self.applications.push(id)
                 }
             }
         })
+        app.log(self.devices)
+        app.log(self.applications)
+        reloadConfigs()
         Object.keys(self.refs).forEach(function(key,index) {
             if(self.dashboardConfig.widgets.length>index 
             && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
@@ -238,11 +237,25 @@
                 readDashboardData(self.dashboardConfig.widgets[index], updateWidget, 0, index);
             }
         })
-
-        app.log(self.devices)
-        app.log(self.applications)
         riot.update()
     }
+
+    function reloadConfigs(){
+        var obj, id, eui
+        for(i=0; i<self.devices.length; i++){
+            eui=self.devices[i]
+            //TODO: getDevice
+            //obj={}//getDevice
+            //self.devConfings[eui]=obj.configuration
+        }
+        for(i=0; i<self.applications.length; i++){
+            id=self.applications[i]
+            //TODO: getApplication
+            //obj={}//getApplication
+            //self.appConfings[''+id]=obj.configuration
+        }
+    }
+
 
     function getDevIdx(eui){
         for(i=0;i<self.devices.length; i++){
