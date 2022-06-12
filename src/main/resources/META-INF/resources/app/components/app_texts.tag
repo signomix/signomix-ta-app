@@ -1546,7 +1546,20 @@
             "it": "Go to the start page.",
             "fr": "Go to the start page.",
             "pl": "Przejdź do strony startowej"
+        },
+        "outdated": {
+            "en": "It looks like your browser has not downloaded the latest version of the application. Refresh the application by clicking the button below.",
+            "it": "It looks like your browser has not downloaded the latest version of the application. Refresh the application by clicking the button below.",
+            "fr": "It looks like your browser has not downloaded the latest version of the application. Refresh the application by clicking the button below.",
+            "pl": "Wygląda na to, że Twoja przeglądarka nie pobrała najnowszej wersji aplikacji. Odświerz aplikację klikając przycisk poniżej."
+        },
+        "reload_page": {
+            "en": "Reload the page",
+            "it": "Reload the page",
+            "fr": "Reload the page",
+            "pl": "Przeładuj stronę"
         }
+
     }
         
     app.texts.mydashboards = {

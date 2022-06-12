@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.signomix</groupId>
   <artifactId>signomix-ta-app</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -122,6 +122,8 @@
           <ignoreMissingFile>false</ignoreMissingFile>
           <includes>
             <include>target/classes/application.properties</include>
+            <include>target/classes/app/index.html</include>
+            <include>target/classes/app/embed.html</include>
             <include>target/classes/META-INF/resources/index.html</include>
             <include>target/classes/META-INF/resources/navigation.json</include>
             <include>target/classes/META-INF/resources/blog/index.html</include>

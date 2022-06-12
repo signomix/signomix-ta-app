@@ -1,4 +1,14 @@
 <app_main>
+    <div class="row" if={ !(self.release_on_server===''||self.release_on_server===null || app.release===self.release_on_server) }>
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+            <form onsubmit="{self.reloadPage}">
+                <p>{ app.texts.main.outdated[app.language] }</p>
+                <button type="submit" class="btn btn-primary" >{ app.texts.main.reload_page[app.language] }</button>
+            </form>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <cs_article class="container" ref="homeart" path='/home' language={ app.language }></cs_article>
@@ -19,6 +29,8 @@
     <script charset="UTF-8">
         var self = this;
         self.refs=[]
+        self.release_on_server=''
+
         this.on('unmount',function(){
             Object.keys(self.refs).forEach(function(key) {
                 self.refs[key].unmount()
@@ -26,6 +38,7 @@
             self.refs=[]
         })
         this.on('mount',function(){
+            readRelease()
             self.loadDocuments()
         })
         globalEvents.on('language',function(){
@@ -42,6 +55,29 @@
                 app.log(address)
                 document.location = address
             }
+        }
+        self.reloadPage =function(e){
+            e.preventDefault()
+            window.location.reload(true)
+        }
+        var readRelease = function () {
+            getData("/api/app/config?param=release",  // url
+                    null,                // query
+                    null,      // token
+                    notifyMe,        // callback
+                    null,       // event listener
+                    'OK',                // success event name
+                    null,                // error event name
+                    app.debug,           // debug switch
+                    null         // application event listener
+                    );
+        }
+        var notifyMe = function (text) {
+            self.release_on_server = text
+            console.log(app.release)
+            console.log(self.release_on_server)
+            console.log(!(self.release_on_server===''||self.release_on_server===null || app.release===self.release_on_server))
+            riot.update();
         }
         
     </script>
