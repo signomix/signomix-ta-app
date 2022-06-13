@@ -1,5 +1,5 @@
 <app_main>
-    <div class="row" if={ !(self.release_on_server===''||self.release_on_server===null || app.release===self.release_on_server) }>
+    <div class="row" if={ isUpdateRequired() }>
         <div class="col-md-12">
             <div class="alert alert-danger" role="alert">
             <form onsubmit="{self.reloadPage}">
@@ -60,11 +60,15 @@
             e.preventDefault()
             window.location.reload(true)
         }
+        self.isUpdateRequired = function(){
+            var result=!(self.release_on_server===''||self.release_on_server===null || app.release===self.release_on_server)
+            return result
+        }
         var readRelease = function () {
             getData("/api/app/config?param=release",  // url
                     null,                // query
                     null,      // token
-                    notifyMe,        // callback
+                    updateRelease,        // callback
                     null,       // event listener
                     'OK',                // success event name
                     null,                // error event name
@@ -72,11 +76,8 @@
                     null         // application event listener
                     );
         }
-        var notifyMe = function (text) {
+        var updateRelease = function (text) {
             self.release_on_server = text
-            console.log(app.release)
-            console.log(self.release_on_server)
-            console.log(!(self.release_on_server===''||self.release_on_server===null || app.release===self.release_on_server))
             riot.update();
         }
         
