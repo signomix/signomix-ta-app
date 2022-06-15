@@ -5,6 +5,8 @@
 route(function (id) {
     app.log('PAGE ID=' + id)
     switch (id) {
+        case "close":
+            break;
         case "dashboard":
             app.currentPage = "dashboard";
             globalEvents.trigger('pageselected:dashboard');
@@ -53,6 +55,9 @@ route(function (id) {
             break;
         case "register":
             app.currentPage = "register";
+            break;
+        case "rwt":
+            app.currentPage = "recoverWithToken";
             break;
         case "subscribe":
             app.currentPage = "subscribe";

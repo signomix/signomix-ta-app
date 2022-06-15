@@ -167,11 +167,11 @@
     function getTrackColor(trackId){
         switch(trackId){
             case 0:
-            return 'red'
+            return 'green'
             case 1:
-            return 'lime'
-            case 2:
             return 'blue'
+            case 2:
+            return 'lime'
             case 3:
             return 'yellow'
             case 4:

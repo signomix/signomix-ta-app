@@ -121,7 +121,6 @@
         
         try{
             self.marker=L.marker([self.lat, self.lon])
-            //self.marker.setLatLng([self.lat, self.lon])
             self.marker.setPopupContent(self.lat+','+self.lon)
             self.marker.addTo(self.map);//.bindPopup(self.lat+','+self.lon)
         }catch(err){
