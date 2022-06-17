@@ -1,8 +1,20 @@
 <widget_multimap>
+<!--
     <div id={ref} class="card widget topspacing p-0">
         <div class="card-header h6 text-left p-1">{title}<span class="float-right">&#x2699;</span></div>
         <div class="card-body p-0 m-0" style={ heightStr } id={ref+'_m'}>
 { app.texts.widget_map.nodata[app.language] }
+        </div>
+    </div>
+-->
+    <div id={ref} class="container bg-white border border-info rounded topspacing p-0">
+        <div class="row px-3 pt-1 pb-0">
+            <div class="col-12 text-center {app.wt_color||'text-white'} sgx-wt"><span class="text-body">{title.length>0?('&nbsp;'+title+'&nbsp;'):''}</span></div>
+        </div>    
+        <div class="row px-3 py-1">
+                <div class="col-12"><div style={ heightStr } id={ ref+'_m' }>
+{ app.texts.widget_map.nodata[app.language] }
+        </div></div>
         </div>
     </div>
     <script>
@@ -296,7 +308,7 @@
                     fillColor: self.getMarkerColor(self.jsonData[j][0],calcAlert),
                     fillOpacity: 0.3
                 })
-                .bindPopup(self.getDescription(self.jsonData[j][0]))
+                .bindPopup(self.getDescription(self.jsonData[j][0]),{closeButton:false})
                 .addTo(map)
                 markerList.push(marker)
             }else{

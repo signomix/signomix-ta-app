@@ -81,7 +81,7 @@
         }
         let i=0
         while(i<self.jsonData.length){
-            if(self.jsonData[i]==null || self.jsonData[i].length<2 || self.jsonData[i][0]==null || self.jsonData[i][1]==null 
+            if(self.jsonData[i]==null || self.jsonData[i].length==0 || self.jsonData[i][0]==null || self.jsonData[i][0]==null 
                     || (self.jsonData[i][0]['value']==0.0 && self.jsonData[i][1]['value']==0.0)){
                 self.jsonData.splice(i,1)
             }else{
@@ -115,7 +115,7 @@
         }
         self.measureDate = new Date(self.jsonData[idx][self.jsonData[idx].length-1][0]['timestamp']).toLocaleString(getSelectedLocale())
         if(self.lat==self.prevLat && self.lon==self.prevLon){
-            return
+            //return
         }
         self.prevLat=self.lat
         self.prevLon=self.lon
@@ -156,7 +156,14 @@
             app.log(latlngs)
             polyline = L.polyline(latlngs, {
                 color: getTrackColor(idx)
-            }).addTo(self.map);
+            }).on('mouseover', function(e) {
+                e.target.bringToFront();
+                e.target.setStyle({color: 'red'}); 
+            }).on('mouseout', function(e) {
+                e.target.setStyle({color: polyline._color}); 
+            })
+            polyline._color=getTrackColor(idx)
+            polyline.addTo(self.map);
             // zoom the map to the polyline
             //self.map.fitBounds(polyline.getBounds());
         }
@@ -167,37 +174,51 @@
     function getTrackColor(trackId){
         switch(trackId){
             case 0:
-            return 'green'
+            return '#0095FF'
             case 1:
-            return 'blue'
+            return '#FF00AA'
             case 2:
-            return 'lime'
+            return '#FFD400'
             case 3:
-            return 'yellow'
+            return '#6AFF00'
             case 4:
-            return 'cyan'
+            return '#0040FF'
             case 5:
-            return 'magenta'
+            return '#FFFF00'
             case 6:
-            return 'silver'
+            return '#00EAFF'
             case 7:
-            return 'gray'
+            return '#AA00FF'
             case 8:
-            return 'maroon'
+            return '#FF7F00'
             case 9:
-            return 'olive'
+            return '#BFFF00'
             case 10:
-            return 'green'
+            return '#EDB9B9'
             case 11:
-            return 'purple'
+            return '#B9D7ED'
             case 12:
-            return 'teal'
+            return '#E7E9B9'
             case 13:
-            return 'navy'
+            return '#DCB9ED'
             case 14:
-            return 'black'
+            return '#B9EDE0'
             case 15:
-            return 'white'
+            return '#8F2323'
+            case 16:
+            return '#23628F'
+            case 17:
+            return '#8F6A23'
+            case 18:
+            return '#6B238F'
+            case 19:
+            return '#4F8F23'
+            case 20:
+            return '#000000'
+            case 21:
+            return '#737373'
+            case 22:
+            return '#CCCCCC'
             default:
             return 'black'
         }
