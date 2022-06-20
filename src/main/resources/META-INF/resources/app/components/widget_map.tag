@@ -146,7 +146,7 @@
             }
             app.log(latlngs)
             self.polyline = L.polyline(latlngs, {
-                color: 'red'
+                color: '#0095FF'
             }).addTo(self.map);
             // zoom the map to the polyline
             self.map.fitBounds(self.polyline.getBounds());

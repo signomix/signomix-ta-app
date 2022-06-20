@@ -176,48 +176,44 @@
             case 0:
             return '#0095FF'
             case 1:
-            return '#FF00AA'
-            case 2:
             return '#FFD400'
-            case 3:
+            case 2:
             return '#6AFF00'
-            case 4:
+            case 3:
             return '#0040FF'
-            case 5:
+            case 4:
             return '#FFFF00'
-            case 6:
+            case 5:
             return '#00EAFF'
-            case 7:
-            return '#AA00FF'
-            case 8:
+            case 6:
             return '#FF7F00'
-            case 9:
+            case 7:
             return '#BFFF00'
-            case 10:
+            case 8:
             return '#EDB9B9'
-            case 11:
+            case 9:
             return '#B9D7ED'
-            case 12:
+            case 10:
             return '#E7E9B9'
-            case 13:
+            case 11:
             return '#DCB9ED'
-            case 14:
+            case 12:
             return '#B9EDE0'
-            case 15:
+            case 13:
             return '#8F2323'
-            case 16:
+            case 14:
             return '#23628F'
-            case 17:
+            case 15:
             return '#8F6A23'
-            case 18:
+            case 16:
             return '#6B238F'
-            case 19:
+            case 17:
             return '#4F8F23'
-            case 20:
+            case 18:
             return '#000000'
-            case 21:
+            case 19:
             return '#737373'
-            case 22:
+            case 20:
             return '#CCCCCC'
             default:
             return 'black'
