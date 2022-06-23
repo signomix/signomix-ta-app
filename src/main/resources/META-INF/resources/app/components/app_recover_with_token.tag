@@ -165,7 +165,7 @@
         formData.accept = e.target.elements['accept'].value
         self.registeredEmail = formData.email
         console.log(formData)
-        self.errorCodet=self.validate(formData)
+        self.errorCodet=self.validate(formData,e.target)
         if ( self.errorCode== 0) {
             //send
             app.log(JSON.stringify(formData))
@@ -173,8 +173,8 @@
             sendData(
                 formData,
                 'PUT',
-                app.userAPI+app.user.name,
-                null,
+                app.userAPI+'/'+app.user.name,
+                app.user.token,
                 self.close,
                 self.listener, 
                 'submit:OK',
@@ -190,12 +190,12 @@
         riot.update()
     }
 
-    self.validate = function (form) {
+    self.validate = function (formToSend, form) {
         app.log('validating ...')
-        if (form.password != e.target.elements['password2_input'].value) {
+        if (formToSend.password != form.elements['password2_input'].value) {
             return 1;
         }
-        if (form.email != e.target.elements['email2_input'].value) {
+        if (formToSend.email != form.elements['email2_input'].value) {
             return 2;
         }
         return 0
