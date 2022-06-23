@@ -73,7 +73,7 @@
                 pattern="(?=^.\{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
                 oninvalid={ app.texts.register.l_passwordHint[app.language] }
                 />
-                    </div>
+                </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">{ app.texts.user_form.preferredLanguage[app.language] }</label>
                 </div>
@@ -131,8 +131,8 @@
         formData.email = e.target.elements['email_input'].value
         formData.name = e.target.elements['name_input'].value
         formData.surname = e.target.elements['surname_input'].value
-        formData.preferredLanguage = e.target.elements['preferredLanguage_input'].value
-        formData.accept = e.target.elements['accept_input'].value
+        formData.preferredLanguage = e.target.elements['preferredLanguage'].value
+        formData.accept = e.target.elements['accept'].value
         self.registeredEmail = formData.email
         if (self.validate(formData,e.target.elements['password2_input'].value) == 0) {
             //send

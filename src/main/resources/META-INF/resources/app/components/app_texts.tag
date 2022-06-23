@@ -2432,7 +2432,57 @@
                 "pl": "Prefiks numeru tel."
             }
         }
-    
+
+    app.texts.rwt = {
+            "title": {
+                "en": "Account Activation",
+                "pl": "Aktywacja konta"
+            },
+            "login": {
+                "en": "Login",
+                "pl": "Login"
+            },
+            "password": {
+                "en": "Password",
+                "pl": "Hasło"
+            },
+            "password2": {
+                "en": "Retype password",
+                "pl": "Powtórz hasło"
+            },
+            "email": {
+                "en": "e-mail address",
+                "pl": "Adres e-mail"
+            },
+            "email2": {
+                "en": "Retype e-mail",
+                "pl": "Powtórz adres e-mail"
+            },
+            "name": {
+                "en": "Name",
+                "pl": "Imię"
+            },
+            "surname": {
+                "en": "Surname",
+                "pl": "Nazwisko"
+            },
+            "language": {
+                "en": "Preferred language",
+                "pl": "Preferowany język"
+            },
+            "l_alertName": {
+                "en": "A user with this login cannot be registered",
+                "pl": "Użytkownik z tym loginem nie może być zarejestrowany"
+            },
+            "l_alertPassword": {
+                "en": "Passwords are not identical",
+                "pl": "Hasła nie są identyczne"
+            },
+            "l_alertEmail": {
+                "en": "Email addresses are not identical",
+                "pl": "Adresy e-mail nie są identyczne"
+            }
+    }
     riot.update()
     </script>
 </app_texts>
