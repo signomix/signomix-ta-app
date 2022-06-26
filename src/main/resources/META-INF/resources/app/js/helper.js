@@ -16,6 +16,7 @@
 // example 2: "<-10>40:<0>30"
 // example 3: "<-10>40:<0>30@measureName"
 // example 3: "<-10>40:<0>30@measureName#maxDelay"
+// example 4: "x<-10>40:x<0>30:2m"
 function getAlertLevel(definition, value, tstamp) {
     if (definition == '' || definition == undefined) {
         return -1
@@ -41,11 +42,19 @@ function getAlertLevel(definition, value, tstamp) {
     let defs = def.split(":");
     let alertDef = defs[0];
     let warningDef = "";
+    let notRespondingDef = "";
     if (defs.length > 1) {
         warningDef = defs[1];
     }
+    if (defs.length > 2) {
+        notRespondingDef = defs[2];
+    }
     let alertRule = getAlertRule(alertDef);
     let warningRule = getAlertRule(warningDef);
+    let notRespondingRule = getNotRespondingRule(notRespondingDef);
+    if(isNotResponding(notRespondingRule,tstamp)){
+        return 3;
+    }
     if (isRuleMet(alertRule, value)) {
         return 2;
     }
@@ -53,6 +62,11 @@ function getAlertLevel(definition, value, tstamp) {
         return 1;
     }
     return 0;
+}
+
+function isNotResponding(rule, tstamp) {
+    let currentTime = Date.now()
+    return (Date.now()-tstamp)>rule.value1
 }
 
 function isRuleMet(rule, value) {
@@ -74,6 +88,31 @@ function isRuleMet(rule, value) {
         }
     }
     return false;
+}
+
+function getNotRespondingRule(definition){
+    let rule = {
+        varName: null,
+        comparator1: 0,
+        value1: NaN,
+        comparator2: 0,
+        value2: NaN
+    }
+    let defStr=definition.trim()
+    let timeUnit=defStr.charAt(definition.length-1)
+    let multiplier = 1
+    if (timeUnit==='m'){
+        multiplier = 60
+    }else if(timeUnit==='s'){
+        multiplier = 1
+    }else{
+        return rule
+    }
+    try{
+        // value1 holds delay in milliseconds
+        rule.value1=1000* multiplier * defStr.substring(0,defStr.length-2)
+    }catch(err){}
+    return rule
 }
 
 function getAlertRule(definition) {
