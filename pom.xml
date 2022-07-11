@@ -84,24 +84,43 @@
         <version>3.2.0</version>
         <executions>
           <execution>
-              <id>copy-resources</id>
-              <phase>package</phase>
-              <goals>
-                  <goal>copy-resources</goal>
-              </goals>
-              <configuration>
-                  <outputDirectory>${basedir}/target/classes/META-INF/resources/app/components</outputDirectory>
-                  <resources>
-                      <resource>
-                          <directory>${basedir}/target/classes/META-INF/resources/app/local_components</directory>
-                          <excludes>
-                            <exclude>README.txt</exclude>
-                          </excludes>
-                      </resource>
-                  </resources>
-              </configuration>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/app</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/target/classes/app_local</directory>
+                  <includes>
+                    <include>index.html</include>
+                    <include>embed.html</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
           </execution>
-      </executions>
+          <execution>
+            <id>copy-resources2</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/META-INF/resources/app/components</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/target/classes/META-INF/resources/app/local_components</directory>
+                  <excludes>
+                    <exclude>README.txt</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>

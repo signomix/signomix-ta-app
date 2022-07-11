@@ -17,4 +17,4 @@
     }
     riot.update()
     </script>
-</app_texts>
+</app_texts_local>

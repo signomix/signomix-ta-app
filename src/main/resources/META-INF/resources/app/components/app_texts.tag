@@ -14,6 +14,12 @@
             "pl": "Anuluj",
             "fr": "Cancel"
         },
+        "close": {
+            "en": "Close",
+            "it": "Close",
+            "fr": "Close",
+            "pl": "Zamknij"
+        },
         "clear": {
             "en": "Clear",
             "it": "Clear",
@@ -1751,10 +1757,10 @@
             "pl": "Rozpocznij pobieranie"
         },
         "download_comment": {
-            "en": "Retrieving data received from the device and currently stored in the database.",
-            "it": "Retrieving data received from the device and currently stored in the database.",
-            "fr": "Retrieving data received from the device and currently stored in the database.",
-            "pl": "Pobieranie danych odebranych z urządzenia i przechowywanych aktualnie w bazie danych."
+            "en": "Retrieving data received from the device, stored in the database.",
+            "it": "Retrieving data received from the device, stored in the database.",
+            "fr": "Retrieving data received from the device, stored in the database.",
+            "pl": "Pobieranie danych odebranych z urządzenia, przechowywanych w bazie danych."
         },
         "download_comment2": {
             "en": "Data filter (optional):",

@@ -49,7 +49,7 @@
                         <td>{device.type}</td>
                         <td><img height="16px" style="margin-right: 10px;" src={ getStatus(device.lastSeen, device.transmissionInterval) }></td>
                         <td class="text-right">
-                            <i class="material-icons clickable" onclick="{ selectForDownload(device.EUI) }" title="DOWNLOAD DATA" data-toggle="modal" data-target="#downloadModal">cloud_download</i>
+                            <i class="material-icons clickable" onclick="{ selectForDownload(device.EUI, device.name) }" title="DOWNLOAD DATA" data-toggle="modal" data-target="#downloadModal">cloud_download</i>
                             <i class="material-icons clickable" onclick={ editDevice(device.EUI, false) } title="VIEW">open_in_browser</i>
                             <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ editDevice(device.EUI, true) } title="MODIFY">mode_edit</i>
                             <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ selectForRemove(device.EUI) } title="REMOVE" data-toggle="modal" data-target="#myModal">delete</i>
@@ -166,29 +166,31 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">{app.texts.mydevices.download_title[app.language]}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label={app.texts.mydevices.cancel[app.language]}>
+                        <button disabled type="button" class="close" data-dismiss="modal" aria-label={app.texts.mydevices.cancel[app.language]}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div>
+                            <p><b>{ selectedForDownloadName }</b><br>EUI: { selectedForDownload }</p>
+                        </div>
                         <div if="{dataURL!=''}">
                             <a href="{dataURL}">{app.texts.mydevices.download_open[app.language]}</a>
                         </div>
-                        <div if="{dataURL==''}">
-                        <p><b>{ selectedForDownload }</b></p>
-                        <p>{app.texts.mydevices.download_comment[app.language]} {downloadPercent}</p>
-                        <p>{app.texts.mydevices.download_comment2[app.language]} {downloadPercent}</p>
-                        <div class="form-group col-md-6">
-                        Od daty
-                        <input type="datetime-local" id="from_date" class="form-control" value={ '' }/>
-                        Do daty
-                        <input type="datetime-local" id="to_date" class="form-control" value={ '' }/>
-                        </div>
+                        <div if="{downloadStarted==false}">
+                            <p>{app.texts.mydevices.download_comment[app.language]} <span if="{downloadPercent!=''}">({downloadPercent})</span></p>
+                            <p>{app.texts.mydevices.download_comment2[app.language]} </p>
+                            <div class="form-group col-md-6">
+                            Od daty
+                            <input type="datetime-local" id="from_date" class="form-control" value={ '' }/>
+                            Do daty
+                            <input type="datetime-local" id="to_date" class="form-control" value={ '' }/>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button if="{dataURL==''} type="button" class="btn btn-primary" onclick="{ download(null) }">{app.texts.mydevices.download_download[app.language]}</button>
-                        <button type="button" class="btn btn-secondary" onclick="{ dataURL='' }" data-dismiss="modal">{app.texts.mydevices.cancel[app.language]}</button>
+                        <button if="{!downloadStarted}" disabled="{downloadStarted}" type="button" class="btn btn-primary" onclick="{ download(null) }">{app.texts.mydevices.download_download[app.language]}</button>
+                        <button type="button" class="btn btn-secondary" onclick="{ closeDownload() }" data-dismiss="modal">{app.texts.common.close[app.language]}</button>
                     </div>
                 </div>
             </div>
@@ -197,6 +199,7 @@
         var self = this
         self.devListener = riot.observable()
         self.downloadListener = riot.observable()
+        self.progressListener = riot.observable()
         self.info = {}
         self.myDevices = []
         self.myGroups = []
@@ -208,11 +211,14 @@
         self.selectedGroupForRemove = ''
         self.selectedApplicationForRemove = ''
         self.selectedForDownload=''
+        self.selectedForDownloadName=''
         self.downloadPercent=''
         //self.edited = false
         self.now = Date.now()
         self.activeTab = 'devices'
         self.dataURL = ''
+        self.downloadStarted=false
+        self.downloadComplete=false
         
         this.on('mount',function(){
             self.selected = ''
@@ -248,9 +254,19 @@
 
         self.downloadListener.on('*', function (eventName) {
             console.log('download event: '+eventName)
-            if('dataloaded'===eventName){
-
+            if('dataloaded'==eventName){
+                self.downloadComplete=true
             }
+        })
+
+        self.progressListener.on('*', function (eventName) {
+            console.log('progressListener: '+eventName)
+            console.log(eventName)
+            //if (oEvent.lengthComputable) {
+            //var percentComplete = (oEvent.loaded / oEvent.total)*100;
+            //self.downloadPercent=percentComplete+'%'
+            riot.update()
+            //} 
         })
         
         selectDevices(){
@@ -336,11 +352,15 @@
             }
         }
         
-        selectForDownload(devEUI){
+        selectForDownload(devEUI,devName){
             return function(e){
                 e.preventDefault()
                 self.selectedForDownload=devEUI
+                self.selectedForDownloadName=devName
+                console.log('selectedForDownload:'+self.selectedForDownload)
                 self.downloadPercent=''
+                self.downloadStarted=false
+                self.dataURL=''
                 riot.update()
             }
         }
@@ -435,16 +455,36 @@
 
         
         self.handleFile=function(resp){
+            console.log('handleFile: '+resp)
+            console.log(resp)
             self.dataURL=URL.createObjectURL(resp)
-            self.selectedForDownload=''
             riot.update()
         }
         self.showProgress=function(oEvent){
+            console.log('showProgress: '+oEvent)
+            console.log(oEvent)
             if (oEvent.lengthComputable) {
-            var percentComplete = oEvent.loaded / oEvent.total;
+            var percentComplete = (oEvent.loaded / oEvent.total)*100;
             self.downloadPercent=percentComplete+'%'
             riot.update()
             } 
+        }
+        self.showProgress2=function(oEvent){
+            console.log('showProgress2: '+oEvent)
+            console.log(oEvent)
+            if (oEvent.lengthComputable) {
+            var percentComplete = (oEvent.loaded / oEvent.total)*100;
+            self.downloadPercent=percentComplete+'%'
+            riot.update()
+            } 
+        }
+
+        closeDownload(){
+            //self.dataURL=''
+            //self.downloadStarted=false;
+            //self.downloadPercent=''
+            //self.selectedForDownload=''
+            //self.selectedForDownloadName=''
         }
         
         download(form){
@@ -456,16 +496,20 @@
                 if(fromTs!==''){
                     dt=new Date(fromTs)
                     fromTs=dt.toISOString()
-                    query=query+' from '+fromTs
                 }
                 if(toTs!==''){
                     dt=new Date(toTs)
-                    toTs=dt.toISOString()
-                    query=query+' to '+toTs
+                }else{
+                    dt=new Date()
                 }
-                if(from_date==='' && to_date===''){
+                toTs=dt.toISOString()
+                if(from_date===''){
                     query=query+' last *'
+                }else{
+                    query=query+' from '+fromTs+' to '+toTs
                 }
+                self.downloadStarted=true
+                //TODO: toTs=now
                 query=query+' csv.timeseries' 
                 getData( 
                     app.iotAPI+'/'+self.selectedForDownload+'?'+query,
@@ -476,9 +520,9 @@
                     'submit:OK', 
                     'submit:ERROR', 
                     app.debug, 
-                    null, //globalEvents
+                    self.progressListener, //globalEvents
                     "text/csv",
-                    null //self.showProgress
+                    self.showProgress
                 )
             }    
             
