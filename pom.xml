@@ -91,6 +91,7 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/target/classes/app</outputDirectory>
+              <overwrite>true</overwrite>
               <resources>
                 <resource>
                   <directory>${basedir}/target/classes/app_local</directory>
@@ -110,6 +111,7 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/target/classes/META-INF/resources/app/components</outputDirectory>
+              <overwrite>true</overwrite>
               <resources>
                 <resource>
                   <directory>${basedir}/target/classes/META-INF/resources/app/local_components</directory>
