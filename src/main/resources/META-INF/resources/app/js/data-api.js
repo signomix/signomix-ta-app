@@ -11,7 +11,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
         app.requests--;
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            if(eventBus!=null) eventBus.trigger("data:"+this.status);
+            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -20,7 +20,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
         app.log('ONLOADEND'+this.status);
         app.requests--;
         if (eventBus != null) {
-            if(eventBus!=null) eventBus.trigger("dataloaded");
+            if(eventBus!=null) try{eventBus.trigger("dataloaded");}catch(err){}
         }
         if(appEventBus!=null){
             appEventBus.trigger("dataloaded");
@@ -30,7 +30,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
         app.log('ONABORT'+this.status);
         app.requests--;
         if (appEventBus == null) {
-            if(eventBus!=null) eventBus.trigger("data:"+this.status);
+            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -39,7 +39,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
         app.log('ONTIMEOUT'+this.status);
         app.requests--;
         if (appEventBus == null) {
-            if(eventBus!=null) eventBus.trigger("data:"+this.status);
+            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -50,7 +50,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
                 if (callback != null) {
                     callback(oReq.response);
                 } else {
-                    if(eventBus!=null) eventBus.trigger(successEventName);
+                    if(eventBus!=null) try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -60,7 +60,7 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    if(eventBus!=null) eventBus.trigger(tmpErrName);
+                    if(eventBus!=null) try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -95,7 +95,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
         app.requests--;
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            eventBus.trigger("data:"+this.status);
+            try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -114,7 +114,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
         app.log('ONABORT'+this.status);
         app.requests--;
         if (appEventBus == null) {
-            eventBus.trigger("data:"+this.status);
+            try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -123,7 +123,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
         app.log('ONTIMEOUT'+this.status);
         app.requests--;
         if (appEventBus == null) {
-            eventBus.trigger("data:"+this.status);
+            try{eventBus.trigger("data:"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("data:"+this.status);
         }
@@ -138,7 +138,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
                         callback(oReq.response)
                     }
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -148,7 +148,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    eventBus.trigger(tmpErrName);
+                    try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -184,7 +184,7 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            eventBus.trigger("auth"+this.status);
+            try{eventBus.trigger("auth"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("auth"+this.status);
         }
@@ -197,7 +197,7 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -207,7 +207,7 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    eventBus.trigger(tmpErrName);
+                    try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -252,14 +252,14 @@ function sendData(data, method, url, token, callback, eventBus, successEventName
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 app.log("onreadystatechange")
                     if (errorEventName == null) {
-                        eventBus.trigger(defaultErrorEventName + this.status);
+                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
                     } else {
-                        eventBus.trigger(errorEventName);
+                        try{eventBus.trigger(errorEventName);}catch(err){}
                     }
             }
         }
@@ -299,14 +299,14 @@ function sendIotData(data, method, url, eui, authKey, callback, eventBus, succes
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 app.log("onreadystatechange")
                     if (errorEventName == null) {
-                        eventBus.trigger(defaultErrorEventName + this.status);
+                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
                     } else {
-                        eventBus.trigger(errorEventName);
+                        try{eventBus.trigger(errorEventName);}catch(err){}
                     }
             }
         }
@@ -342,14 +342,14 @@ function sendTextData(data, method, url, token, callback, eventBus, successEvent
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 app.log("onreadystatechange")
                     if (errorEventName == null) {
-                        eventBus.trigger(defaultErrorEventName + this.status);
+                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
                     } else {
-                        eventBus.trigger(errorEventName);
+                        try{eventBus.trigger(errorEventName);}catch(err){}
                     }
             }
         }
@@ -372,7 +372,7 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            eventBus.trigger("auth"+this.status);
+            try{eventBus.trigger("auth"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("auth"+this.status);
         }
@@ -385,7 +385,7 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -395,7 +395,7 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    eventBus.trigger(tmpErrName);
+                    try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -426,7 +426,7 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            eventBus.trigger("auth"+this.status);
+            try{eventBus.trigger("auth"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("auth"+this.status);
         }
@@ -439,7 +439,7 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -449,7 +449,7 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    eventBus.trigger(tmpErrName);
+                    try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -474,7 +474,7 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            eventBus.trigger("auth"+this.status);
+            try{eventBus.trigger("auth"+this.status);}catch(err){}
         } else {
             appEventBus.trigger("auth"+this.status);
         }
@@ -487,7 +487,7 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    eventBus.trigger(successEventName);
+                    try{eventBus.trigger(successEventName);}catch(err){}
                 }
             } else {
                 var tmpErrName
@@ -497,7 +497,7 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
                     tmpErrName=errorEventName
                 }
                 if (appEventBus == null) {
-                    eventBus.trigger(tmpErrName);
+                    try{eventBus.trigger(tmpErrName);}catch(err){}
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
