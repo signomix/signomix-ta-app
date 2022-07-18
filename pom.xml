@@ -122,6 +122,25 @@
               </resources>
             </configuration>
           </execution>
+          <execution>
+            <id>copy-resources2</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/META-INF/resources/app/resources</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${basedir}/target/classes/META-INF/resources/app/local_resources</directory>
+                  <excludes>
+                    <exclude>README.txt</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
