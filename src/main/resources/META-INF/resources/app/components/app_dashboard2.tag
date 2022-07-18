@@ -81,9 +81,10 @@
         <div class="col-md-2">
             <h2 class="module-title text-right">
             <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
-                <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
+            <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
                    if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}>link</i>
-                <i class="material-icons clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest}>filter_alt</i>
+            <i class="material-icons-outlined clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && !filter.isSet}>filter_alt</i>
+            <i class="material-icons clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && filter.isSet}>filter_alt</i>
             </h2>
         </div>
     </div>
@@ -137,6 +138,7 @@
         fromDate:'',
         toDate:'',
         project:''
+        isSet=false
     }
     self.devices=[]
     self.applications=[]
@@ -199,6 +201,7 @@
               self.filter.toDate=dt.toISOString()
             }
             self.filter.project = document.getElementById('project').value
+            self.filter.isSet=true
         }catch(error){
             console.log(error)
         }
@@ -208,6 +211,7 @@
         self.filter.fromDate=''
         self.filter.toDate=''
         self.filter.project=''
+        self.filter.isSet=false
     }
 
     refresh(e){
