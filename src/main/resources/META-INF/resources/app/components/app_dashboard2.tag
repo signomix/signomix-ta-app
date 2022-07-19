@@ -137,8 +137,8 @@
     self.filter={
         fromDate:'',
         toDate:'',
-        project:''
-        isSet=false
+        project:'',
+        isSet:false
     }
     self.devices=[]
     self.applications=[]
@@ -201,7 +201,7 @@
               self.filter.toDate=dt.toISOString()
             }
             self.filter.project = document.getElementById('project').value
-            self.filter.isSet=true
+            self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='' || self.filter.project!=='')
         }catch(error){
             console.log(error)
         }
