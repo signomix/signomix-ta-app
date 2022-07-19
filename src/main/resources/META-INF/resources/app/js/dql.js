@@ -6,9 +6,9 @@ function applyFilter(query, filter){
     if(filter.toDate.length>0){
         result=replaceDQL(result,'to',filter.toDate)
     }
-    if(filter.project.length>0){
-        result=replaceDQL(result,'project',filter.project)
-    }
+    //if(filter.project.length>0){
+    //    result=replaceDQL(result,'project',filter.project)
+    //}
     return result
 }
 

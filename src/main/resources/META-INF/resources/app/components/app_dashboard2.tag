@@ -45,15 +45,11 @@
                             </div>
                             <div class="form-group">
                                 { app.texts.dashboard_filter.from_date[app.language] }
-                                <input type="datetime-local" id="from_date" class="form-control" value={ filter.fromDate }/>
+                                <input type="datetime-local" id="from_date" class="form-control" value="{ filter.fromDateInput }"/>
                             </div>
                             <div class="form-group">
                                 { app.texts.dashboard_filter.to_date[app.language] }
-                                <input type="datetime-local" id="to_date" class="form-control" value={ filter.toDate }/>
-                            </div>
-                            <div class="form-group">
-                                { app.texts.dashboard_filter.project[app.language] }
-                                <input type="text" id="project" class="form-control" value={ filter.project }/>
+                                <input type="datetime-local" id="to_date" class="form-control" value="{ filter.toDateInput }"/>
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-link" onClick={clearFilter}>{ app.texts.common.clear[app.language]}</button>
@@ -135,9 +131,10 @@
     self.accessOK = true
     self.refreshInterval = app.dashboardRefreshInterval
     self.filter={
+        fromDateInput:'',
+        toDateInput:'',
         fromDate:'',
         toDate:'',
-        project:'',
         isSet:false
     }
     self.devices=[]
@@ -190,18 +187,23 @@
     saveFilter(){
         var dt;
         try{
-            self.filter.fromDate = document.getElementById('from_date').value
-            if(self.filter.fromDate!==''){
-              dt=new Date(self.filter.fromDate)
+            self.filter.fromDateInput = document.getElementById('from_date').value
+            if(self.filter.fromDateInput!==''){
+              dt=new Date(self.filter.fromDateInput)
               self.filter.fromDate=dt.toISOString()
+            }else{
+                self.filter.fromDate=''
             }
-            self.filter.toDate = document.getElementById('to_date').value
-            if(self.filter.toDate!==''){
-              dt=new Date(self.filter.fromDate)
+            self.filter.toDateInput = document.getElementById('to_date').value
+            if(self.filter.toDateInput!==''){
+              dt=new Date(self.filter.toDateInput)
               self.filter.toDate=dt.toISOString()
+            }else{
+                self.filter.toDate=''
             }
-            self.filter.project = document.getElementById('project').value
-            self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='' || self.filter.project!=='')
+            //self.filter.project = document.getElementById('project').value
+            //self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='' || self.filter.project!=='')
+            self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='')
         }catch(error){
             console.log(error)
         }
@@ -210,7 +212,9 @@
     clearFilter(e){
         self.filter.fromDate=''
         self.filter.toDate=''
-        self.filter.project=''
+        self.filter.fromDateInput=''
+        self.filter.toDateInput=''
+        //self.filter.project=''
         self.filter.isSet=false
     }
 
