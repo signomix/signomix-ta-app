@@ -3,7 +3,7 @@
         <!--Navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
             <a class="navbar-brand text-signo" href={ (app.user.roles.indexOf("guest")>-1)?'/':'#!' }>
-                <img src="resources/logo.png" height="32px" style="margin-right:0.5em;"><strong>{ getDistroType()}</strong>
+                <img src="/app/resources/logo.png" height="32px" style="margin-right:0.5em;"><strong>{ getDistroType()}</strong>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
