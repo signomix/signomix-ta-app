@@ -88,7 +88,7 @@
     <virtual each={name, i in rowArr }>
         <div class="row my-n1" if={w_line[i] && w_line[i].length>0}>
             <virtual each={colname, j in colArr }>
-                <div class={ getColumnClass(w_line[i][j]) } if={w_line[i].length>j}>
+                <div class={ getColumnClass(w_line[i][j])+' h100' } if={w_line[i].length>j}>
                     <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol'}></widget_a1>
                     <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_button>
                     <widget_form ref={ getRefName(i,j) } if={w_line[i][j]['type']=='form'}></widget_form>
