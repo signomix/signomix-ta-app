@@ -94,7 +94,7 @@
               <overwrite>true</overwrite>
               <resources>
                 <resource>
-                  <directory>${basedir}/target/classes/app_local</directory>
+                  <directory>${basedir}/target/classes/local_app</directory>
                   <includes>
                     <include>index.html</include>
                     <include>embed.html</include>
