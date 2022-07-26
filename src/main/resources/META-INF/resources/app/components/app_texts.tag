@@ -1547,6 +1547,12 @@
             "fr": "Home",
             "pl": "Home"
         },
+        "start": {
+            "en": "Start",
+            "it": "Start",
+            "fr": "Start",
+            "pl": "Start"
+        },
         "mainpage": {
             "en": "Go to the start page.",
             "it": "Go to the start page.",

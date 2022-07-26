@@ -11,7 +11,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-signo" href="#!" onclick={ goto('#!') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.main.home[app.language] }</a>
+                        <a class="nav-link text-signo" href="#!" onclick={ goto('#!') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.main.start[app.language] }</a>
                     </li>
                     <li class="nav-item" if={app.user.status == 'logged-in' && !app.user.guest }>
                         <a class="nav-link text-signo" href="#!alerts" onclick={ goto('#!alerts') } data-toggle="collapse" data-target="#navbarNavDropdown">{ app.texts.header.alerts[app.language] } <span if={ getNumberOfNotifications()>0 } class="badge badge-pill badge-danger">{app.user.alerts.length}</span></a>
