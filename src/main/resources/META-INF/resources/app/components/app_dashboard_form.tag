@@ -854,6 +854,7 @@
                 case 'raw':
                     fields=['w_channel','w_query','w_format']
                     break
+                case 'line':
                 case 'stepped':
                 case 'bar':
                 case 'map':
