@@ -762,10 +762,10 @@
             "pl": "Typ danych"
         },
         "f_widget_commandtype_hint": {
-            "en": "The type of data that will be sent to the device. The value can only be hex or json",
-            "it": "Il tipo di dati che verranno inviati al dispositivo. Il valore può essere solo hex o json",
-            "fr": "Le type de données qui seront envoyées à l'appareil. La valeur ne peut être qu'hexadécimale ou json",
-            "pl": "Typ danych, które będą wysłane do urządzenia. Wartością może być tylko hex lub json"
+            "en": "The type of data that will be sent to the device. The value can only be: plain, hex or json",
+            "it": "The type of data that will be sent to the device. The value can only be: plain, hex or json",
+            "fr": "The type of data that will be sent to the device. The value can only be: plain, hex or json",
+            "pl": "Typ danych, które będą wysłane do urządzenia. Wartością może być tylko: plain, hex lub json"
         },
         "f_widget_unit": {
             "en": "Measure unit symbol",

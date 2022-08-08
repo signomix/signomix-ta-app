@@ -877,7 +877,7 @@
                     fields=['w_channel','w_query','channel_translated','w_range']
                     break
                 case 'button':
-                    fields=['w_data_type']
+                    fields=['w_data_type','w_command_type']
                     break
                 case 'symbol':
                     fields=['w_channel','w_query','w_unit','w_rounding','w_range','w_icon']
