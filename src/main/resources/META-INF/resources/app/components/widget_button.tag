@@ -106,11 +106,11 @@
         getData(){
             return function(e){
                 e.preventDefault()
-                if(self.commandType=='hex'){
+                if(self.commandType==='HEX'){
                     self.dataToSend = document.getElementById('hexString').value
-                }else if(self.commandType=='plain'){
+                }else if(self.commandType==='PLAIN'){
                     self.dataToSend = document.getElementById('plainString').value
-                }else if(self.commandType=='json'){
+                }else if(self.commandType=='JSON'){
                     self.dataToSend= document.getElementById('jsonText').value
                 }
                 self.dataToSend=self.dataToSend.trim()
@@ -121,11 +121,11 @@
             return function(e){
                 e.preventDefault()
                 var url
-                if(self.commandType=='hex'){
+                if(self.commandType==='HEX'){
                     url=app.actuatorAPI + '/' + self.dev_id + "/hex"
-                }else if(self.commandType=='plain'){
+                }else if(self.commandType==='PLAIN'){
                     url=app.actuatorAPI + '/' + self.dev_id + "/plain"
-                }else if(self.commandType=='json'){
+                }else if(self.commandType==='JSON'){
                     url=app.actuatorAPI + '/' + self.dev_id
                 }
                 sendTextData(
