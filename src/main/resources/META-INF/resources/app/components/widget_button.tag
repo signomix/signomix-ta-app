@@ -50,12 +50,16 @@
                             <label for="hexString">HEX STRING</label>
                             <input type='text' value={dataToSend} name="newvalue" id='hexString'>
                         </div>
+                        <div class="form-group" if="{commandType==='PLAIN'}">
+                            <label for="plainString">PLAIN STRING</label>
+                            <input type='text' value={dataToSend} name="newvalue" id='plainString'>
+                        </div>
                         <div class="form-group" if="{commandType==='JSON'}">
                             <label for="jsonText">JSON</label>
                             <textarea class="form-control" id="jsonText" rows="3">{dataToSend}</textarea>
                         </div>
-                        <div class="form-group" if="{commandType!=='JSON' && commandType!=='HEX'}">
-                            <p>Unsupported data type. Must be "HEX" or "JSON"!</p>
+                        <div class="form-group" if="{commandType!=='PLAIN' && commandType!=='JSON' && commandType!=='HEX'}">
+                            <p>Unsupported data type. Must be "HEX", "PLAIN" or "JSON"!</p>
                         </div>
                     </form>
                     <p id={name+'-desc'} style="margin-top: 1rem;">{description}</p>
@@ -85,7 +89,7 @@
 
         self.listener = riot.observable()
         self.listener.on('*', function(eventName){
-            app.log("widget_a1 listener on event: " + eventName)
+            app.log("widget_button receive event: " + eventName)
         })
 
         self.submitted = function(){
@@ -104,6 +108,8 @@
                 e.preventDefault()
                 if(self.commandType=='hex'){
                     self.dataToSend = document.getElementById('hexString').value
+                }else if(self.commandType=='plain'){
+                    self.dataToSend = document.getElementById('plainString').value
                 }else if(self.commandType=='json'){
                     self.dataToSend= document.getElementById('jsonText').value
                 }
@@ -117,6 +123,8 @@
                 var url
                 if(self.commandType=='hex'){
                     url=app.actuatorAPI + '/' + self.dev_id + "/hex"
+                }else if(self.commandType=='plain'){
+                    url=app.actuatorAPI + '/' + self.dev_id + "/plain"
                 }else if(self.commandType=='json'){
                     url=app.actuatorAPI + '/' + self.dev_id
                 }
