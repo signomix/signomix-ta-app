@@ -48,14 +48,10 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="genNotCh">GENERAL/SYSTEM</label>
                         <select class="custom-select mr-sm-2" id="genNotCh" disabled={ !allowEdit } onchange={ changeGeneralNotification } value={user.generalNotificationChannel}>
-                            <option value='SIGNOMIX' selected={''==user.generalNotificationChannel || 'SIGNOMIX'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>{ app.texts.user_form.select[app.language] }</option>
-                            <option value="SMTP" selected={'SMTP'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>E-mail</option>
-                            <option value="SLACK" selected={'SLACK'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>Slack</option>
-                            <option value="PUSHOVER" selected={'PUSHOVER'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>Pushover</option>
-                            <option value="TELEGRAM" selected={'TELEGRAM'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>Telegram</option>
-                            <option value="DISCORD" selected={'DISCORD'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>Discord</option>
-                            <option value="WEBHOOK" selected={'WEBHOOK'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>Webhook</option>
-                            <option if={smsEnabled} value="SMS" selected={'SMS'==user.generalNotificationChannel.substring(0,user.generalNotificationChannel.indexOf(':'))}>SMS</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.generalNotificationChannel)}>SIGNOMIX</option>
+                            <option value="SMTP" selected={isSelected('SMTP',user.generalNotificationChannel)}>E-mail</option>
+                            <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.generalNotificationChannel)}>Webhook</option>
+                            <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.generalNotificationChannel)}>SMS</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 my-1" if={smsGeneral}>
@@ -83,14 +79,10 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="infoNotCh">INFO</label>
                         <select class="custom-select mr-sm-2" id="infoNotCh" disabled={ !allowEdit } onchange={ changeInfoNotification } value={user.infoNotificationChannel}>
-                            <option value='SIGNOMIX' selected={''==user.infoNotificationChannel || 'SIGNOMIX'==user.infoNotificationChannel}>{ app.texts.user_form.select[app.language] }</option>
-                            <option value="SMTP" selected={'SMTP'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>E-mail</option>
-                            <option value="SLACK" selected={'SLACK'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>Slack</option>
-                            <option value="PUSHOVER" selected={'PUSHOVER'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>Pushover</option>
-                            <option value="TELEGRAM" selected={'TELEGRAM'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>Telegram</option>
-                            <option value="DISCORD" selected={'DISCORD'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>Discord</option>
-                            <option value="WEBHOOK" selected={'WEBHOOK'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>Webhook</option>
-                            <option if={smsEnabled} value="SMS" selected={'SMS'==user.infoNotificationChannel.substring(0,user.infoNotificationChannel.indexOf(':'))}>SMS</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.infoNotificationChannel)}>SIGNOMIX</option>
+                            <option value="SMTP" selected={isSelected('SMTP',user.infoNotificationChannel)}>E-mail</option>
+                            <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.infoNotificationChannel)}>Webhook</option>
+                            <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.infoNotificationChannel)}>SMS</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 my-1" if={smsInfo}>
@@ -118,14 +110,10 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="warningNotCh">WARNING</label>
                         <select class="custom-select mr-sm-2" id="warningNotCh" disabled={ !allowEdit } onchange={ changeWarningNotification } value={user.warningNotificationChannel}>
-                            <option value='SIGNOMIX' selected={''==user.warningNotificationChannel || 'SIGNOMIX'==user.warningNotificationChannel}>{ app.texts.user_form.select[app.language] }</option>
-                            <option value="SMTP" selected={'SMTP'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>E-mail</option>
-                            <option value="SLACK" selected={'SLACK'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>Slack</option>
-                            <option value="PUSHOVER" selected={'PUSHOVER'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>Pushover</option>
-                            <option value="TELEGRAM" selected={'TELEGRAM'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>Telegram</option>
-                            <option value="DISCORD" selected={'DISCORD'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>Discord</option>
-                            <option value="WEBHOOK" selected={'WEBHOOK'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>Webhook</option>
-                            <option if={smsEnabled} value="SMS" selected={'SMS'==user.warningNotificationChannel.substring(0,user.warningNotificationChannel.indexOf(':'))}>SMS</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.warningNotificationChannel)}>SIGNOMIX</option>
+                            <option value="SMTP" selected={isSelected('SMTP',user.warningNotificationChannel)}>E-mail</option>
+                            <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.warningNotificationChannel)}>Webhook</option>
+                            <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.warningNotificationChannel)}>SMS</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 my-1" if={smsWarning}>
@@ -153,14 +141,10 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="alertNotCh">ALERT</label>
                         <select class="custom-select mr-sm-2" id="alertNotCh" disabled={ !allowEdit } onchange={ changeAlertNotification } value={user.alertNotificationChannel}>
-                            <option value='SIGNOMIX' selected={''==user.alertNotificationChannel || 'SIGNOMIX'==user.alertNotificationChannel}>{ app.texts.user_form.select[app.language] }</option>
-                            <option value="SMTP" selected={'SMTP'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>E-mail</option>
-                            <option value="SLACK" selected={'SLACK'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>Slack</option>
-                            <option value="PUSHOVER" selected={'PUSHOVER'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>Pushover</option>
-                            <option value="TELEGRAM" selected={'TELEGRAM'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>Telegram</option>
-                            <option value="DISCORD" selected={'DISCORD'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>Discord</option>
-                            <option value="WEBHOOK" selected={'WEBHOOK'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>Webhook</option>
-                            <option if={smsEnabled} value="SMS" selected={'SMS'==user.alertNotificationChannel.substring(0,user.alertNotificationChannel.indexOf(':'))}>SMS</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.alertNotificationChannel)}>SIGNOMIX</option>
+                            <option value="SMTP" selected={isSelected('SMTP',user.alertNotificationChannel)}>E-mail</option>
+                            <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.alertNotificationChannel)}>Webhook</option>
+                            <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.alertNotificationChannel)}>SMS</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 my-1" if={smsAlert}>
@@ -209,7 +193,7 @@
                     <input class="form-check-input" type="checkbox" value="true" id="autologin" disabled={ !allowEdit } checked={ user.autologin }>
                     <label class="form-check-label" for="autologin">{ app.texts.user_form.autologin[app.language] }</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check" if={ allowEdit }>
                     <input class="form-check-input" type="checkbox" value="true" id="confirmed" disabled={ !allowEdit || !adminMode } checked={ user.confirmed }>
                     <label class="form-check-label" for="confirmed">{ app.texts.user_form.confirmed[app.language] }</label>
                 </div>
@@ -289,6 +273,10 @@
             } else{
                 self.mode = 'create'
             }
+        }
+
+        isSelected(cName, userChannel){
+            return cName===userChannel.substring(0,userChannel.indexOf(':'))
         }
 
         userTypeAsString(type){
@@ -421,7 +409,9 @@
             }
             
             if (e.target.elements['confirmString'].value != '') {formData.confirmString = e.target.elements['confirmString'].value}
-            if (e.target.elements['confirmed'].checked) {formData.confirmed = 'true'}else{formData.confirmed = 'false'}
+            if(self.allowEdit){
+              if (e.target.elements['confirmed'].checked) {formData.confirmed = 'true'}else{formData.confirmed = 'false'}
+            }
             if (self.mode == 'create') {
                 formData.password = generatePassword()
             }
