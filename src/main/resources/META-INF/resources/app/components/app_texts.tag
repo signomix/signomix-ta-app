@@ -1535,11 +1535,17 @@
             "fr": "Enregister votre appareil",
             "pl": "Zarejestruj swoje urządzenie"
         },
+        "registerAccount": {
+            "en": "Sign up for free",
+            "it": "Sign up for free",
+            "fr": "Sign up for free",
+            "pl": "Zarejestruj się w serwisie za darmo"
+        },
         "login": {
-            "en": "You need to sign in or register to use the service",
-            "it": "Devi accedere o registrarti per utilizzare il servizio",
-            "fr": "Vous devez vous connecter ou vous inscrire pour utiliser le service",
-            "pl": "Musisz się zalogować lub zarejestrować żeby używać tego serwisu"
+            "en": "Log in if you are already registered",
+            "it": "Log in if you are already registered",
+            "fr": "Log in if you are already registered",
+            "pl": "Zaloguj się jeśli jesteś już zarejestrowany"
         },
         "home": {
             "en": "Home",
@@ -1869,6 +1875,18 @@
             "it": "Cognome",
             "fr": "Prenom",
             "pl": "Nazwisko"
+        }, 
+        "l_organization": {
+            "en": "Organization",
+            "it": "Organization",
+            "fr": "Organization",
+            "pl": "Organizacja"
+        }, 
+        "l_organizationHint": {
+            "en": "Enter the name of your organization or company.",
+            "it": "Enter the name of your organization or company.",
+            "fr": "Enter the name of your organization or company.",
+            "pl": "Wpisz nazwę Twojej organizacji lub przedsiębiorstwa."
         },
         "l_register": {
             "en": "Register",
@@ -1929,6 +1947,18 @@
             "it": "Questo nome è già in uso. Scegli un nome differente.",
             "fr": "Ce nom est deja utilise. Merci de choisir un autre nom",
             "pl": "Ta nazwa użytkownika jest już używana"
+        },
+        "l_alertOrganization": {
+            "en": "Organization ID not found.",
+            "it": "Organization ID not found.",
+            "fr": "Organization ID not found.",
+            "pl": "Organizacja o podanym ID nie jest zarejestrowana"
+        },
+        "l_getOrganization": {
+            "en": "Get company data.",
+            "it": "Get company data.",
+            "fr": "Get company data.",
+            "pl": "Pobierz dane firmy."
         },
         "l_alertMalformedName": {
             "en": "The login contains invalid characters..",

@@ -79,6 +79,10 @@ route(function (id) {
             app.currentPage = "main";
             globalEvents.trigger('pageselected:main');
             break;
+        case "newdevice":
+            app.currentPage = "newdevice";
+            globalEvents.trigger('pageselected:newdevice');
+            break;
         case "pl":
             app.language = 'pl'
             riot.mount('raw')

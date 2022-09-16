@@ -21,7 +21,8 @@
                 <a href="#!mydevices" onclick={ goto('#!mydevices') } >{ app.texts.main.mydevices[app.language] }</a><br>
             </div>
             <div class="text-center" if={app.user.status != 'logged-in' || (app.user=='public' && app.user.guest==true)}>
-                <a class="nav-link text-signo" href="#!login" onclick={ goto('#!login') }>{ app.texts.main.login[app.language] }</a><br>
+                <a href="#!login" onclick={ goto('#!login') }>{ app.texts.main.login[app.language] }</a><br>
+                <a href="#!register" onclick={ goto('#!register') }>{ app.texts.main.registerAccount[app.language] }</a><br>
                 <a href="/">{ app.texts.main.mainpage[app.language] }</a>
             </div>
         </div>

@@ -7,9 +7,6 @@
             <div class="row">
                 <div class="col-md-12 alert alert-light" ><span>{ app.texts.register.l_comment[app.language] }</span></div>
             </div>
-            <div class="row" if={ self.alert }>
-                <div class="col-md-12 alert alert-warning" ><span><strong>{ app.texts.register.l_warning[app.language] } </strong>{ self.alertText }</span></div>
-            </div>
             <div class="row" if={ self.success }>
                 <div class="col-md-12 alert alert-success" >
                 <p><span>{ app.texts.register.l_successText1[app.language] }</span></p>
@@ -24,6 +21,7 @@
                         <form_input 
                             id="login"
                             name="login"
+                            content=""
                             label={ app.texts.register.l_login[app.language] }
                             type="text"
                             required="true"
@@ -41,6 +39,7 @@
                     <form_input 
                         id="name"
                         name="name"
+                        content=""
                         label={ app.texts.register.l_name[app.language] }
                         type="text"
                         required="true"
@@ -49,14 +48,25 @@
                     <form_input 
                         id="surname"
                         name="surname"
+                        content=""
                         label={ app.texts.register.l_surname[app.language] }
                         type="text"
                         required="true"
                         oninvalid={ app.texts.register.l_surnameHint[app.language] }
                         hint={ app.texts.register.l_surnameHint[app.language] }/>
-                        <form_input 
+                    <form_input 
+                        id="organization"
+                        name="organization"
+                        content=""
+                        label={ app.texts.register.l_organization[app.language] }
+                        type="text"
+                        oninvalid={ app.texts.register.l_organizationHint[app.language] }
+                        hint={ app.texts.register.l_organizationHint[app.language] }/>
+                    <span onclick="alert('GET ORGANIZATION DATA')">{ app.texts.register.l_getOrganization[app.language] }</span><br>
+                    <form_input 
                         id="password"
                         name="password"
+                        content=""
                         label={ app.texts.register.l_password[app.language] }
                         type="password"
                         required="true"
@@ -67,6 +77,7 @@
                 <form_input 
                 id="password2"
                 name="password2"
+                content=""
                 label={ app.texts.register.l_retypepassword[app.language] }
                 type="password"
                 required="true"
@@ -91,6 +102,9 @@
                         { app.texts.register.l_legalText1[app.language] } <a href="#!doc,legal">{ app.texts.register.l_legalText2[app.language] }</a>.
                         </label>
                     </div>
+                <div class="row" if={ self.alert }>
+                    <div class="col-md-12 alert alert-warning" ><span><strong>{ app.texts.register.l_warning[app.language] } </strong>{ self.alertText }</span></div>
+                </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">{ app.texts.register.l_register[app.language] }</button>
                         <button type="button" class="btn btn-secondary" onclick={ close }>{ app.texts.register.l_cancel[app.language] }</button>
@@ -114,6 +128,14 @@
             self.alert=true
             self.alertText = app.texts.register.l_alertName[app.language]
             riot.update()
+        }else if('err:400'==eventName){
+            self.alert=true
+            self.alertText = app.texts.register.l_alertOrganization[app.language]
+            riot.update()
+        } else if (eventName.startsWith('err')) {
+            self.alert = true
+            self.alertText = app.texts.register.l_alertError[app.language]
+            riot.update()
         }
     });
 
@@ -133,6 +155,9 @@
         formData.surname = e.target.elements['surname_input'].value
         formData.preferredLanguage = e.target.elements['preferredLanguage'].value
         formData.accept = e.target.elements['accept'].value
+        try{
+          formData.organization = e.target.elements['organization_input'].value
+        }catch(err){}
         self.registeredEmail = formData.email
         if (self.validate(formData,e.target.elements['password2_input'].value) == 0) {
             //send
@@ -174,6 +199,9 @@
         } else if (text.startsWith('error:409')) {
             self.alert = true
             self.alertText = app.texts.register.l_alertName[app.language]
+        } else if (text.startsWith('error:400')) {
+            self.alert = true
+            self.alertText = app.texts.register.l_alertOrganization[app.language]
         } else if (text.startsWith('error:')) {
             self.alert = true
             self.alertText = app.texts.register.l_alertError[app.language]
