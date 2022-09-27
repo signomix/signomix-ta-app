@@ -1,25 +1,36 @@
 <app_alert_client>
     // thread for refreshing user alerts
     var self = this
-    self.myRefreshThread = null
+    self.intervalID = null
     self.listener = riot.observable()
+
+    self.listener.on('*', function (event) {
+        if('submit:ERROR'==event){
+            app.user.name = '';
+            app.user.token = '';
+            app.user.status = 'logged-out';
+            stopRefresh()
+            riot.update();
+        }
+    })
     
     function startRefresh(){
         if (app.alertRefreshInterval > 0){
-            setInterval(function(){ self.refresh() }, app.alertRefreshInterval)
+            self.intervalID=setInterval(function(){ self.refresh() }, app.alertRefreshInterval)
+            app.log('STARTED ALERT REFRESH THREAD '+self.intervalID)
         }
     }
     
     function stopRefresh() {
         if (app.alertRefreshInterval > 0){
-            app.log('STOPPING REFRESH THREAD')
-            clearInterval(self.myRefreshThread);
+            app.log('STOPPING REFRESH THREAD '+self.intervalID)
+            clearInterval(self.intervalID);
         }
     }
     
     self.refresh = function(){
-        app.log('REFRESHING ALERTS')
-            readAlerts()
+        app.log('REFRESHING ALERTS ('+self.intervalID+')')
+        readAlerts()
     }
     
     var readAlerts = function () {
@@ -29,9 +40,9 @@
                 updateMyAlerts,        // callback
                 self.listener,       // event listener
                 'OK',                // success event name
-                null,                // error event name
+                'submit:ERROR',                // error event name
                 app.debug,           // debug switch
-                globalEvents         // application event listener
+                null         // application event listener
         );
     }
 
@@ -46,11 +57,20 @@
     })
 
     globalEvents.on('logout:OK', function (event) {
-        stopRefresh()
+        stopRefresh(self.intervalID)
     })
 
     globalEvents.on('err:401', function (eventName) {
-        stopRefresh()
+        app.user.name = '';
+        app.user.token = '';
+        app.user.status = 'logged-out';
+        stopRefresh(self.intervalID)
+    })
+    globalEvents.on('err:403', function (eventName) {
+        app.user.name = '';
+        app.user.token = '';
+        app.user.status = 'logged-out';
+        stopRefresh(self.intervalID)
     })
     
 </app_alert_client>
