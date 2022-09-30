@@ -69,6 +69,7 @@
             { app.texts.dashboard2.notfound[app.language] }
         </div>
     </div>
+    <div if={ accessOK }>
     <div class="row" if={ !app.embeded }>
         <div class="col-md-10">
             <h2 class="module-title">{ dashboardConfig.title }
@@ -112,6 +113,7 @@
             </virtual>
         </div>
     </virtual>
+    </div>
 
     <script charset="UTF-8">
     var self = this
@@ -130,6 +132,7 @@
     self.consolidationRequired=false
     self.accessOK = true
     self.refreshInterval = app.dashboardRefreshInterval
+    self.intervalID=null
     self.filter={
         fromDateInput:'',
         toDateInput:'',
@@ -141,6 +144,15 @@
     self.applications=[]
     self.devConfigs={}
     self.appConfigs={}
+    self.listener = riot.observable()
+
+    self.listener.on('err:403', function (event) {
+        myStopRefresh()
+    })
+    self.listener.on('err:401', function (event) {
+        self.accessOK=false
+        myStopRefresh()
+    })
     
     globalEvents.on('pageselected:dashboard',function(event){
         if(self.mounted){
@@ -176,6 +188,9 @@
                 self.refreshInterval=app.publicDashboardRefreshInterval
             }
         }
+        // thread for refreshing dashboard data
+        myStopRefresh()
+        self.intervalID = setInterval(function(){ self.refresh(null) }, self.refreshInterval);
         self.mounted=true
     })
     
@@ -295,7 +310,7 @@
             null,                                      //query
             app.user.token,                            //session token
             callback,                    //callback
-            null,                           //event listener
+            self.listener,                           //event listener
             'OK',                                      //success event name
             null,                                      //error event name
             app.debug,                                 //debug switch
@@ -445,12 +460,10 @@
         app.log(self.w_line)
     }
     
-    // thread for refreshing dashboard data
-    var myRefreshThread = setInterval(function(){ self.refresh(null) }, self.refreshInterval);
-    
     function myStopRefresh() {
         app.log('STOPPING THREAD')
-        clearInterval(myRefreshThread);
+        if(null!=self.intervalID) clearInterval(self.intervalID);
+        self.intervalID=null
     }
     
     getColumnClass(widget){

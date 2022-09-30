@@ -354,10 +354,10 @@
             "pl": "ZAMKNIJ"
         },
         "notfound": {
-            "en": "Access denied or dashboard not found",
-            "it": "Accesso negato o dashboard assente",
-            "fr": "Accès refusé ou absent au tableau de bord",
-            "pl": "Nie masz uprawnień lub nie znaleziono pulpitu"
+            "en": "The selected desktop is not defined or you do not have access to it.",
+            "it": "The selected desktop is not defined or you do not have access to it.",
+            "fr": "The selected desktop is not defined or you do not have access to it.",
+            "pl": "Wybrany pulpit nie jest zdefiniowany lub nie masz do niego dostępu."
         }
     }
 
