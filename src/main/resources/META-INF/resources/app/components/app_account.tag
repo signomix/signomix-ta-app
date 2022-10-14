@@ -240,25 +240,31 @@
                 case 3:
                 case 4:
                 case 6:
-                    resp="Free"
+                    //resp="Free"
+                    resp=app.texts.account.free_account[app.language]
                     break
                 case 0:
-                    resp="Standard"
+                    //resp="Standard"
+                    resp=app.texts.account.standard_account[app.language]
                     break
                 case 1:
-                    resp="Admin"
+                    //resp="Admin"
+                    resp=app.texts.account.admin_account[app.language]
                     break;
                 case 2:
                     resp="" //application
                     break;
                 case 5:
-                    resp="Pro"
+                    //resp="Pro"
+                    resp=app.texts.account.pro_account[app.language]
                     break
                 case 7:
-                    resp="Free Ext."
+                    //resp="Free Ext."
+                    resp=app.texts.account.extended_account[app.language]
                     break
                 case 8:
-                    resp="Special"
+                    //resp="Special"
+                    resp=app.texts.account.special_account[app.language]
                     break
             }
             return resp

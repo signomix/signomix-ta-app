@@ -17,103 +17,101 @@
             <div class="row" if={ !self.success }>
                 <div class="col-md-12">
                 <form class="card border-0 p2" onsubmit={ submitRegistrationForm } id="registration-form">
-                      <div class="form-group">
-                        <form_input 
-                            id="login"
-                            name="login"
-                            content=""
-                            label={ app.texts.register.l_login[app.language] }
-                            type="text"
-                            required="true"
-                            pattern="[a-zA-Z][a-zA-Z0-9-_@\.]\{1,20}"
-                            oninvalid={ app.texts.register.l_loginHint[app.language] }
-                            hint={ app.texts.register.l_loginHint[app.language] }/>
-                    <form_input 
-                        id="email"
-                        name="email"
-                        label={ app.texts.register.l_email[app.language] }
-                        type="email"
-                        required="true"
-                        oninvalid={ app.texts.register.l_emailHint[app.language] }
-                        hint={ app.texts.register.l_emailHint[app.language] }/>
-                    <form_input 
-                        id="name"
-                        name="name"
-                        content=""
-                        label={ app.texts.register.l_name[app.language] }
-                        type="text"
-                        required="true"
-                        oninvalid={ app.texts.register.l_nameHint[app.language] }
-                        hint={ app.texts.register.l_nameHint[app.language] }/>
-                    <form_input 
-                        id="surname"
-                        name="surname"
-                        content=""
-                        label={ app.texts.register.l_surname[app.language] }
-                        type="text"
-                        required="true"
-                        oninvalid={ app.texts.register.l_surnameHint[app.language] }
-                        hint={ app.texts.register.l_surnameHint[app.language] }/>
-                    <form_input 
-                        id="organization"
-                        name="organization"
-                        content=""
-                        label={ app.texts.register.l_organization[app.language] }
-                        type="text"
-                        oninvalid={ app.texts.register.l_organizationHint[app.language] }
-                        hint={ app.texts.register.l_organizationHint[app.language] }/>
-                    <span onclick="alert('GET ORGANIZATION DATA')">{ app.texts.register.l_getOrganization[app.language] }</span><br>
-                    <form_input 
-                        id="password"
-                        name="password"
-                        content=""
-                        label={ app.texts.register.l_password[app.language] }
-                        type="password"
-                        required="true"
-                        pattern="(?=^.\{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                        oninvalid={ app.texts.register.l_passwordHint[app.language] }
-                        hint={ app.texts.register.l_passwordHint[app.language] }
-                        />
-                <form_input 
-                id="password2"
-                name="password2"
-                content=""
-                label={ app.texts.register.l_retypepassword[app.language] }
-                type="password"
-                required="true"
-                pattern="(?=^.\{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                oninvalid={ app.texts.register.l_passwordHint[app.language] }
-                />
-                </div>
-                <div class="form-check form-check-inline">
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="login_input">* { app.texts.register.l_login[app.language] }</label>
+                            <input type="text" class="form-control" id="login_input" 
+                                pattern="[a-zA-Z][a-zA-Z0-9-_@\.]\{1,20}" 
+                                required
+                                aria-describedby="login_inputHelp">
+                            <small id="login_inputHelp" class="form-text text-muted">{ app.texts.register.l_loginHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="email_input">* { app.texts.register.l_email[app.language] }</label>
+                            <input type="email" class="form-control" id="email_input" 
+                                required
+                                aria-describedby="email_inputHelp">
+                            <small id="email_inputHelp" class="form-text text-muted">{ app.texts.register.l_emailHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="name_input">* { app.texts.register.l_name[app.language] }</label>
+                            <input type="text" class="form-control" id="name_input" 
+                                required
+                                aria-describedby="name_inputHelp">
+                            <small id="name_inputHelp" class="form-text text-muted">{ app.texts.register.l_nameHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="surname_input">* { app.texts.register.l_surname[app.language] }</label>
+                            <input type="text" class="form-control" id="surname_input" 
+                                required
+                                aria-describedby="surname_inputHelp">
+                            <small id="surname_inputHelp" class="form-text text-muted">{ app.texts.register.l_surnameHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="organization_input">* { app.texts.register.l_organization[app.language] }</label>
+                            <input type="text" class="form-control" id="organization_input" 
+                                aria-describedby="organization_inputHelp">
+                            <small id="organization_inputHelp" class="form-text text-muted">{ app.texts.register.l_organizationHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <a href='' onclick="alert('Pobieranie danych organizacjji zostanie udostępnione w kolejnej wersji serwisu.'); return false;">{ app.texts.register.l_getOrganization[app.language] }</a><br>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="password_input">* { app.texts.register.l_password[app.language] }</label>
+                            <input type="password" class="form-control" id="password_input"
+                                pattern="(?=^.\{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                                required
+                                aria-describedby="password_inputHelp">
+                            <small id="password_inputHelp" class="form-text text-muted">{ app.texts.register.l_passwordHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-field mr-1">
+                            <label for="password2_input">* { app.texts.register.l_retypepassword[app.language] }</label>
+                            <input type="password" class="form-control" id="password2_input"
+                                pattern="(?=^.\{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                                required
+                                aria-describedby="password2_inputHelp">
+                            <small id="password2_inputHelp" class="form-text text-muted">{ app.texts.register.l_passwordHint[app.language] }</small>
+                        </div>
+                    </div>
+                    <div class="form-check form-check-inline">
                     <label class="form-check-label">{ app.texts.user_form.preferredLanguage[app.language] }</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="preferredLanguage" id="preferredLanguage1" value="pl" checked>
-                    <label class="form-check-label" for="preferredLanguage1">Polski</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="preferredLanguage" id="preferredLanguage2" value="en">
-                    <label class="form-check-label" for="preferredLanguage2">English</label>
-                </div>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="preferredLanguage" id="preferredLanguage1" value="pl" checked>
+                        <label class="form-check-label" for="preferredLanguage1">Polski</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="preferredLanguage" id="preferredLanguage2" value="en">
+                        <label class="form-check-label" for="preferredLanguage2">English</label>
+                    </div>
                     <div class="form-check" style="margin-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" value="y" id="accept" name="accept" required>
                         <label class="form-check-label" for="accept">
-                        { app.texts.register.l_legalText1[app.language] } <a href="#!doc,legal">{ app.texts.register.l_legalText2[app.language] }</a>.
+                        { app.texts.register.l_legalText1[app.language] } <a href="#!doc,legal" target="_blank">{ app.texts.register.l_legalText2[app.language] }</a>.
                         </label>
                     </div>
-                <div class="row" if={ self.alert }>
-                    <div class="col-md-12 alert alert-warning" ><span><strong>{ app.texts.register.l_warning[app.language] } </strong>{ self.alertText }</span></div>
-                </div>
+                    <div class="row" if={ self.alert }>
+                        <div class="col-md-12 alert alert-warning" ><span><strong>{ app.texts.register.l_warning[app.language] } </strong>{ self.alertText }</span></div>
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">{ app.texts.register.l_register[app.language] }</button>
-                        <button type="button" class="btn btn-secondary" onclick={ close }>{ app.texts.register.l_cancel[app.language] }</button>
+                        <button type="button" class="btn btn-secondary" onclick={ goto('#!') }>{ app.texts.register.l_cancel[app.language] }</button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <script>
     self = this
     self.alert = false;
@@ -190,6 +188,13 @@
         }
         return 0
     }
+
+    goto(address){
+            return function(e){
+                app.log(address)
+                document.location = address
+            }
+        }
 
     self.close = function (object) {
         var text = '' + object

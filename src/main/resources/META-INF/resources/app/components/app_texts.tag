@@ -298,6 +298,30 @@
             "it": "Preferred language",
             "fr": "Preferred language",
             "pl": "Preferowany język"
+        },
+        "free_account": {
+            "en": "Free",
+            "pl": "Bezpłatne"
+        },
+        "standard_account": {
+            "en": "Standard",
+            "pl": "Standard"
+        },
+        "admin_account": {
+            "en": "Administrator",
+            "pl": "Administrator"
+        },
+        "pro_account": {
+            "en": "Pro",
+            "pl": "Pro"
+        },
+        "extended_account": {
+            "en": "Free, extended",
+            "pl": "Bezpłatne, rozszerzone"
+        },
+        "special_account": {
+            "en": "Special",
+            "pl": "Specjalne"
         }
     }
     
