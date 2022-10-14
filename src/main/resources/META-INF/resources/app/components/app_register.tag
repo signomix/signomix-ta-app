@@ -54,15 +54,17 @@
                             <small id="surname_inputHelp" class="form-text text-muted">{ app.texts.register.l_surnameHint[app.language] }</small>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="input-field mr-1">
-                            <label for="organization_input">* { app.texts.register.l_organization[app.language] }</label>
-                            <input type="text" class="form-control" id="organization_input" 
-                                aria-describedby="organization_inputHelp">
-                            <small id="organization_inputHelp" class="form-text text-muted">{ app.texts.register.l_organizationHint[app.language] }</small>
-                        </div>
-                    </div>
-                    <a href='' onclick="alert('Pobieranie danych organizacjji zostanie udostępnione w kolejnej wersji serwisu.'); return false;">{ app.texts.register.l_getOrganization[app.language] }</a><br>
+                    
+                    <!--<div class="form-row">-->
+                    <!--    <div class="input-field mr-1">-->
+                    <!--        <label for="organization_input">{ app.texts.register.l_organization[app.language] }</label>-->
+                    <!--        <input type="text" class="form-control" id="organization_input" -->
+                    <!--            aria-describedby="organization_inputHelp">-->
+                    <!--        <small id="organization_inputHelp" class="form-text text-muted">{ app.texts.register.l_organizationHint[app.language] }</small>-->
+                    <!--    </div>-->
+                    <!--</div>-->
+                    <!--<a href='' onclick="alert('Feature not supported'); return false;">{ app.texts.register.l_getOrganization[app.language] }</a><br>-->
+                    
                     <div class="form-row">
                         <div class="input-field mr-1">
                             <label for="password_input">* { app.texts.register.l_password[app.language] }</label>
@@ -155,7 +157,8 @@
         formData.accept = e.target.elements['accept'].value
         try{
           formData.organization = e.target.elements['organization_input'].value
-        }catch(err){}
+        }catch(err){
+        }
         self.registeredEmail = formData.email
         if (self.validate(formData,e.target.elements['password2_input'].value) == 0) {
             //send
