@@ -72,17 +72,17 @@
     <div if={ accessOK }>
     <div class="row" if={ !app.embeded }>
         <div class="col-md-10">
-            <h2 class="module-title">{ dashboardConfig.title }
-            </h2>
+            <h3 class="module-title">{ dashboardConfig.title }
+            </h3>
         </div>
         <div class="col-md-2">
-            <h2 class="module-title text-right">
+            <h3 class="module-title text-right">
             <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
             <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
                    if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}>link</i>
             <i class="material-icons-outlined clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && !filter.isSet}>filter_alt</i>
             <i class="material-icons clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && filter.isSet}>filter_alt</i>
-            </h2>
+            </h3>
         </div>
     </div>
 
@@ -90,25 +90,25 @@
         <div class="row my-n1" if={w_line[i] && w_line[i].length>0}>
             <virtual each={colname, j in colArr }>
                 <div class={ getColumnClass(w_line[i][j])+' h100' } if={w_line[i].length>j}>
-                    <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol'}></widget_a1>
-                    <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button'}></widget_button>
-                    <widget_form ref={ getRefName(i,j) } if={w_line[i][j]['type']=='form'}></widget_form>
-                    <widget_chart ref={ getRefName(i,j) } if={w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped'}></widget_chart>
-                    <widget_bar ref={ getRefName(i,j) } if={w_line[i][j]['type']=='bar'}></widget_bar>
-                    <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date'}></widget_date>
-                    <widget_filter ref={ getRefName(i,j) } if={w_line[i][j]['type']=='filter'}></widget_filter>
-                    <widget_map ref={ getRefName(i,j) } if={w_line[i][j]['type']=='map'}></widget_map>
-                    <widget_raw ref={ getRefName(i,j) } if={w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text'}></widget_raw>
-                    <widget_led ref={ getRefName(i,j) } if={w_line[i][j]['type']=='led'}></widget_led>
-                    <widget_plan ref={ getRefName(i,j) } if={w_line[i][j]['type']=='plan'}></widget_plan>
-                    <widget_report ref={ getRefName(i,j) } if={w_line[i][j]['type']=='report'}></widget_report>
-                    <widget_multimap ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multimap'}></widget_multimap>
-                    <widget_multitrack ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multitrack'}></widget_multitrack>
-                    <widget_stopwatch ref={ getRefName(i,j) } if={w_line[i][j]['type']=='stopwatch'}></widget_stopwatch>
-                    <widget_time ref={ getRefName(i,j) } if={w_line[i][j]['type']=='time'}></widget_time>
-                    <widget_devinfo ref={ getRefName(i,j) } if={w_line[i][j]['type']=='devinfo'}></widget_devinfo>
-                    <widget_custom ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom'}></widget_custom>
-                    <widget_custom1 ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom1'}></widget_custom1>
+                    <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol' && isVisible(w_line[i][j]) }></widget_a1>
+                    <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button' && isVisible(w_line[i][j])}></widget_button>
+                    <widget_form ref={ getRefName(i,j) } if={w_line[i][j]['type']=='form' && isVisible(w_line[i][j])}></widget_form>
+                    <widget_chart ref={ getRefName(i,j) } if={(w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped') && isVisible(w_line[i][j])}></widget_chart>
+                    <widget_bar ref={ getRefName(i,j) } if={w_line[i][j]['type']=='bar' && isVisible(w_line[i][j])}></widget_bar>
+                    <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date' && isVisible(w_line[i][j])}></widget_date>
+                    <widget_filter ref={ getRefName(i,j) } if={w_line[i][j]['type']=='filter' && isVisible(w_line[i][j])}></widget_filter>
+                    <widget_map ref={ getRefName(i,j) } if={w_line[i][j]['type']=='map' && isVisible(w_line[i][j])}></widget_map>
+                    <widget_raw ref={ getRefName(i,j) } if={(w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text') && isVisible(w_line[i][j])}></widget_raw>
+                    <widget_led ref={ getRefName(i,j) } if={w_line[i][j]['type']=='led' && isVisible(w_line[i][j])}></widget_led>
+                    <widget_plan ref={ getRefName(i,j) } if={w_line[i][j]['type']=='plan' && isVisible(w_line[i][j])}></widget_plan>
+                    <widget_report ref={ getRefName(i,j) } if={w_line[i][j]['type']=='report' && isVisible(w_line[i][j])}></widget_report>
+                    <widget_multimap ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multimap' && isVisible(w_line[i][j])}></widget_multimap>
+                    <widget_multitrack ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multitrack' && isVisible(w_line[i][j])}></widget_multitrack>
+                    <widget_stopwatch ref={ getRefName(i,j) } if={w_line[i][j]['type']=='stopwatch' && isVisible(w_line[i][j])}></widget_stopwatch>
+                    <widget_time ref={ getRefName(i,j) } if={w_line[i][j]['type']=='time' && isVisible(w_line[i][j])}></widget_time>
+                    <widget_devinfo ref={ getRefName(i,j) } if={w_line[i][j]['type']=='devinfo' && isVisible(w_line[i][j])}></widget_devinfo>
+                    <widget_custom ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom' && isVisible(w_line[i][j])}></widget_custom>
+                    <widget_custom1 ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom1' && isVisible(w_line[i][j])}></widget_custom1>
                 </div>
             </virtual>
         </div>
@@ -487,6 +487,10 @@
     getRefName(i,j){
        res=(i*4 +j+1)
        return 'a'+res
+    }
+
+    isVisible(widget){
+        return typeof widget.role =='undefined' || widget.role =='' || app.user.roles.includes(widget.role)
     }
     
     </script>

@@ -752,7 +752,10 @@
                 default:
                     if(name.startsWith('form_') || name.startsWith('custom_')){
                         try{
-                            tmpName=app.custom_texts.dashboard_form['type_'+name][app.language]
+                            var elemName='type_'+name
+                            var tmpElem=app.custom_texts.dashboard_form[elemName]
+                            tmpName=tmpElem[app.language]
+                            return tmpName
                         }catch(err){
                             return name;
                         }
@@ -821,6 +824,10 @@
         }
 
         isOnBasicTab(fieldName, widgetType){
+            var requiredFields=['w_type','w_name','w_title','w_width']
+            if(requiredFields.includes(fieldName)){
+                return true
+            }
             var result=false;
             var fields=[]
             switch(widgetType){
@@ -828,15 +835,15 @@
                 case 'multimap':
                 case 'multitrack':
                 case 'plan':
-                    fields=['w_type','w_name','w_title','w_width','w_group']
+                    fields=['w_group']
                     break
                 default:
                     if(widgetType.startsWith('form') || widgetType.startsWith('custom')){
-                        fields=['w_type','w_name','w_title','w_width','w_app_id','w_dev_id']
+                        fields=['w_app_id','w_dev_id']
                     }else if(widgetType==='text'){
-                        fields=['w_type','w_name','w_title','w_width']
+                        fields=[]
                     }else{
-                        fields=['w_type','w_name','w_title','w_width','w_dev_id']
+                        fields=['w_dev_id']
                     }
             }
             result=fields.indexOf(fieldName)>=0
@@ -845,6 +852,10 @@
         }
 
         isOnExtendedTab(fieldName, widgetType){
+            var requiredFields=['w_channel','w_role']
+            if(requiredFields.includes(fieldName)){
+                return true
+            }
             var result=false;
             var fields=[]
             switch(widgetType){
@@ -852,7 +863,7 @@
                     fields=[]
                     break
                 case 'raw':
-                    fields=['w_channel','w_query','w_format']
+                    fields=['w_query','w_format']
                     break
                 case 'line':
                 case 'stepped':
@@ -861,35 +872,35 @@
                 case 'date':
                 case 'stopwatch':
                 case 'time':
-                    fields=['w_channel','w_query']
+                    fields=['w_query']
                     break
                 case 'plan':
                 case 'led':
-                    fields=['w_channel','w_query','w_range']
+                    fields=['w_query','w_range']
                     break
                 case 'report':
                 case 'devinfo':
                 case 'openweather':
-                    fields=['w_channel','w_query','channel_translated']
+                    fields=['w_query','channel_translated']
                     break
                 case 'multimap':
                 case 'multitrack':
-                    fields=['w_channel','w_query','channel_translated','w_range']
+                    fields=['w_query','channel_translated','w_range']
                     break
                 case 'button':
                     fields=['w_data_type','w_command_type']
                     break
                 case 'symbol':
-                    fields=['w_channel','w_query','w_unit','w_rounding','w_range','w_icon']
+                    fields=['w_query','w_unit','w_rounding','w_range','w_icon']
                     break
                 case 'chart':
-                    fields=['w_channel','w_query','w_chartOption']
+                    fields=['w_query','w_chartOption']
                     break
                 default:
                     if(widgetType.startsWith('form')){
-                        fields=['w_channel','w_role','w_config']
+                        fields=['w_config']
                     }else if(widgetType.startsWith('custom')){
-                        fields=['w_channel','w_unit','w_rounding','w_query','w_config']
+                        fields=['w_unit','w_rounding','w_query','w_config']
                     }
             }
             result=fields.indexOf(fieldName)>=0
@@ -1001,7 +1012,8 @@
                   self.editedWidget.chartOption = 'plain'
                 }
                 try{
-                self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
+                    self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
+                    if(self.editedWidget.channel='') self.editedWidget.channel='-'
                 }catch(err){console.log(err)}
                 try{
                 self.editedWidget.commandType = document.getElementById('w_command_type_input').value
