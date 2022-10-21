@@ -84,10 +84,12 @@
         var p1=self.jsonData[0][0]['name'].toLowerCase()
         var p2=self.jsonData[0][1]['name'].toLowerCase()
         var lonFirst=false
-        
-        if(p2=='latitude'&&p1=='longitude' || p2=='lat'&&p1=='lon'){
+        console.log('P1:'+p1)
+        console.log('P2:'+p2)
+        if((p2=='latitude'&&p1=='longitude') || (p2=='lat'&&p1=='lon')){
             lonFirst=true
         }
+        console.log('LONFIRST:'+lonFirst)
         if(lonFirst){
             self.lat=parseFloat(self.jsonData[self.jsonData.length-1][1]['value'])
             self.lon=parseFloat(self.jsonData[self.jsonData.length-1][0]['value'])
@@ -137,8 +139,8 @@
                     tmpLat=parseFloat(self.jsonData[i][1]['value'])
                     tmpLon=parseFloat(self.jsonData[i][0]['value'])
                 }else{
-                    tmpLat=parseFloat(self.jsonData[i][1]['value'])
-                    tmpLon=parseFloat(self.jsonData[i][0]['value'])
+                    tmpLat=parseFloat(self.jsonData[i][0]['value'])
+                    tmpLon=parseFloat(self.jsonData[i][1]['value'])
                 }
                 if(!(isNaN(tmpLat) || isNaN(tmpLon))){
                     latlngs.push([tmpLat,tmpLon])

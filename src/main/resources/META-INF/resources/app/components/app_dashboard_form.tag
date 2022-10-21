@@ -1013,7 +1013,7 @@
                 }
                 try{
                     self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
-                    if(self.editedWidget.channel='') self.editedWidget.channel='-'
+                    if(self.editedWidget.channel=='') self.editedWidget.channel='-'
                 }catch(err){console.log(err)}
                 try{
                 self.editedWidget.commandType = document.getElementById('w_command_type_input').value
