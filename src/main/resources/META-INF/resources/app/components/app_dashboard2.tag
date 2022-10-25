@@ -90,25 +90,25 @@
         <div class="row my-n1" if={w_line[i] && w_line[i].length>0}>
             <virtual each={colname, j in colArr }>
                 <div class={ getColumnClass(w_line[i][j])+' h100' } if={w_line[i].length>j}>
-                    <widget_a1 ref={ getRefName(i,j) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol' && isVisible(w_line[i][j]) }></widget_a1>
-                    <widget_button ref={ getRefName(i,j) } if={w_line[i][j]['type']=='button' && isVisible(w_line[i][j])}></widget_button>
-                    <widget_form ref={ getRefName(i,j) } if={w_line[i][j]['type']=='form' && isVisible(w_line[i][j])}></widget_form>
-                    <widget_chart ref={ getRefName(i,j) } if={(w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped') && isVisible(w_line[i][j])}></widget_chart>
-                    <widget_bar ref={ getRefName(i,j) } if={w_line[i][j]['type']=='bar' && isVisible(w_line[i][j])}></widget_bar>
-                    <widget_date ref={ getRefName(i,j) } if={w_line[i][j]['type']=='date' && isVisible(w_line[i][j])}></widget_date>
-                    <widget_filter ref={ getRefName(i,j) } if={w_line[i][j]['type']=='filter' && isVisible(w_line[i][j])}></widget_filter>
-                    <widget_map ref={ getRefName(i,j) } if={w_line[i][j]['type']=='map' && isVisible(w_line[i][j])}></widget_map>
-                    <widget_raw ref={ getRefName(i,j) } if={(w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text') && isVisible(w_line[i][j])}></widget_raw>
-                    <widget_led ref={ getRefName(i,j) } if={w_line[i][j]['type']=='led' && isVisible(w_line[i][j])}></widget_led>
-                    <widget_plan ref={ getRefName(i,j) } if={w_line[i][j]['type']=='plan' && isVisible(w_line[i][j])}></widget_plan>
-                    <widget_report ref={ getRefName(i,j) } if={w_line[i][j]['type']=='report' && isVisible(w_line[i][j])}></widget_report>
-                    <widget_multimap ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multimap' && isVisible(w_line[i][j])}></widget_multimap>
-                    <widget_multitrack ref={ getRefName(i,j) } if={w_line[i][j]['type']=='multitrack' && isVisible(w_line[i][j])}></widget_multitrack>
-                    <widget_stopwatch ref={ getRefName(i,j) } if={w_line[i][j]['type']=='stopwatch' && isVisible(w_line[i][j])}></widget_stopwatch>
-                    <widget_time ref={ getRefName(i,j) } if={w_line[i][j]['type']=='time' && isVisible(w_line[i][j])}></widget_time>
-                    <widget_devinfo ref={ getRefName(i,j) } if={w_line[i][j]['type']=='devinfo' && isVisible(w_line[i][j])}></widget_devinfo>
-                    <widget_custom ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom' && isVisible(w_line[i][j])}></widget_custom>
-                    <widget_custom1 ref={ getRefName(i,j) } if={w_line[i][j]['type']=='custom1' && isVisible(w_line[i][j])}></widget_custom1>
+                    <widget_a1 ref={ getRefName(w_line[i][j]) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol' && isVisible(w_line[i][j]) }></widget_a1>
+                    <widget_button ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='button' && isVisible(w_line[i][j])}></widget_button>
+                    <widget_form ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='form' && isVisible(w_line[i][j])}></widget_form>
+                    <widget_chart ref={ getRefName(w_line[i][j]) } if={(w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped') && isVisible(w_line[i][j])}></widget_chart>
+                    <widget_bar ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='bar' && isVisible(w_line[i][j])}></widget_bar>
+                    <widget_date ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='date' && isVisible(w_line[i][j])}></widget_date>
+                    <widget_filter ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='filter' && isVisible(w_line[i][j])}></widget_filter>
+                    <widget_map ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='map' && isVisible(w_line[i][j])}></widget_map>
+                    <widget_raw ref={ getRefName(w_line[i][j]) } if={(w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text') && isVisible(w_line[i][j])}></widget_raw>
+                    <widget_led ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='led' && isVisible(w_line[i][j])}></widget_led>
+                    <widget_plan ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='plan' && isVisible(w_line[i][j])}></widget_plan>
+                    <widget_report ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='report' && isVisible(w_line[i][j])}></widget_report>
+                    <widget_multimap ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='multimap' && isVisible(w_line[i][j])}></widget_multimap>
+                    <widget_multitrack ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='multitrack' && isVisible(w_line[i][j])}></widget_multitrack>
+                    <widget_stopwatch ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='stopwatch' && isVisible(w_line[i][j])}></widget_stopwatch>
+                    <widget_time ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='time' && isVisible(w_line[i][j])}></widget_time>
+                    <widget_devinfo ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='devinfo' && isVisible(w_line[i][j])}></widget_devinfo>
+                    <widget_custom ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='custom' && isVisible(w_line[i][j])}></widget_custom>
+                    <widget_custom1 ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='custom1' && isVisible(w_line[i][j])}></widget_custom1>
                 </div>
             </virtual>
         </div>
@@ -216,8 +216,6 @@
             }else{
                 self.filter.toDate=''
             }
-            //self.filter.project = document.getElementById('project').value
-            //self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='' || self.filter.project!=='')
             self.filter.isSet=(self.filter.fromDate!=='' || self.filter.toDate!=='')
         }catch(error){
             console.log(error)
@@ -229,22 +227,22 @@
         self.filter.toDate=''
         self.filter.fromDateInput=''
         self.filter.toDateInput=''
-        //self.filter.project=''
         self.filter.isSet=false
     }
 
     refresh(e){
         app.log('REFRESHING DATA')
         var id, eui
+        var widget
         Object.keys(self.refs).forEach(function(key,index) {
-            if(self.dashboardConfig.widgets.length>index 
-            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
+            widget=self.getWidgetDefinition(key)
+            if((widget['dev_id']||widget['type']=='report'||widget['type']=='multimap'||widget['type']=='multitrack'||widget['type']=='plan'))
             {
-                eui=self.dashboardConfig.widgets[index]['dev_id']
+                eui=widget['dev_id']
                 if(eui!=='' && !self.devices.includes(eui)){
                     self.devices.push(eui)
                 }
-                id=self.dashboardConfig.widgets[index]['app_id']
+                id=widget['app_id']
                 if(!isNaN(id) && id!=='' && !self.applications.includes(id)){
                     self.applications.push(id)
                 }
@@ -256,16 +254,17 @@
         app.log(self.devConfigs)
         app.log(self.appConfigs)
         Object.keys(self.refs).forEach(function(key,index) {
-            if(self.dashboardConfig.widgets.length>index 
-            && (self.dashboardConfig.widgets[index]['dev_id']||self.dashboardConfig.widgets[index]['type']=='report'||self.dashboardConfig.widgets[index]['type']=='multimap'||self.dashboardConfig.widgets[index]['type']=='multitrack'||self.dashboardConfig.widgets[index]['type']=='plan'))
+            widget=self.getWidgetDefinition(key)
+            if((widget['dev_id']||widget['type']=='report'||widget['type']=='multimap'||widget['type']=='multitrack'||widget['type']=='plan'))
             {
-                readDashboardData(self.dashboardConfig.widgets[index], updateWidget, 0, index);
+                readDashboardData(widget, updateWidget, 0, index);
             }
         })
         riot.update()
     }
 
     function reloadConfigs(){
+        try{
         var obj, id, eui
         for(i=0; i<self.devices.length; i++){
             eui=self.devices[i]
@@ -274,6 +273,9 @@
         for(i=0; i<self.applications.length; i++){
             id=self.applications[i]
             readApplicationProperties(id,updateAppConfigs)
+        }
+        }catch(err){
+            console.log(err)
         }
     }
 
@@ -364,7 +366,7 @@
         app.log(self.refs)
         Object.keys(self.refs).forEach(function(key,index) {
             app.log(key)
-            self.refs[key].update(self.dashboardConfig.widgets[index])
+            self.refs[key].update(self.getWidgetDefinition(key))
         });
         app.log('SHARED TOKEN='+self.dashboardConfig.sharedToken)
         if(self.dashboardConfig.sharedToken){
@@ -380,6 +382,21 @@
         self.refresh(null)
     }
 
+    self.getWidgetDefinition=function(name){
+        try{
+        var tmpW
+        for(i=0; i<self.dashboardConfig.widgets.length; i++){
+            tmpW=self.dashboardConfig.widgets[i]
+            if(tmpW.name==name){
+                return tmpW
+            }
+        }
+        }catch(err){
+            console.log(err)
+        }
+        return {}
+    }
+
     //callback function
     var updateWidget = function(d, tPos){
         var row=parseInt(tPos.substring(0,1))
@@ -387,7 +404,6 @@
         app.log('UPDATING '+tPos+' '+row+' '+col)
         Object.keys(self.refs).forEach(function(key,index) {
             if(index==col){
-                console.log()
                 self.refs[key].rawdata = d
                 self.refs[key].devConfigs=self.devConfigs
                 self.refs[key].appConfigs=self.appConfigs
@@ -402,6 +418,8 @@
         if(config['type']=='button' || config['type']=='filter'){
             return
         }
+        app.log('CONIFIG')
+        app.log(config)
         var query
         var channelName = config.channel
         if(config.query){
@@ -424,10 +442,10 @@
             //url=app.groupDataAPI + "/" + config.group + "/"+channelName+"?tid="+(app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
             url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }else if(config.dev_id){
-            //url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?"+ (app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
             url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?tid="+ (app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
         }
-        if(url.length>0) {
+        try{
+        if(url.length>0 && (typeof config.role == 'undefined' || config.role.length==0 || app.user.roles.includes(config.role))) {
             getData(
                 url, 
                 null,  
@@ -440,10 +458,12 @@
                 globalEvents    //application's event listener
             )
         }
+        }catch(err){
+            console.log('readDashboardData:'+err)
+        }
     }
         
     var rebuild = function(){
-        //riot.mount('widget_a1')
         self.w_line = []
         var lineNo = 0
         var colNo = 0
@@ -484,13 +504,14 @@
         }
     }
     
-    getRefName(i,j){
-       res=(i*4 +j+1)
-       return 'a'+res
+    getRefName(widget){
+        return widget.name
     }
 
     isVisible(widget){
-        return typeof widget.role =='undefined' || widget.role =='' || app.user.roles.includes(widget.role)
+        var visible = (typeof widget.role =='undefined' || widget.role==null || widget.role.length==0 || app.user.roles.includes(widget.role))
+        app.log('VISIBLE:'+visible)
+        return visible
     }
     
     </script>

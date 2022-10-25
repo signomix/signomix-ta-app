@@ -27,8 +27,6 @@
     self.prevLon = 0.0
     self.lat = 0.0
     self.lon = 0.0
-    self.mapUrl = ''
-    self.mapExternalUrl = ''
     self.noData = false
     self.zoom = 15
     self.map=null
@@ -37,7 +35,7 @@
     self.heightStr='width:100%;height:100px;'
     
     this.on('mount',function(){
-        app.log('MOUNTING MAP WIDGET')
+        app.log('MOUNTING MULTITRACK WIDGET')
         getWidth()
     })
     
@@ -71,7 +69,7 @@
 
     }
     
-    self.verify=function(){
+    self.verify=function(){ //TODO
         try{
             if(self.jsonData==null || jsonData.length==0){
                 self.noData=true
@@ -81,7 +79,7 @@
         }
         let i=0
         while(i<self.jsonData.length){
-            if(self.jsonData[i]==null || self.jsonData[i].length==0 || self.jsonData[i][0]==null || self.jsonData[i][0]==null 
+            if(self.jsonData[i]==null || self.jsonData[i].length==0 || self.jsonData[i][0]==null 
                     || (self.jsonData[i][0]['value']==0.0 && self.jsonData[i][1]['value']==0.0)){
                 self.jsonData.splice(i,1)
             }else{
@@ -99,21 +97,16 @@
         riot.update()
         self.noData=false
         var marker=null;
-        var p1=self.jsonData[devIndex][0][0]['name'].toLowerCase()
-        var p2=self.jsonData[devIndex][0][1]['name'].toLowerCase()
-        var lonFirst=false
-        
-        if(p2=='latitude'&&p1=='longitude' || p2=='lat'&&p1=='lon'){
-            lonFirst=true
-        }
-        if(lonFirst){
-            self.lat=parseFloat(self.jsonData[idx][0][1]['value'])
-            self.lon=parseFloat(self.jsonData[idx][0][0]['value'])
-        }else{
-            self.lat=parseFloat(self.jsonData[idx][0][0]['value'])
-            self.lon=parseFloat(self.jsonData[idx][0][1]['value'])
-        }
-        self.measureDate = new Date(self.jsonData[idx][self.jsonData[idx].length-1][0]['timestamp']).toLocaleString(getSelectedLocale())
+        var latObj
+        var lonObj
+        var popupContent
+
+        latObj=self.jsonData[devIndex][0].find(x => (x.name==='latitude' || x.name==='lat'))
+        lonObj=self.jsonData[devIndex][0].find(x => (x.name==='longitude' || x.name==='lon'))
+        self.measureDate = new Date(self.jsonData[devIndex][self.jsonData[devIndex].length-1][0]['timestamp']).toLocaleString(getSelectedLocale())
+        self.lat=parseFloat(latObj.value)
+        self.lon=parseFloat(lonObj.value)
+        self.measureDate = new Date(latObj.timestamp).toLocaleString(getSelectedLocale())
         if(self.lat==self.prevLat && self.lon==self.prevLon){
             //return
         }
@@ -123,52 +116,57 @@
         // Leaflet        
         try{
             marker=L.marker([self.lat, self.lon])
-            marker.setPopupContent(self.lat+','+self.lon)
+            popupContent=self.getPopupContent(self.jsonData[devIndex][0])
+            marker.bindPopup(popupContent,{closeButton:false, closeOnClick:true}).openPopup()
             marker.addTo(self.map)
         }catch(err){
             console.log(err)
-            //marker.addTo(self.map).bindPopup(self.lat+','+self.lon)
         }
         
-        if(self.jsonData[idx].length>0){
-            var tmpLat, tmpLon
-            var latlngs =[]
-            var polyline
-            for(i=0; i<self.jsonData[idx].length; i++){
-                try{
-                  if(lonFirst){
-                    tmpLat=parseFloat(self.jsonData[idx][i][1]['value'])
-                    tmpLon=parseFloat(self.jsonData[idx][i][0]['value'])
-                    
-                  }else{
-                    tmpLat=parseFloat(self.jsonData[idx][i][0]['value']),
-                    tmpLon=parseFloat(self.jsonData[idx][i][1]['value'])
-                  }
-                  if(!(isNaN(tmpLat) || isNaN(tmpLon))){
-                      //latitude and longitude value is a number
-                      latlngs.push([tmpLat,tmpLon])
+        var tmpLat, tmpLon
+        var latlngs =[]
+        var polyline
+        for(i=0; i<self.jsonData[devIndex].length; i++){
+            try{
+                latObj=self.jsonData[devIndex][i].find(x => (x.name==='latitude' || x.name==='lat'))
+                lonObj=self.jsonData[devIndex][i].find(x => (x.name==='longitude' || x.name==='lon'))
+                tmpLat=parseFloat(latObj.value)
+                tmpLon=parseFloat(lonObj.value)
+                if(!(isNaN(tmpLat) || isNaN(tmpLon))){
+                    //latitude and longitude value is a number
+                    latlngs.push([tmpLat,tmpLon])
                     self.allPoints.push([tmpLat,tmpLon])
-                  }
-                }catch(err){
-                    //latitude or longitude value is not a number
                 }
+            }catch(err){
+                app.log(err)
+                //latitude or longitude value is not a number
             }
-            app.log(latlngs)
-            polyline = L.polyline(latlngs, {
-                color: getTrackColor(idx)
-            }).on('mouseover', function(e) {
+        }
+        app.log(latlngs)
+        polyline = L.polyline(latlngs, {
+            color: getTrackColor(devIndex)
+        }).on('mouseover', function(e) {
                 e.target.bringToFront();
                 e.target.setStyle({color: 'red'}); 
-            }).on('mouseout', function(e) {
+        }).on('mouseout', function(e) {
                 e.target.setStyle({color: polyline._color}); 
-            })
-            polyline._color=getTrackColor(idx)
-            polyline.addTo(self.map);
-            // zoom the map to the polyline
-            //self.map.fitBounds(polyline.getBounds());
-        }
-        //
+        })
+        polyline._color=getTrackColor(devIndex)
+        polyline.addTo(self.map);
+        // zoom the map to the polyline
+        //self.map.fitBounds(polyline.getBounds());
         riot.update()
+    }
+
+    self.getPopupContent=function(markerObj){
+        var content=''
+        for(i=0; i<markerObj.length; i++){
+            content=content+'<b>'+markerObj[i]['name']
+            content=content+'</b>:'
+            content=content+markerObj[i]['value']
+            content=content+'<br>'
+        }
+        return content
     }
     
     function getTrackColor(trackId){
