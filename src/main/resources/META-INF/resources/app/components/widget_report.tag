@@ -15,7 +15,7 @@
                         <td class="text-uppercase text-right" scope="col">#</td>
                         <td class="text-uppercase text-left" scope="col">{ app.texts.widget_report.EUI[app.language] }</td>
                         <td class="text-uppercase text-left" scope="col">{ app.texts.widget_report.NAME[app.language] }</td>
-                        <td class="text-uppercase text-right" scope="col" each={ name in measureNames }>{name}</td>
+                        <td class="text-uppercase text-right" scope="col" each={ name in measureNamesTranslated }>{name}</td>
                         <td class="text-uppercase text-right"scope="col">{ app.texts.widget_report.DATE[app.language] }</td>
                     </tr>
                 </thead>
@@ -69,14 +69,16 @@
     
     self.show2 = function(){
         getGroups(self.group)
+        self.measureNames=self.channel.split(",")
         if(self.channelTranslated){
-            self.measureNames=self.channelTranslated.split(",")
+            self.measureNamesTranslated=self.channelTranslated.split(",")
         }else{
-            self.measureNames=self.channel.split(",")
+            self.measureNamesTranslated=self.measureNames
         }
         app.log('SHOW2 '+self.type)
         self.jsonData = JSON.parse(this.rawdata)
         self.verify()
+        app.debug(jsonData)
         if(self.jsonData[0]) self.noData = false
         getWidth()
     }

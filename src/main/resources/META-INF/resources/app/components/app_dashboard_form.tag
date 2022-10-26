@@ -84,21 +84,34 @@
                             </select>
                         </div>
                         </div>
-                        <div class="row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
-                        <div class="form-group col-md-12">
-                            <form_input 
-                                id="w_name"
-                                name="w_name"
-                                label={ app.texts.dashboard_form.f_widget_name[app.language] }
-                                type="text"
-                                required="true"
-                                pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}" 
-                                content={ self.editedWidget.name }
+                        <div class="form-group row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
+                            <label for="w_name" class="col-sm-2 col-form-label">{ app.texts.dashboard_form.f_widget_name[app.language] }</label>
+                            <div class="col-sm-10">
+                                <input required type="text" class="form-control" id="w_name" 
+                                pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}"
                                 readonly={ !allowEdit }
-                                hint={ app.texts.dashboard_form.f_widget_name_hint[app.language] }
-                            ></form_input>
+                                content={ self.editedWidget.name }
+                                aria-describedby="w_nameHelpBlock">
+                                <small id="w_nameHelpBlock" class="form-text text-muted">
+                                { app.texts.dashboard_form.f_widget_name_hint[app.language] }
+                                </small>
+                            </div>
                         </div>
-                        </div>
+                        <!--<div class="row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>-->
+                        <!--<div class="form-group col-md-12">-->
+                        <!--    <form_input -->
+                        <!--        id="w_name" -->
+                        <!--        name="w_name" -->
+                        <!--        label={ app.texts.dashboard_form.f_widget_name[app.language] } -->
+                        <!--        type="text" -->
+                        <!--        required="true" -->
+                        <!--        pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}" -->
+                        <!--        content={ self.editedWidget.name } -->
+                        <!--        readonly={ !allowEdit } -->
+                        <!--        hint={ app.texts.dashboard_form.f_widget_name_hint[app.language] } -->
+                        <!--    ></form_input> -->
+                        <!--</div> -->
+                        <!--</div> -->
                         <div class="row" if={ isOnBasicTab('w_title',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <form_input 
@@ -882,11 +895,11 @@
                 case 'report':
                 case 'devinfo':
                 case 'openweather':
-                    fields=['w_query','channel_translated']
+                    fields=['w_query','w_channel_translated']
                     break
                 case 'multimap':
                 case 'multitrack':
-                    fields=['w_query','channel_translated','w_range']
+                    fields=['w_query','w_channel_translated','w_range']
                     break
                 case 'button':
                     fields=['w_data_type','w_command_type']
@@ -947,7 +960,8 @@
             console.log('tab name (active/next): '+self.activeTab+'/'+nextTab)
             if(self.activeTab==='basic'){
                 try{
-                  self.editedWidget.name = document.getElementById('w_name_input').value
+                  self.editedWidget.name = document.getElementById('w_name').value
+                  self.editedWidget.name=self.editedWidget.name.replace(/[^0-9a-zA-Z]/g, '')
                 }catch(err){console.log(err)}
                 try{
                   self.editedWidget.width = parseInt(document.getElementById('w_width').value,10)
