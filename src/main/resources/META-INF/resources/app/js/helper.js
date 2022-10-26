@@ -265,3 +265,11 @@ function getRounded(value, rounding) {
         return value;
     }
 }
+
+function isNotEmpty(stringValue){
+    if(typeof stringValue === 'string'){
+        return stringValue.length>0
+    }else{
+        return false
+    }
+}

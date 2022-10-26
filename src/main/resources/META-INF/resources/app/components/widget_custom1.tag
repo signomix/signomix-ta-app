@@ -1,7 +1,7 @@
 <widget_custom1>
     <div id="{ref}" ref="{ref}" if="{type == 'custom1'}" class="container-fluid bg-white border border-info rounded topspacing p-0">
         <div class="row px-3 pt-1 pb-0">
-            <div class="col-12 text-center {app.wt_color||'text-white'} sgx-wt" onclick={ switchCard()}><span class="text-body">{title.length>0?('&nbsp;'+title+'&nbsp;'):''}</span></div>
+            <div class="col-12 text-center {app.wt_color||'text-white'} sgx-wt" onclick={ switchCard()}><span class="text-body">{isNotEmpty(title)?('&nbsp;'+title+'&nbsp;'):''}</span></div>
         </div> 
         <div class="row px-3 py-1" if={ front }>
                 <div class="col-12" ref={ref+'_col'} id={ref+'_col'}>

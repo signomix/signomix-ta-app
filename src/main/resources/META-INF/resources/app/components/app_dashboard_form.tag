@@ -92,6 +92,7 @@
                                 label={ app.texts.dashboard_form.f_widget_name[app.language] }
                                 type="text"
                                 required="true"
+                                pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}" 
                                 content={ self.editedWidget.name }
                                 readonly={ !allowEdit }
                                 hint={ app.texts.dashboard_form.f_widget_name_hint[app.language] }
@@ -750,7 +751,7 @@
                     return app.texts.dashboard_form.type_custom1[app.language]
                     break
                 default:
-                    if(name.startsWith('form_') || name.startsWith('custom_')){
+                    if(typeof name==='string' && (name.startsWith('form_') || name.startsWith('custom_'))){
                         try{
                             var elemName='type_'+name
                             var tmpElem=app.custom_texts.dashboard_form[elemName]
@@ -838,7 +839,7 @@
                     fields=['w_group']
                     break
                 default:
-                    if(widgetType.startsWith('form') || widgetType.startsWith('custom')){
+                    if(typeof widgetType==='string' && (widgetType.startsWith('form') || widgetType.startsWith('custom'))){
                         fields=['w_app_id','w_dev_id']
                     }else if(widgetType==='text'){
                         fields=[]
@@ -897,9 +898,9 @@
                     fields=['w_query','w_chartOption']
                     break
                 default:
-                    if(widgetType.startsWith('form')){
+                    if(typeof widgetType==='string' && widgetType.startsWith('form')){
                         fields=['w_config']
-                    }else if(widgetType.startsWith('custom')){
+                    }else if(typeof widgetType==='string' && widgetType.startsWith('custom')){
                         fields=['w_unit','w_rounding','w_query','w_config']
                     }
             }
