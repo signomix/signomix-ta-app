@@ -141,6 +141,25 @@
               </resources>
             </configuration>
           </execution>
+          <execution>
+            <id>copy-resources4</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/META-INF/resources/app/js</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${basedir}/target/classes/META-INF/resources/app/local_js</directory>
+                  <excludes>
+                    <exclude>README.txt</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
