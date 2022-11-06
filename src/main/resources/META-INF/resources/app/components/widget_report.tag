@@ -78,7 +78,7 @@
         app.log('SHOW2 '+self.type)
         self.jsonData = JSON.parse(this.rawdata)
         self.verify()
-        app.debug(jsonData)
+        app.log(self.jsonData)
         if(self.jsonData[0]) self.noData = false
         getWidth()
     }

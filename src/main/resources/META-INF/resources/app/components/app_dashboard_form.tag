@@ -90,7 +90,7 @@
                                 <input required type="text" class="form-control" id="w_name" 
                                 pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}"
                                 readonly={ !allowEdit }
-                                content={ self.editedWidget.name }
+                                value={ self.editedWidget.name }
                                 aria-describedby="w_nameHelpBlock">
                                 <small id="w_nameHelpBlock" class="form-text text-muted">
                                 { app.texts.dashboard_form.f_widget_name_hint[app.language] }

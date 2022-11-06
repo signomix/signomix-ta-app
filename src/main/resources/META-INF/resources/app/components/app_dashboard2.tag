@@ -439,8 +439,8 @@
             url=app.iotAPI + "/" + config.dev_id
         }else if(config.type=='report'||config.type=='multimap'||config.type=='multitrack'||config.type=='plan'){
             ////url=app.groupDataAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
-            //url=app.groupDataAPI + "/" + config.group + "/"+channelName+"?tid="+(app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
-            url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
+            url=app.groupDataAPI + "/" + config.group + "/"+channelName+"?tid="+(app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
+            //url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }else if(config.dev_id){
             url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?tid="+ (app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
         }
