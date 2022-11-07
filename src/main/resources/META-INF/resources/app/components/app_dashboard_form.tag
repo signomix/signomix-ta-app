@@ -56,9 +56,9 @@
                         </li>
                     </ul>
                     <form if={activeTab==='basic'}>
-                        <div class="row" if={ isOnBasicTab('w_type',self.editedWidget.type)}>
-                        <div class="form-group col-md-12">
-                            <label for="w_type" class="active">{app.texts.dashboard_form.f_widget_type[app.language]}</label>
+                        <div class="form-group row" if={ isOnBasicTab('w_type',self.editedWidget.type)}>
+                            <label for="w_type" class="col-sm-2 col-form-label active">{app.texts.dashboard_form.f_widget_type[app.language]}</label>
+                            <div class="col-sm-10">
                             <select class="form-control" id="w_type" disabled={!allowEdit} onchange={changeType}>
                                 <option value="text" selected={self.editedWidget.type=='text'}>{self.getTypeName('text')}</option>
                                 <option value="symbol" selected={self.editedWidget.type=='symbol'}>{self.getTypeName('symbol')}</option>
@@ -82,7 +82,7 @@
                                 <option value="custom" selected={self.editedWidget.type=='custom'}>{self.getTypeName('custom')}</option>
                                 <option value="custom1" selected={self.editedWidget.type=='custom1'}>{self.getTypeName('custom1')}</option>
                             </select>
-                        </div>
+                            </div>
                         </div>
                         <div class="form-group row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
                             <label for="w_name" class="col-sm-2 col-form-label">{ app.texts.dashboard_form.f_widget_name[app.language] }</label>
@@ -97,21 +97,6 @@
                                 </small>
                             </div>
                         </div>
-                        <!--<div class="row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>-->
-                        <!--<div class="form-group col-md-12">-->
-                        <!--    <form_input -->
-                        <!--        id="w_name" -->
-                        <!--        name="w_name" -->
-                        <!--        label={ app.texts.dashboard_form.f_widget_name[app.language] } -->
-                        <!--        type="text" -->
-                        <!--        required="true" -->
-                        <!--        pattern="[a-zA-Z][a-zA-Z0-9-_\.]\{1,20}" -->
-                        <!--        content={ self.editedWidget.name } -->
-                        <!--        readonly={ !allowEdit } -->
-                        <!--        hint={ app.texts.dashboard_form.f_widget_name_hint[app.language] } -->
-                        <!--    ></form_input> -->
-                        <!--</div> -->
-                        <!--</div> -->
                         <div class="row" if={ isOnBasicTab('w_title',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <form_input 
