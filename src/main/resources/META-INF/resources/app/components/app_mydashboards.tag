@@ -16,11 +16,11 @@
                     <th class="text-right">{app.texts.mydashboards.action[app.language]}</th>
                 </tr>
                 <tr each={ dashboard in definitions }>
-                    <td><a href="#!dashboard,{dashboard.id}">{(dashboard.userID!=app.user.name?'&Implies;':'')}{ dashboard.title }</a></td>
+                    <td><a href="#!dashboard,{dashboard.id}">{app.user.roles.includes('admin')?'&sect;':''}{(dashboard.userID!=app.user.name?'&Implies;':'')}&nbsp;{ dashboard.title }</a></td>
                     <td class="text-right">
                         <i class="material-icons clickable" onclick={ createCopy(dashboard.id, true) } title="CREATE COPY">filter_none</i>
                         <i class="material-icons clickable" onclick={ editDefinition(dashboard.id, false)} if={dashboard.userID==app.user.name || dashboard.administrators.includes(','+app.user.name+',')} title="VIEW DEFINITION" >open_in_browser</i>
-                        <i class="material-icons clickable" onclick={ editDefinition(dashboard.id, true)} if={dashboard.userID==app.user.name || dashboard.administrators.includes(','+app.user.name+',')}  title="MODIFY">mode_edit</i>
+                        <i class="material-icons clickable" onclick={ editDefinition(dashboard.id, true)} if={dashboard.userID==app.user.name || dashboard.administrators.includes(','+app.user.name+',')|| app.user.roles.includes('admin')}  title="MODIFY">mode_edit</i>
                         <i class="material-icons clickable" onclick={ selectForRemove(dashboard.id) } if={dashboard.userID==app.user.name || dashboard.administrators.includes(','+app.user.name+',')} title="REMOVE" data-toggle="modal" data-target="#myModal">delete</i>
                     </td>
                 </tr>

@@ -55,6 +55,12 @@
                             <a class="nav-link { active: activeTab=='description' }" onclick="{ selectDescription() }">Description</a>
                         </li>
                     </ul>
+                    <div class="form-group row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
+                        <label for="w_name" class="col-sm-2 col-form-label active">{app.texts.dashboard_form.f_widget_name[app.language]}</label>
+                        <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="w_name" name="w_name" value="{ self.editedWidget.name }">
+                        </div>
+                    </div>
                     <form if={activeTab==='basic'}>
                         <div class="form-group row" if={ isOnBasicTab('w_type',self.editedWidget.type)}>
                             <label for="w_type" class="col-sm-2 col-form-label active">{app.texts.dashboard_form.f_widget_type[app.language]}</label>
@@ -84,6 +90,7 @@
                             </select>
                             </div>
                         </div>
+                        <!--
                         <div class="form-group row" if={ isOnBasicTab('w_name',self.editedWidget.type)}>
                             <label for="w_name" class="col-sm-2 col-form-label">{ app.texts.dashboard_form.f_widget_name[app.language] }</label>
                             <div class="col-sm-10">
@@ -97,6 +104,7 @@
                                 </small>
                             </div>
                         </div>
+                        -->
                         <div class="row" if={ isOnBasicTab('w_title',self.editedWidget.type)}>
                         <div class="form-group col-md-12">
                             <form_input 
@@ -538,6 +546,7 @@
             formData.administrators = e.target.elements['admins_input'].value
             formData.refresh_interval = e.target.elements['refresh_interval_input'].value
             formData.shared = e.target.elements['shared_input'].checked
+            self.updateWidgetNames()
             formData.widgets = self.dashboard.widgets
             app.log(JSON.stringify(formData))
             e.target.reset()
@@ -555,6 +564,12 @@
                         globalEvents
                         )
                 //self.callbackListener.trigger('submitted')
+        }
+
+        self.updateWidgetNames=function(){
+            for(let i=0; i<self.dashboard.widgets.length; i++){
+               self.dashboard.widgets[i].name='w'+i
+            }
         }
 
         self.close = function(){
@@ -633,8 +648,10 @@
             self.editedWidget.modified=true
             //
             if (self.selectedForEdit > - 1){
+                self.editedWidget.name='w'+self.selectedForEdit
                 self.dashboard.widgets[self.selectedForEdit] = self.editedWidget
             } else{
+                self.editedWidget.name='w'+self.dashboard.widgets.length
                 self.dashboard.widgets.push(self.editedWidget)
             }
             self.selectedForEdit = - 1
