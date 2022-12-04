@@ -8,17 +8,17 @@
     </div>
     <div class="row">
         <form class="col-md-12" onsubmit="{ self.submitSelectTemplate }" if="{self.useTemplate}">
-            <div class="card text-center col-md-12" style="margin-bottom: 1rem">
-                <div class="card-body">
-                    <p class="mb-0" style="margin: 10px">{ template.description }</p>
-                </div>
-            </div>
             <div class="form-group">
                 <div class="input-field">
                     <label for="template">{ app.texts.device_form.template[app.language] }</label>
                     <select class="form-control" id="template" name="template" value={ selectedTemplate } onchange={ changeTemplate } disabled={ !(allowEdit && !device.EUI) }>
                         <option each="{t in templates}" value="{t.eui}">{ t.producer+': '+t.eui}</option>
                     </select>
+                </div>
+            </div>
+            <div class="card text-left col-md-12" style="margin-bottom: 1rem">
+                <div class="card-body">
+                    <raw content={ template.description }></raw>
                 </div>
             </div>
             <div class="form-group">
@@ -40,16 +40,16 @@
                         <option value="EXTERNAL">EXTERNAL</option>
                     </select>
                 </div>
-                <div class="card text-center col-md-6" style="margin-bottom: 10px">
+                <div class="card col-md-6" style="margin-bottom: 10px">
                     <div class="card-body">
-                        <p class="mb-0" style="margin: 10px">{ getTypeDescription() }</p>
+                        <raw content={ getTypeDescription() }></raw>
                     </div>
                 </div>
             </div>
             <div class="form-row" if="{!isVisible('type')}">
-                <div class="card text-center col-md-12" style="margin-bottom: 10px">
+                <div class="card col-md-12" style="margin-bottom: 10px">
                     <div class="card-body">
-                        <p class="mb-0" style="margin: 10px">{ device.description }</p>
+                        <raw content={ device.description }></raw>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             </div>
             <div class="form-row" if="{isVisible('organization')}">
                 <div class="form-group col-md-12">
-                    <form_input id="organization" name="organization" label={ app.texts.device_form.organization[app.language] } type="text" content={ device.organizationId } readonly={ !allowEdit } hint={ app.texts.device_form.organization_hint[app.language] }></form_input>
+                    <form_input id="organization" name="organization" label={ app.texts.device_form.organization[app.language] } type="text" content={ device.organizationId } readonly={ !(allowEdit && isAdmin()) } hint={ app.texts.device_form.organization_hint[app.language] }></form_input>
                 </div>
             </div>
             <div class="form-row" if="{isVisible('organizationapp')}">
@@ -262,6 +262,11 @@
                 self.update()
                 globalEvents.trigger('err:401')
             }
+            if (eventName == 'err:409') {
+                self.communicationError = true
+                self.errorMessage = app.texts.device_form.err409[app.language]
+                self.update()
+            }
         })
 
         globalEvents.on('data:submitted', function(event) {
@@ -337,6 +342,9 @@
         isVisible(fieldName){
             return (self.mode!='create' || self.template.pattern.indexOf(fieldName)>=0)
         }
+        isAdmin(){
+            return app.user.roles.indexOf('admin')>-1
+        }
 
         getStatus(lastSeen, interval) {
             if (self.now - lastSeen > interval) {
@@ -376,16 +384,20 @@
         }
         
         self.changeTemplate = function(e) {
+            console.log('changeTemplate')
+            //e.preventDefault()
             var templateEui='-'
             try {
-                e.preventDefault()
-                templateEui=e.target.value
-            }catch(err){}
+                templateEui = document.getElementById("template").value;
+                console.log(templateEui)
+                //templateEui=e.target.value
+            }catch(err){ console.log(err)}
             for(var i=0; i<self.templates.length; i++){
                 if(self.templates[i].eui==templateEui){
                     self.selectedTemplate = self.templates[i].eui
                     self.template=self.templates[i]
-                    continue
+                    console.log(i)
+                    break
                 }
             }
             self.device.type=self.template.type
@@ -393,19 +405,21 @@
             self.device.description=self.template.description
             self.device.encoder=self.template.decoder
             self.device.code=self.template.code
-            self.device.appid=self.template.appid
-            self.device.appeui=self.template.appeui
-            self.device.interval=self.template.interval
+            self.device.applicationID=self.template.appid
+            self.device.applicationEUI=self.template.appeui
+            self.device.transmissionInterval=self.template.interval
             self.device.template=self.template.eui
             self.device.configuration=self.template.configuration
             self.device.active='true'
             self.device.project=''
             self.device.downlink=''
-            self.device.applicationEUI = ''
-            self.device.applicationID=''
+            //self.device.applicationEUI = ''
+            //self.device.applicationID=''
             self.device.state=''
             self.device.latitude=''
             self.device.longitude=''
+            console.log(self.template)
+            console.log(self.device)
             riot.update()
         }
         
@@ -529,7 +543,7 @@
             if(e.target.elements['interval_input']) {
                 formData.transmissionInterval = 60000 * Number(e.target.elements['interval_input'].value)
             }else{
-                formData.transmissionInterval = self.device.intervalnterval
+                formData.transmissionInterval = self.device.transmissionInterval
             }
             if(e.target.elements['state_input']) {
                 formData.state = e.target.elements['state_input'].value

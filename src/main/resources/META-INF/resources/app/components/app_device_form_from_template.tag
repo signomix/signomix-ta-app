@@ -18,9 +18,9 @@
                         <option value="EMULATOR">{ app.texts.device_form.template_http[app.language] }</option>
                     </select>
                 </div>
-                <div class="card text-center z-depth-2 col-md-6" style="margin-bottom: 10px">
+                <div class="card text-left z-depth-2 col-md-6" style="margin-bottom: 10px">
                     <div class="card-body">
-                        <p class="mb-0" style="margin: 10px">{ self.templateDescription }</p>
+                        <raw content={ self.templateDescription }></raw>
                     </div>
                 </div>
             </div>

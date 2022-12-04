@@ -4,4 +4,7 @@
         app.log('MOUNT RAW')
         app.log('HTML='+opts.content)
     })
+    this.on('update',function(){
+        this.root.innerHTML=opts.content
+    })
 </raw>

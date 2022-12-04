@@ -1387,6 +1387,12 @@
             "it": "Il tuo tipo di profilo non ti permette di registrare più dispositivi. Valuta l'upgrade del tuo profilo.",
             "fr": "Votre type de compte ne vous permet pas d'enregistrer plus d'appareils. Envisagez d'augmenter votre compte.",
             "pl": "Twój typ konta nie pozwala na zarejestrowanie więcej urządzeń. Rozważ zmianę typu konta."
+        },
+        "err409": {
+            "en": "Organization ID or Application ID within the organization is invalid.",
+            "it": "Organization ID or Application ID within the organization is invalid.",
+            "fr": "Organization ID or Application ID within the organization is invalid.",
+            "pl": "ID organizacji lub ID applikacji w ramach organizacji jest niepoprawne."
         }
     }
         
