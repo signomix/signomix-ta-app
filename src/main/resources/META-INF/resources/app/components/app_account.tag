@@ -89,10 +89,10 @@
                     <tr><th>{ app.texts.account.email[app.language] }</th><td>{userProfile.email}</td></tr>
                     <tr><th>{ app.texts.account.name[app.language] }</th><td>{userProfile.name}</td></tr>
                     <tr><th>{ app.texts.account.surname[app.language] }</th><td>{userProfile.surname}</td></tr>
-                    <tr><th>{ app.texts.account.generalNotifications[app.language] }</th><td>{userProfile.generalNotificationChannel}</td></tr>
-                    <tr><th>{ app.texts.account.infoNotifications[app.language] }</th><td>{userProfile.infoNotificationChannel}</td></tr>
-                    <tr><th>{ app.texts.account.warningNotifications[app.language] }</th><td>{userProfile.warningNotificationChannel}</td></tr>
-                    <tr><th>{ app.texts.account.alertNotifications[app.language] }</th><td>{userProfile.alertNotificationChannel}</td></tr>
+                    <tr><th>{ app.texts.account.generalNotifications[app.language] }</th><td>{getChannelName(userProfile.generalNotificationChannel)}</td></tr>
+                    <tr><th>{ app.texts.account.infoNotifications[app.language] }</th><td>{getChannelName(userProfile.infoNotificationChannel)}</td></tr>
+                    <tr><th>{ app.texts.account.warningNotifications[app.language] }</th><td>{getChannelName(userProfile.warningNotificationChannel)}</td></tr>
+                    <tr><th>{ app.texts.account.alertNotifications[app.language] }</th><td>{getChannelName(userProfile.alertNotificationChannel)}</td></tr>
                     <tr><th>{ app.texts.account.prefix[app.language] }</th><td>{userProfile.phonePrefix}</td></tr>
                     <tr><th>{ app.texts.account.preferredLanguage[app.language] }</th><td>{userProfile.preferredLanguage}</td></tr>
                     <tr><th>{ app.texts.account.autologin[app.language] }</th><td>{userProfile.autologin==true?'true':'false'}</td></tr>
@@ -269,6 +269,25 @@
             }
             return resp
         }
+
+        self.getChannelName = function(channel){
+            var tmpCh='';
+            try{tmpCh=channel.toUpperCase()}catch(err){}
+            if(tmpCh.startsWith('SIGNOMIX')){
+                return app.texts.user_form.select_default[app.language]
+            }
+            if(tmpCh.startsWith('WEBHOOK')){
+                return 'Webhook *****'
+            }
+            if(tmpCh.startsWith('SMTP')){
+                return 'E-mail *****'
+            }
+            if(tmpCh.startsWith('SMS')){
+                return 'SMS *****'
+            }
+            return ''
+        }
+
 
     </script>
 </app_account>
