@@ -2485,11 +2485,11 @@
                 "fr": "Configuration",
                 "pl": "Konfiguracja"
             },
-            "select": {
-                "en": "SIGNOMIX",
-                "it": "SIGNOMIX",
-                "fr": "SIGNOMIX",
-                "pl": "SIGNOMIX"
+            "select_default": {
+                "en": "Application",
+                "it": "Application",
+                "fr": "Application",
+                "pl": "Aplikacja"
             },
             "prefix": {
                 "en": "Prefix",

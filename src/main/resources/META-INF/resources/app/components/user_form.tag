@@ -48,7 +48,7 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="genNotCh">GENERAL/SYSTEM</label>
                         <select class="custom-select mr-sm-2" id="genNotCh" disabled={ !allowEdit } onchange={ changeGeneralNotification } value={user.generalNotificationChannel}>
-                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.generalNotificationChannel)}>SIGNOMIX</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.generalNotificationChannel)}>{ app.texts.user_form.select_default[app.language] }</option>
                             <option value="SMTP" selected={isSelected('SMTP',user.generalNotificationChannel)}>E-mail</option>
                             <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.generalNotificationChannel)}>Webhook</option>
                             <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.generalNotificationChannel)}>SMS</option>
@@ -79,7 +79,7 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="infoNotCh">INFO</label>
                         <select class="custom-select mr-sm-2" id="infoNotCh" disabled={ !allowEdit } onchange={ changeInfoNotification } value={user.infoNotificationChannel}>
-                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.infoNotificationChannel)}>SIGNOMIX</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.infoNotificationChannel)}>{ app.texts.user_form.select_default[app.language] }</option>
                             <option value="SMTP" selected={isSelected('SMTP',user.infoNotificationChannel)}>E-mail</option>
                             <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.infoNotificationChannel)}>Webhook</option>
                             <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.infoNotificationChannel)}>SMS</option>
@@ -110,7 +110,7 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="warningNotCh">WARNING</label>
                         <select class="custom-select mr-sm-2" id="warningNotCh" disabled={ !allowEdit } onchange={ changeWarningNotification } value={user.warningNotificationChannel}>
-                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.warningNotificationChannel)}>SIGNOMIX</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.warningNotificationChannel)}>{ app.texts.user_form.select_default[app.language] }</option>
                             <option value="SMTP" selected={isSelected('SMTP',user.warningNotificationChannel)}>E-mail</option>
                             <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.warningNotificationChannel)}>Webhook</option>
                             <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.warningNotificationChannel)}>SMS</option>
@@ -141,7 +141,7 @@
                     <div class="form-group col-md-3 my-1">
                         <label class="mr-sm-2" for="alertNotCh">ALERT</label>
                         <select class="custom-select mr-sm-2" id="alertNotCh" disabled={ !allowEdit } onchange={ changeAlertNotification } value={user.alertNotificationChannel}>
-                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.alertNotificationChannel)}>SIGNOMIX</option>
+                            <option value='SIGNOMIX' selected={isSelected('SIGNOMIX',user.alertNotificationChannel)}>{ app.texts.user_form.select_default[app.language] }</option>
                             <option value="SMTP" selected={isSelected('SMTP',user.alertNotificationChannel)}>E-mail</option>
                             <option value="WEBHOOK" selected={isSelected('WEBHOOK',user.alertNotificationChannel)}>Webhook</option>
                             <option value="SMS" if={smsEnabled} selected={isSelected('SMS',user.alertNotificationChannel)}>SMS</option>
