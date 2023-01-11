@@ -509,9 +509,7 @@
     }
 
     isVisible(widget){
-        var visible = (typeof widget.role =='undefined' || widget.role==null || widget.role.length==0 || app.user.roles.includes(widget.role))
-        app.log('VISIBLE:'+visible)
-        return visible
+        return typeof widget.role =='undefined' || widget.role == null || widget.role =='' || app.user.roles.includes(widget.role)
     }
     
     </script>
