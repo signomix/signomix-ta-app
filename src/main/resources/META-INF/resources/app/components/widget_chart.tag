@@ -5,7 +5,8 @@
         </div> 
         <div class="row px-3 py-1" if={ front }>
                 <div class="col-12">
-                    <canvas ref="line0" id="line0"></canvas>
+                    <!--<canvas ref="line0" id="line0"></canvas>-->
+                    <canvas ref="{refLine}" id="{refLine}"></canvas>
                 </div>
         </div>
         <div class="row px-3 py-1" if={ !front }>
@@ -17,9 +18,11 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">{ app.texts.widget_chart.timestamp[app.language] }</th>
+                        <th scope="col"><i class="material-icons clickable" style="font-size: smaller" onclick={ sortData() } >sort</i>
+                        { app.texts.widget_chart.timestamp[app.language] }
+                        </th>
                         <th scope="col" if="{!multiLine}"><span class="float-right">{ jsonData[0][0].name }</span></th>
-                        <th scope="col" if="{multiLine}" each="{jsonData[0]}"><span class="float-right">{ name }</span></th>
+                        <th scope="col" if="{multiLine}" each="{jsonData[0]}"><span class="float-right">{ name }</i></span></th>
                     </tr>
                 </thead>
                 <tbody if="{!multiLine}">
@@ -46,13 +49,16 @@
         self.front = true
         self.rawdata = "[]"
         self.jsonData = []
-        self.line = this.refs.line0
+        self.refLine='line_'+self.ref
+        //self.line = this.refs.line0
+        self.line=this.refs[self.refline]
         self.ctxL = {}
         self.chart = {}
         self.width = 100
         self.heightStr = 'height:100px;'
         self.multiLine = false
         self.dataAvailable=false;
+        self.sortAscending = true
 
         self.show2 = function(){
             app.log(this.rawdata)
@@ -65,15 +71,17 @@
             self.dataAvailable=true;
             getWidth()
             self.multiLine = self.jsonData[0].length > 1 && self.jsonData[0][1]['name'] != self.jsonData[0][0]['name']
-            self.showMultiLineGraph(self.type,false,self.chartOption)
+            self.sort()
+            self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation)
         }
         
-        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption){  
+        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption,cubicInterpolation){  
             if (!self.front || self.jsonData[0].length == 0 ){ 
                 app.log('return because '+self.front+' '+self.jsonData[0].length)
                 return 
             }
-            self.line = this.refs.line0
+            //self.line = this.refs.line0
+            self.line = this.refs[self.refLine]
             self.ctxL = self.line.getContext('2d')
             var minWidth = 400
             var largeSize = self.width > minWidth
@@ -105,27 +113,50 @@
                     steppedLine: (chartType == 'stepped'?true:false),
                     data: [],
                     fill: (chartOption=='area'||chartOption=='areaWithDots'?true:false),
-                    yAxisID: axesNames[i]
+                    yAxisID: axesNames[i],
+                    tension: (cubicInterpolation==true?0.4:0)
                 }        
                 )
             }
                         
             var firstDate = ''
             var lastDate = ''
-            var dFirst,dLast
+            var dLast=0
+            var dFirst=32503676400000 // year 3000 timestamp in milli
+            var dTmp
             if(self.multiLine){
                 for (var j=0; j < self.jsonData[0].length && j<4; j++){
                     for (var i = 0; i < self.jsonData.length; i++){
-                        chartData.datasets[j].data.push(self.jsonData[i][j]['value'])
+                        try{
+                            dTmp=self.jsonData[i][j]['timestamp']
+                            if(self.jsonData[i][j]['value']!=null){
+                            chartData.datasets[j].data.push(
+                            {x: (new Date(dTmp).toISOString()), y:self.jsonData[i][j]['value']}
+                            )
+                            }else{
+                                console.log("null value")
+                            }
+                            if(i==0 && dTmp<dFirst){ dFirst=dTmp }
+                            if(dTmp>dLast) { dLast=dTmp }
+                        }catch(err){}
                     }
                 }
             }else{
                 for (var i = 0; i < self.jsonData[0].length; i++){
-                    chartData.datasets[0].data.push(self.jsonData[0][i]['value'])
+                    try{
+                        dTmp=self.jsonData[0][i]['timestamp']
+                        if(self.jsonData[0][i]['value']!=null){
+                        chartData.datasets[0].data.push(
+                        {x: (new Date(dTmp).toISOString()), y:self.jsonData[0][i]['value']}
+                        )
+                        }else{
+                                console.log("null value")
+                            }
+                        if(i==0 && dTmp<dFirst) {dFirst=dTmp}
+                        if(dTmp>dLast) {dLast=dTmp}
+                    }catch(err){}
                 }  
             }
-            dFirst=self.jsonData[0][0]['timestamp']
-            dLast=self.jsonData[0][self.jsonData[0].length - 1]['timestamp']
             if (self.toLocaleTimeStringSupportsLocales()){    
                 firstDate = new Date(dFirst).toLocaleString(app.language)
                 lastDate = new Date(dLast).toLocaleString(app.language)    
@@ -159,10 +190,15 @@
                 },
                 scales: {
                     x: {
-                        ticks: {
-                        callback: function(val, index) {
-                        return ''+(index+1);
-                        }
+                        type: (self.format=='timeseries'?'timeseries':'time'),
+                        time: {
+                            unit: getChartUnit(dFirst, dLast),
+                            displayFormats: {
+                                minute: 'mm:ss',
+                                hour: 'HH:mm',
+                                day: 'D-MM',
+                                quarter: 'MMM-YYYY'
+                            }
                         }
                     }
                 },
@@ -209,25 +245,8 @@
                         }
                         }
             if(numberOfLines==1){
-                for (var i = 0; i < self.jsonData[0].length; i++){
-                    if (self.toLocaleTimeStringSupportsLocales()){
-                        chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toLocaleString(app.language))
-                    }else{
-                        chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toString())
-                    }
-                    //chartData.labels.push(new Date(self.jsonData[0][i]['timestamp']).toISOString())
-                }
                 options.plugins.legend={
                     display: false
-                }
-            }else{
-                for (var i = 0; i < self.jsonData.length; i++){
-                    if (self.toLocaleTimeStringSupportsLocales()){
-                        chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toLocaleString(app.language))
-                    }else{
-                        chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toString())
-                    }
-                    //chartData.labels.push(new Date(self.jsonData[i][0]['timestamp']).toISOString())
                 }
             }
             var chartConfig={
@@ -258,6 +277,37 @@
                 self.front = !self.front
                 riot.update()
                 self.showMultiLineGraph(self.type,true,self.chartOption)
+            }
+        }
+        self.sort=function(){
+                self.sortAscending = !self.sortAscending
+                if(self.multiLine){
+                    self.jsonData.sort((a,b)=>{
+                    if (a[0].timestamp < b[0].timestamp) {
+                    return self.sortAscending?-1:1;
+                    }   
+                    if (a[0].timestamp > b[0].timestamp) {
+                    return self.sortAscending?1:-1;
+                    }
+                    return 0;
+                    })
+                }else{
+                    self.jsonData[0].sort((a,b)=>{
+                    if (a.timestamp < b.timestamp) {
+                    return self.sortAscending?-1:1;
+                    }
+                    if (a.timestamp > b.timestamp) {
+                    return self.sortAscending?1:-1;
+                    }
+                    return 0;
+                    })
+                }
+                //riot.update()
+        }
+        self.sortData=function(){
+            return function(e){
+                self.sort()
+                self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation)
             }
         }
 

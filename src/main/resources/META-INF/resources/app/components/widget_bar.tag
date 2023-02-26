@@ -17,7 +17,9 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">{ app.texts.widget.timestamp[app.language] }</th>
+                        <th scope="col"><i class="material-icons clickable" style="font-size: smaller" onclick={ sortData() } >sort</i>
+                        { app.texts.widget.timestamp[app.language] }
+                        </th>
                         <th scope="col" if="{!multiLine}"><span class="float-right">{ jsonData[0][0].name }</span></th>
                         <th scope="col" if="{multiLine}" each="{jsonData[0]}"><span class="float-right">{ name }</span></th>
                     </tr>
@@ -44,6 +46,7 @@
         var self = this
 
         self.front = true
+        self.sortAscending = true
         self.rawdata = "[]"
         self.jsonData = []
         self.canvasElement = this.refs[(self.ref)+'_canvas']
@@ -63,8 +66,8 @@
             }
             self.dataAvailable=true;
             getWidth()
-            //self.multiLine = self.jsonData[0].length > 1 && self.jsonData[0][1]['name'] != self.jsonData[0][0]['name']
-            self.multiLine=false
+            self.multiLine = self.jsonData[0].length > 1 && self.jsonData[0][1]['name'] != self.jsonData[0][0]['name']
+            self.sort()
             self.showBarGraph(self.type,false)
         }
         
@@ -77,6 +80,7 @@
             self.ctxL = self.canvasElement.getContext('2d')
             var minWidth = 400
             var largeSize = self.width > minWidth
+            var numberOfLines = self.multiLine?self.jsonData[0].length:1
             
             var chartData = {
                 labels: [],
@@ -90,16 +94,48 @@
             var borders =[]
             var colors =[] 
             
-            for (var i = 0; i < self.jsonData[0].length; i++){
-                    chartData.labels.push(
-                        self.formatDate(new Date(self.jsonData[0][i]['timestamp']),true)
+            if(self.multiLine){
+                for (var j=0; j < self.jsonData[0].length && j<4; j++){
+                    measures = []
+                    borders =[]
+                    colors =[] 
+                    for (var i = 0; i < self.jsonData.length; i++){
+                        try{
+                            dTmp=self.jsonData[i][j]['timestamp']
+                            measures.push(
+                            {x: (new Date(dTmp).toISOString()), y:self.jsonData[i][j]['value']}
+                            )
+                            if(i==0 && dTmp<dFirst){ dFirst=dTmp }
+                            if(dTmp>dLast) { dLast=dTmp }
+                            colors.push('rgba(54, 162, 235, 0.2)')
+                            borders.push('rgb(54, 162, 235)')
+                        }catch(err){}
+                    }
+                    chartData.datasets.push(
+                        {
+                            label:self.jsonData[0].length>0?self.jsonData[0][j]['name']:'',
+                            borderWidth:1,
+                            data: measures,
+                            backgroundColor: colors,
+                            borderColor: borders
+                        }
                     )
-                    measures.push(self.jsonData[0][i]['value'])
-                    colors.push('rgba(54, 162, 235, 0.2)')
-                    borders.push('rgb(54, 162, 235)')
-            }
-
-            chartData.datasets.push(
+                }
+                
+            }else{
+                for (var i = 0; i < self.jsonData[0].length; i++){
+                    try{
+                        dTmp=self.jsonData[0][i]['timestamp']
+                        measures.push(
+                        {x: (new Date(dTmp).toISOString()), y:self.jsonData[0][i]['value']}
+                        )
+                        if(i==0 && dTmp<dFirst) {dFirst=dTmp}
+                        if(dTmp>dLast) {dLast=dTmp}
+                        colors.push('rgba(54, 162, 235, 0.2)')
+                        borders.push('rgb(54, 162, 235)')
+                    }catch(err){} 
+                }
+                chartData.datasets.push(
                         {
                             label:self.jsonData[0].length>0?self.jsonData[0][0]['name']:'',
                             borderWidth:1,
@@ -107,9 +143,8 @@
                             backgroundColor: colors,
                             borderColor: borders
                         }
-                    )
-            dFirst=self.jsonData[0][0]['timestamp']
-            dLast=self.jsonData[0][self.jsonData[0].length - 1]['timestamp']
+                )
+            }
             
             if (self.toLocaleTimeStringSupportsLocales()){
                 firstDate = new Date(dFirst).toLocaleDateString(app.language)
@@ -125,12 +160,17 @@
                         //beginAtZero: true,
                         suggestedMin: 0
                     },
-                    x:{
-                        ticks: {
-                            callback: function(value, index, ticks) {
-                                return '' + (index+1);
+                    x: {
+                        type: (self.format=='timeseries'?'timeseries':'time'),
+                        time: {
+                            unit: getChartUnit(dFirst, dLast),
+                            displayFormats: {
+                                minute: 'mm:ss',
+                                hour: 'HH:mm',
+                                day: 'D-MM',
+                                quarter: 'MMM-YYYY'
                             }
-                          }
+                        }
                     }
                 },
                 plugins: {
@@ -173,6 +213,37 @@
                 self.front = !self.front
                 riot.update()
                 self.showBarGraph(self.type,true)
+            }
+        }
+        self.sort=function(){
+                self.sortAscending = !self.sortAscending
+                if(self.multiLine){
+                    self.jsonData.sort((a,b)=>{
+                    if (a[0].timestamp < b[0].timestamp) {
+                    return self.sortAscending?-1:1;
+                    }   
+                    if (a[0].timestamp > b[0].timestamp) {
+                    return self.sortAscending?1:-1;
+                    }
+                    return 0;
+                    })
+                }else{
+                    self.jsonData[0].sort((a,b)=>{
+                    if (a.timestamp < b.timestamp) {
+                    return self.sortAscending?-1:1;
+                    }
+                    if (a.timestamp > b.timestamp) {
+                    return self.sortAscending?1:-1;
+                    }
+                    return 0;
+                    })
+                }
+                //riot.update()
+        }
+        self.sortData=function(){
+            return function(e){
+                self.sort()
+                self.showBarGraph(self.type,false)
             }
         }
 

@@ -273,3 +273,35 @@ function isNotEmpty(stringValue){
         return false
     }
 }
+
+function getChartUnit(firstTimestamp, lastTimeStamp){
+    var dist=(lastTimeStamp-firstTimestamp)/1000 //distance in seconds
+    var _1year=31536000
+    var _1month=2592000
+    var _1week=604800
+    var _1day=86400
+    var _1hour=3600
+
+    //console.log('dist:'+dist)
+    if(dist>_1year*2){
+        return 'year'
+    }
+    if(dist>_1month*6){
+        return 'quarter'
+    }
+    if(dist>_1month*2){
+        return 'month'
+    }
+    if(dist>_1week*2){
+        return 'week'
+    }
+    if(dist>_1day*2){
+        return 'day'
+    }
+    if(dist>_1hour*2){
+        return 'hour'
+    }
+    if(dist>120){
+        return 'minute'
+    }
+}

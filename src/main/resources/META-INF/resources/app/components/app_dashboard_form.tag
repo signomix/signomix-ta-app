@@ -69,8 +69,9 @@
                                 <option value="text" selected={self.editedWidget.type=='text'}>{self.getTypeName('text')}</option>
                                 <option value="symbol" selected={self.editedWidget.type=='symbol'}>{self.getTypeName('symbol')}</option>
                                 <option value="raw" selected={self.editedWidget.type=='raw'}>{self.getTypeName('raw')}</option>
+                                <option value="image" selected={self.editedWidget.type=='image'}>{self.getTypeName('image')}</option>
                                 <option value="line" selected={self.editedWidget.type=='line'}>{self.getTypeName('line')}</option>
-                                <option value="stepped" selected={self.editedWidget.type=='stepped'}>{self.getTypeName('stepped')}</option>
+                                <!--<option value="stepped" selected={self.editedWidget.type=='stepped'}>{self.getTypeName('stepped')}</option>-->
                                 <option value="bar" selected={self.editedWidget.type=='bar'}>{self.getTypeName('bar')}</option>
                                 <option value="map" selected={self.editedWidget.type=='map'}>{self.getTypeName('map')}</option>
                                 <option value="plan" selected={self.editedWidget.type=='plan'}>{self.getTypeName('plan')}</option>
@@ -84,7 +85,7 @@
                                 <option value="time" selected={self.editedWidget.type=='time'}>{self.getTypeName('time')}</option>
                                 <option value="devinfo" selected={self.editedWidget.type=='devinfo'}>{self.getTypeName('devinfo')}</option>
                                 <option value="form" selected={self.editedWidget.type=='form'}>{self.getTypeName('form')}</option>
-                                <option value="openweather" selected={self.editedWidget.type=='openweather'}>{self.getTypeName('openweather')}</option>
+                                <!--<option value="openweather" selected={self.editedWidget.type=='openweather'}>{self.getTypeName('openweather')}</option>-->
                                 <option value="custom" selected={self.editedWidget.type=='custom'}>{self.getTypeName('custom')}</option>
                                 <option value="custom1" selected={self.editedWidget.type=='custom1'}>{self.getTypeName('custom1')}</option>
                             </select>
@@ -289,6 +290,17 @@
                                 hint={ app.texts.dashboard_form.f_widget_icon_hint[app.language] }
                             ></form_input>
                         </div>
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_image_url',self.editedWidget.type) }>
+                            <form_input 
+                                id="w_image_url"
+                                name="w_image_url"
+                                label={ app.texts.dashboard_form.f_widget_image_url[app.language] }
+                                type="text"
+                                content={ self.editedWidget.imageUrl }
+                                readonly={ !allowEdit }
+                                hint={ app.texts.dashboard_form.f_widget_image_url_hint[app.language] }
+                            ></form_input>
+                        </div>
                         <div class="form-group col-md-12" if={ isOnExtendedTab('w_config',self.editedWidget.type) }>
                             <form_input 
                                 id="w_config"
@@ -308,6 +320,16 @@
                                 <option value="area" selected={self.editedWidget.chartOption=='area'}>area below</option>
                                 <option value="areaWithDots" selected={self.editedWidget.chartOption=='areaWithDots'}>area with dots</option>
                             </select>
+                        </div>
+                        <div class="form-group col-md-12" if={ isOnExtendedTab('w_cubicInterpolation',self.editedWidget.type) }>
+                        <form_input 
+                        id="w_cubicInterpolation"
+                        name="w_cubicInterpolation"
+                        label={ app.texts.dashboard_form.f_widget_cubicInterpolation[app.language] }
+                        type="check"
+                        checked={ self.editedWidget.cubicInterpolation }
+                        readonly={ !allowEdit }
+                        ></form_input>
                         </div>
                     </form>
                     <div class="modal-footer">
@@ -413,6 +435,7 @@
                         <thead>
                             <tr>
                                 <th>{ app.texts.dashboard_form.name[app.language].toUpperCase() }</th>
+                                <th>{ app.texts.dashboard_form.title[app.language].toUpperCase() }</th>
                                 <th>{ app.texts.dashboard_form.type[app.language].toUpperCase() }</th>
                                 <th class="text-right">{ app.texts.dashboard_form.action[app.language].toUpperCase() }</th>
                             </tr>
@@ -421,6 +444,7 @@
                             <tr each={widget,index in self.dashboard.widgets}>
                                 <td if={widget.modified}>* {widget.name}</td>
                                 <td if={!widget.modified}>{widget.name}</td>
+                                <td>{widget.title}</td>
                                 <td>{getTypeName(widget.type)}</td>
                                 <td class="text-right">
                                     <i class="material-icons clickable" if={allowEdit} onclick={ moveWidgetDown(index) } title="MOVE DOWN">arrow_downward</i>
@@ -488,7 +512,9 @@
                 chartOption: 'dots',
                 group: '',
                 config:'',
-                modified: false
+                modified: false,
+                cubicInterpolation: false,
+                imageUrl:''
             }
         }
         self.selectedForRemove = - 1
@@ -537,7 +563,7 @@
             dashboardPath = (self.method == 'PUT') ? '/' + self.dashboard['id'] : ''
                 //}
             var formData = {id:'', name:'', title:'', userID:'', shared:false, team:'', administrators: '', refresh_interval:0 , widgets:[]}
-            console.log(e.target)
+            //console.log(e.target)
             formData.id = self.dashboard.id
             formData.name = e.target.elements['name_input'].value
             formData.title = e.target.elements['title_input'].value
@@ -647,6 +673,7 @@
             //
             self.editedWidget.modified=true
             //
+            //console.log(self.editedWidget)
             if (self.selectedForEdit > - 1){
                 self.editedWidget.name='w'+self.selectedForEdit
                 self.dashboard.widgets[self.selectedForEdit] = self.editedWidget
@@ -708,6 +735,9 @@
                     break
                 case 'raw':
                     return app.texts.dashboard_form.type_raw[app.language]
+                    break
+                case 'image':
+                    return app.texts.dashboard_form.type_image[app.language]
                     break
                 case 'gauge':
                     return app.texts.dashboard_form.type_gauge[app.language]
@@ -816,7 +846,7 @@
         }
 
         selectBasic(e){
-            console.log('basic selected')
+            //console.log('basic selected')
             return function(e){
                 e.preventDefault()
                 savePreviousTab('basic')
@@ -856,19 +886,19 @@
                 default:
                     if(typeof widgetType==='string' && (widgetType.startsWith('form') || widgetType.startsWith('custom'))){
                         fields=['w_app_id','w_dev_id']
-                    }else if(widgetType==='text'){
+                    }else if(widgetType==='text'||widgetType==='image'){
                         fields=[]
                     }else{
                         fields=['w_dev_id']
                     }
             }
             result=fields.indexOf(fieldName)>=0
-            console.log('isOnBasicTab '+fieldName+' '+widgetType+' '+result)
+            //console.log('isOnBasicTab '+fieldName+' '+widgetType+' '+result)
             return result
         }
 
         isOnExtendedTab(fieldName, widgetType){
-            var requiredFields=['w_channel','w_role']
+            var requiredFields=['w_role']
             if(requiredFields.includes(fieldName)){
                 return true
             }
@@ -878,54 +908,58 @@
                 case 'text':
                     fields=[]
                     break
+                case 'image':
+                    fields=['w_image_url']
+                    break
                 case 'raw':
-                    fields=['w_query','w_format']
+                    fields=['w_channel','w_query','w_format']
                     break
                 case 'line':
                 case 'stepped':
+                    fields=['w_channel','w_query','w_format','w_chartOption','w_cubicInterpolation']
+                    break
                 case 'bar':
+                    fields=['w_channel','w_query','w_format']
+                    break
                 case 'map':
                 case 'date':
                 case 'stopwatch':
                 case 'time':
-                    fields=['w_query']
+                    fields=['w_channel','w_query']
                     break
                 case 'plan':
                 case 'led':
-                    fields=['w_query','w_range']
+                    fields=['w_channel','w_query','w_range']
                     break
                 case 'report':
                 case 'devinfo':
                 case 'openweather':
-                    fields=['w_query','w_channel_translated']
+                    fields=['w_channel','w_query','w_channel_translated']
                     break
                 case 'multimap':
                 case 'multitrack':
-                    fields=['w_query','w_channel_translated','w_range']
+                    fields=['w_channel','w_query','w_channel_translated','w_range']
                     break
                 case 'button':
-                    fields=['w_data_type','w_command_type']
+                    fields=['w_channel','w_data_type','w_command_type']
                     break
                 case 'symbol':
-                    fields=['w_query','w_unit','w_rounding','w_range','w_icon']
-                    break
-                case 'chart':
-                    fields=['w_query','w_chartOption']
+                    fields=['w_channel','w_query','w_unit','w_rounding','w_range','w_icon']
                     break
                 default:
                     if(typeof widgetType==='string' && widgetType.startsWith('form')){
-                        fields=['w_config']
+                        fields=['w_channel','w_config']
                     }else if(typeof widgetType==='string' && widgetType.startsWith('custom')){
-                        fields=['w_unit','w_rounding','w_query','w_config']
+                        fields=['w_channel','w_unit','w_rounding','w_query','w_config']
                     }
             }
             result=fields.indexOf(fieldName)>=0
-            console.log('isOnExtendedTab '+fieldName+' '+widgetType+' '+result)
+            //console.log('isOnExtendedTab '+fieldName+' '+widgetType+' '+result)
             return result
         }
 
         getAuthKey = function(eui){
-            console.log(self.myDevices)
+            //console.log(self.myDevices)
             for(i=0;i<self.myDevices.length; i++){
                 if(self.myDevices[i].EUI===eui){
                     return self.myDevices[i].key
@@ -934,7 +968,7 @@
             return ''
         }
         getDeviceConfig = function(eui){
-            console.log(self.myDevices)
+            //console.log(self.myDevices)
             for(i=0;i<self.myDevices.length; i++){
                 if(self.myDevices[i].EUI===eui){
                     return self.myDevices[i].configuration
@@ -959,18 +993,20 @@
 
         savePreviousTab = function(nextTab){
             if(self.activeTab===nextTab) return;
-            console.log('tab name (active/next): '+self.activeTab+'/'+nextTab)
+            //console.log('tab name (active/next): '+self.activeTab+'/'+nextTab)
             if(self.activeTab==='basic'){
                 try{
                   self.editedWidget.name = document.getElementById('w_name').value
                   self.editedWidget.name=self.editedWidget.name.replace(/[^0-9a-zA-Z]/g, '')
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                   self.editedWidget.width = parseInt(document.getElementById('w_width').value,10)
                   if(self.editedWidget.width == null || isNaN(self.editedWidget.width) || self.editedWidget.width<1 || self.editedWidget.width >4){
                   self.editedWidget.width = 1
                   }
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                   self.editedWidget.dev_id = document.getElementById('w_dev_id').value.replace(/\s+/g,'')
                 }catch(err){
@@ -984,19 +1020,19 @@
                 try{
                   self.editedWidget.dev_auth_key=getAuthKey(self.editedWidget.dev_id)
                 }catch(err){
-                    console.log(err)
+                    ////console.log(err)
                   self.editedWidget.dev_auth_key=''
                 }
                 try{
                   self.editedWidget.dev_config=getDeviceConfig(self.editedWidget.dev_id)
                 }catch(err){
-                    console.log(err)
+                    //console.log(err)
                   self.editedWidget.dev_config=''
                 }
                 try{
                   self.editedWidget.dev_app_config=getApplicationConfig(self.editedWidget.app_id)
                 }catch(err){
-                    console.log(err)
+                    //console.log(err)
                   self.editedWidget.dev_app_config=''
                 }
                 try{
@@ -1014,7 +1050,8 @@
             if(self.activeTab==='description'){
                 try{
                 self.editedWidget.description = document.getElementById('w_description_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
             }
 
             if(self.activeTab==='extended'){
@@ -1029,24 +1066,35 @@
                   self.editedWidget.chartOption = 'plain'
                 }
                 try{
+                  self.editedWidget.cubicInterpolation = document.getElementById('w_cubicInterpolation_input').checked
+                }catch(err){
+                  self.editedWidget.cubicInterpolation = false
+                }
+                try{
                     self.editedWidget.channel = document.getElementById('w_channel_input').value.replace(/\s+/g,'')
                     if(self.editedWidget.channel=='') self.editedWidget.channel='-'
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.commandType = document.getElementById('w_command_type_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.channelTranslated = document.getElementById('w_channel_translated_input').value.replace(/\s+/g,'')
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.unitName = document.getElementById('w_unit_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.rounding = document.getElementById('w_rounding_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.config = document.getElementById('w_config_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                   self.editedWidget.query = document.getElementById('w_query_input').value.trim()
                     try{
@@ -1057,21 +1105,30 @@
                     }catch(err){
                     self.editedWidget.query = 'last 1'
                     }
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.range = document.getElementById('w_range_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{
                 self.editedWidget.config = document.getElementById('w_config_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
                 try{    
                   self.editedWidget.icon = document.getElementById('w_icon_input').value
                 }catch(err){
                   self.editedWidget.icon = ''
                 }
+                try{    
+                  self.editedWidget.imageUrl = document.getElementById('w_image_url_input').value
+                }catch(err){
+                  self.editedWidget.imageUrl = ''
+                }
                 try{
                 self.editedWidget.role = document.getElementById('w_role_input').value
-                }catch(err){console.log(err)}
+                }catch(err){//console.log(err)
+                }
             }
         }
 

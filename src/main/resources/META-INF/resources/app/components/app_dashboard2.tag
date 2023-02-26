@@ -93,12 +93,13 @@
                     <widget_a1 ref={ getRefName(w_line[i][j]) } icon={w_line[i][j]['icon']} if={w_line[i][j]['type']=='symbol' && isVisible(w_line[i][j]) }></widget_a1>
                     <widget_button ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='button' && isVisible(w_line[i][j])}></widget_button>
                     <widget_form ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='form' && isVisible(w_line[i][j])}></widget_form>
-                    <widget_chart ref={ getRefName(w_line[i][j]) } if={(w_line[i][j]['type']=='line' || w_line[i][j]['type']=='stepped') && isVisible(w_line[i][j])}></widget_chart>
+                    <widget_chart ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='line' && isVisible(w_line[i][j])}></widget_chart>
                     <widget_bar ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='bar' && isVisible(w_line[i][j])}></widget_bar>
                     <widget_date ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='date' && isVisible(w_line[i][j])}></widget_date>
                     <widget_filter ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='filter' && isVisible(w_line[i][j])}></widget_filter>
                     <widget_map ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='map' && isVisible(w_line[i][j])}></widget_map>
                     <widget_raw ref={ getRefName(w_line[i][j]) } if={(w_line[i][j]['type']=='raw' || w_line[i][j]['type']=='text') && isVisible(w_line[i][j])}></widget_raw>
+                    <widget_image ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='image' && isVisible(w_line[i][j])}></widget_image>
                     <widget_led ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='led' && isVisible(w_line[i][j])}></widget_led>
                     <widget_plan ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='plan' && isVisible(w_line[i][j])}></widget_plan>
                     <widget_report ref={ getRefName(w_line[i][j]) } if={w_line[i][j]['type']=='report' && isVisible(w_line[i][j])}></widget_report>

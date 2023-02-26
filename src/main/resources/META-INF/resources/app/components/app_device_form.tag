@@ -34,8 +34,8 @@
                         <option value="GENERIC">DEFAULT</option>
                         <option value="TTN">TTN</option>
                         <option value="LORA">ChirpStack</option>
-                        <option value="KPN">KPN</option>
-                        <option value="GATEWAY">HOME GATEWAY</option>
+                        <!--<option value="KPN">KPN</option>-->
+                        <!--<option value="GATEWAY">HOME GATEWAY</option>-->
                         <option value="VIRTUAL">VIRTUAL</option>
                         <option value="EXTERNAL">EXTERNAL</option>
                     </select>
@@ -370,10 +370,10 @@
                     return app.texts.device_form.ttn_desc[app.language]
                 case 'LORA':
                     return app.texts.device_form.lora_desc[app.language]
-                case 'KPN':
-                    return app.texts.device_form.kpn_desc[app.language]
-                case 'GATEWAY':
-                    return app.texts.device_form.gateway_desc[app.language]
+                //case 'KPN':
+                //    return app.texts.device_form.kpn_desc[app.language]
+                //case 'GATEWAY':
+                //    return app.texts.device_form.gateway_desc[app.language]
                 case 'VIRTUAL':
                     return app.texts.device_form.virtual_desc[app.language]
                 case 'EXTERNAL':

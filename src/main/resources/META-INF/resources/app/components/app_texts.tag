@@ -557,6 +557,12 @@
             "fr": "Ligne de donnees (JSON)",
             "pl": "Surowe dane (JSON)"
         },
+        "type_image": {
+            "en": "Illustration",
+            "it": "Illustration",
+            "fr": "Illustration",
+            "pl": "Ilustracja"
+        },
         "type_button": {
             "en": "Button",
             "it": "Pulsante",
@@ -840,10 +846,10 @@
             "pl": "Zakresy ostrzeżeń"
         },
         "f_widget_format": {
-            "en": "Data format",
-            "it": "Formato dei dati",
-            "fr": "Format de données",
-            "pl": "Format danych"
+            "en": "Type of X-axis of the chart",
+            "it": "Type of X-axis of the chart",
+            "fr": "Type of X-axis of the chart",
+            "pl": "Typ osi X wykresu"
         },
         "f_widget_chartOption": {
             "en": "Chart style",
@@ -917,6 +923,18 @@
             "fr": "Force use of icon",
             "pl": "Wymuś użycie ikony"
         },
+        "f_widget_image_url": {
+            "en": "Image URL",
+            "it": "Image URL",
+            "fr": "Image URL",
+            "pl": "URL obrazka"
+        },
+        "f_widget_image_url_hint": {
+            "en": "Provide the URL of the image to be displayed in the widget",
+            "it": "Provide the URL of the image to be displayed in the widget",
+            "fr": "Provide the URL of the image to be displayed in the widget",
+            "pl": "Podaj URL obrazka do wyświetlenia w kontrolce"
+        },
         "f_widget_width": {
             "en": "Widget width (number of columns)",
              "it": "Larghezza del widget (numero di colonne)",
@@ -934,6 +952,12 @@
              "it": "Select application",
             "fr": "Select application",
             "pl": "Wybierz aplikację"
+        },
+        "f_widget_cubicInterpolation": {
+            "en": "Cubic interpolation",
+             "it": "Cubic interpolation",
+            "fr": "Cubic interpolation",
+            "pl": "Interpolacja sześcienna"
         }
     }    
     
