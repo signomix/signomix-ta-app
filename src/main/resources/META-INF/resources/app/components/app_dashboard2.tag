@@ -244,7 +244,7 @@
                     self.devices.push(eui)
                 }
                 id=widget['app_id']
-                if(!isNaN(id) && id!=='' && !self.applications.includes(id)){
+                if(!isNaN(id) && id!=null && id!=='' && id!='null' && !self.applications.includes(id)){
                     self.applications.push(id)
                 }
             }
@@ -446,7 +446,7 @@
             url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?tid="+ (app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
         }
         try{
-        if(url.length>0 && (typeof config.role == 'undefined' || config.role.length==0 || app.user.roles.includes(config.role))) {
+        if(url.length>0 && (typeof config.role == 'undefined' || config.role==null || config.role.length==0 || app.user.roles.includes(config.role))) {
             getData(
                 url, 
                 null,  
