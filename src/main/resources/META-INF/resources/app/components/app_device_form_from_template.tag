@@ -36,7 +36,7 @@
                 <div class="form-group col-md-6">
                     <label for="type">{ app.texts.device_form.type[app.language] }</label>
                     <select class="form-control" id="type" name="type" value={ device.type } onchange={ changeType } disabled={ !(allowEdit && !device.EUI) } required>
-                        <option value="GENERIC">DEFAULT</option>
+                        <option value="GENERIC">DIRECT</option>
                         <option value="TTN">TTN</option>
                         <option value="LORA">ChirpStack</option>
                         <option value="KPN">KPN</option>
