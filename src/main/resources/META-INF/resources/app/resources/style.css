@@ -1,24 +1,44 @@
-.material-icons.md-48 { font-size: 48px; }
-.material-icons.md-32 { font-size: 32px; }
-.material-icons.red { color: #E74C3C; }
-.material-icons.yellow { color: #F39C12; }
-.material-icons.blue { color: #0D83D0; }
-.module-title{
+.material-icons.md-48 {
+    font-size: 48px;
+}
+
+.material-icons.md-32 {
+    font-size: 32px;
+}
+
+.material-icons.red {
+    color: #E74C3C;
+}
+
+.material-icons.yellow {
+    color: #F39C12;
+}
+
+.material-icons.blue {
+    color: #0D83D0;
+}
+
+.module-title {
     margin-top: 20px;
 }
-.topspacing{
+
+.topspacing {
     margin-top: 20px;
 }
-.clickable:hover{
+
+.clickable:hover {
     cursor: pointer;
 }
-.separated{
+
+.separated {
     margin-left: 10px;
 }
-.card-bg{
-    background-image: url('/images/signomix-90-bg.svg'); 
+
+.card-bg {
+    background-image: url('/images/signomix-90-bg.svg');
     background-size: cover;
 }
+
 .code-example {
     background-color: whitesmoke;
     border: solid;
@@ -30,13 +50,32 @@
     white-space: pre;
 }
 
-.panel{
+/* keywords */
+.kw {
+    background-color: lightgrey;
+    padding: 0.25rem;
+    font-family: monospace;
+}
+
+.kw-b {
+    font-weight: bold;
+}
+
+.kw-i {
+    font-style: italic;
+}
+
+.kw-u {
+    text-decoration: underline
+}
+
+.panel {
     background-color: white;
     padding: 1em 1em 1em 1em;
 }
 
 .text-signo {
-    color: rgb(80,80,80);
+    color: rgb(80, 80, 80);
 }
 
 /* Sticky footer styles
@@ -47,10 +86,11 @@ html {
 }
 
 /* Widget title bar */
-.sgx-wt{
-    position:relative
-  }
-  .sgx-wt:before {
+.sgx-wt {
+    position: relative
+}
+
+.sgx-wt:before {
     content: "";
     display: block;
     border-top: solid 4px;
@@ -59,13 +99,14 @@ html {
     position: relative;
     top: 0.5rem;
     z-index: 0;
-  }
-  .sgx-wt span {
+}
+
+.sgx-wt span {
     background: #fff;
     padding: 0 0px;
     position: relative;
     z-index: 1;
-  }
+}
 
 .footer2 {
     position: absolute;
@@ -73,10 +114,11 @@ html {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 40px;
-    line-height: 40px; /* Vertically center the text there */
+    line-height: 40px;
+    /* Vertically center the text there */
 }
 
-.signomix-form{
+.signomix-form {
     max-width: 600px;
     margin: 0 auto;
     border: solid;
@@ -86,7 +128,8 @@ html {
 
 .card-header:first-child {
     /*background-color: linear-gradient(to right, #0D83D0 0%, #ffffff 100%);*/
-    background-color: #F0F8FF; /*#0D83D0;*/
+    background-color: #F0F8FF;
+    /*#0D83D0;*/
 }
 
 main {
