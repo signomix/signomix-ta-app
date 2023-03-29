@@ -11,37 +11,37 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
         app.requests--;
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
+            if (eventBus != null) try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
-    oReq.onloadend = function(oEvent){
-        app.log('ONLOADEND'+this.status);
+    oReq.onloadend = function (oEvent) {
+        app.log('ONLOADEND' + this.status);
         app.requests--;
         if (eventBus != null) {
-            if(eventBus!=null) try{eventBus.trigger("dataloaded");}catch(err){}
+            if (eventBus != null) try { eventBus.trigger("dataloaded"); } catch (err) { }
         }
-        if(appEventBus!=null){
+        if (appEventBus != null) {
             appEventBus.trigger("dataloaded");
         }
     }
-    oReq.onabort = function(oEvent){
-        app.log('ONABORT'+this.status);
+    oReq.onabort = function (oEvent) {
+        app.log('ONABORT' + this.status);
         app.requests--;
         if (appEventBus == null) {
-            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
+            if (eventBus != null) try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
-    oReq.timeout = function(oEvent){
-        app.log('ONTIMEOUT'+this.status);
+    oReq.timeout = function (oEvent) {
+        app.log('ONTIMEOUT' + this.status);
         app.requests--;
         if (appEventBus == null) {
-            if(eventBus!=null) try{eventBus.trigger("data:"+this.status);}catch(err){}
+            if (eventBus != null) try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
@@ -50,28 +50,28 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
                 if (callback != null) {
                     callback(oReq.response);
                 } else {
-                    if(eventBus!=null) try{eventBus.trigger(successEventName);}catch(err){}
+                    if (eventBus != null) try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    if(eventBus!=null) try{eventBus.trigger(tmpErrName);}catch(err){}
+                    if (eventBus != null) try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
             }
-        }else{
-            app.log('READYSTATE='+this.readyState);
+        } else {
+            app.log('READYSTATE=' + this.readyState);
         }
     };
     app.log('SENDING');
     app.requests++;
-    oReq.responseType='blob'
+    oReq.responseType = 'blob'
     oReq.open("get", url, true);
     oReq.setRequestHeader("Accept", ctype);
     if (token != null) {
@@ -84,90 +84,90 @@ function getFile(url, query, token, callback, eventBus, successEventName, errorE
 }
 
 // get data from the service
-function getData(url, query, token, callback, eventBus, successEventName, errorEventName, debug, appEventBus,ctype,pcallback) {
+function getData(url, query, token, callback, eventBus, successEventName, errorEventName, debug, appEventBus, ctype, pcallback) {
     var oReq = new XMLHttpRequest();
     var defaultErrorEventName = "err:";
-    if(pcallback){
-        oReq.addEventListener("progress",pcallback)
+    if (pcallback) {
+        oReq.addEventListener("progress", pcallback)
     }
     oReq.onerror = function (oEvent) {
         app.log('ONERROR');
         app.requests--;
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            try{eventBus.trigger("data:"+this.status);}catch(err){}
+            try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
-    oReq.onloadend = function(oEvent){
-        app.log('ONLOADEND'+this.status);
+    oReq.onloadend = function (oEvent) {
+        app.log('ONLOADEND' + this.status);
         app.requests--;
         if (eventBus != null) {
             eventBus.trigger("dataloaded");
         }
-        if(appEventBus!=null){
+        if (appEventBus != null) {
             appEventBus.trigger("dataloaded");
         }
     }
-    oReq.onabort = function(oEvent){
-        app.log('ONABORT'+this.status);
+    oReq.onabort = function (oEvent) {
+        app.log('ONABORT' + this.status);
         app.requests--;
         if (appEventBus == null) {
-            try{eventBus.trigger("data:"+this.status);}catch(err){}
+            try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
-    oReq.timeout = function(oEvent){
-        app.log('ONTIMEOUT'+this.status);
+    oReq.timeout = function (oEvent) {
+        app.log('ONTIMEOUT' + this.status);
         app.requests--;
         if (appEventBus == null) {
-            try{eventBus.trigger("data:"+this.status);}catch(err){}
+            try { eventBus.trigger("data:" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("data:"+this.status);
+            appEventBus.trigger("data:" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 if (callback != null) {
-                    if(ctype==null||ctype=='') { 
+                    if (ctype == null || ctype == '') {
                         callback(this.responseText, successEventName);
-                    }else{
+                    } else {
                         callback(oReq.response)
                     }
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    try{eventBus.trigger(tmpErrName);}catch(err){}
+                    try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
             }
-        }else{
-            app.log('READYSTATE='+this.readyState);
+        } else {
+            app.log('READYSTATE=' + this.readyState);
         }
     };
     app.log('SENDING');
     app.requests++;
-    
-    if(ctype){
-        oReq.responseType='blob'
+
+    if (ctype) {
+        oReq.responseType = 'blob'
         oReq.open("get", url, true);
         oReq.setRequestHeader("Accept", ctype);
-    }else{
+    } else {
         oReq.open("get", url, true);
     }
-    
+
     if (token != null) {
         oReq.withCredentials = true;
         oReq.setRequestHeader("Authentication", token);
@@ -177,6 +177,30 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
     return false;
 }
 
+async function fetchData(url, token) {
+    try {
+        let endpoint = serviceUrl + "/sdd/api/configurations/" + params.slug
+        let headers = new Headers();
+        headers.set('Authentication', token);
+        const response = await fetch(url, { headers: headers })
+        if (response.status == 200) {
+            return response.json();
+        } else if (response.status == 401 || response.status == 403) {
+            //
+        } else {
+            //alert(
+            //    utils.getMessage(utils.FETCH_STATUS)
+            //.replace('%1', response.status)
+            //        .replace('%2', response.statusText)
+            //)
+        }
+    } catch (error) {
+        console.log('ERROR')
+        console.log(error)
+    }
+    return null
+}
+
 function sendFormData(oFormElement, method, url, token, callback, eventBus, successEventName, errorEventName, debug, appEventBus) {
     app.log("sendFormData ...")
     var oReq = new XMLHttpRequest();
@@ -184,9 +208,9 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            try{eventBus.trigger("auth"+this.status);}catch(err){}
+            try { eventBus.trigger("auth" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("auth"+this.status);
+            appEventBus.trigger("auth" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
@@ -197,17 +221,17 @@ function sendFormData(oFormElement, method, url, token, callback, eventBus, succ
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    try{eventBus.trigger(tmpErrName);}catch(err){}
+                    try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -237,8 +261,8 @@ function sendData(data, method, url, token, callback, eventBus, successEventName
     for (name in data) {
         urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
     }
-// Combine the pairs into a single string and replace all %-encoded spaces to 
-// the '+' character; matches the behaviour of browser form submissions.
+    // Combine the pairs into a single string and replace all %-encoded spaces to 
+    // the '+' character; matches the behaviour of browser form submissions.
     urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
@@ -252,15 +276,15 @@ function sendData(data, method, url, token, callback, eventBus, successEventName
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 app.log("onreadystatechange")
-                    if (errorEventName == null) {
-                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
-                    } else {
-                        try{eventBus.trigger(errorEventName);}catch(err){}
-                    }
+                if (errorEventName == null) {
+                    try { eventBus.trigger(defaultErrorEventName + this.status); } catch (err) { }
+                } else {
+                    try { eventBus.trigger(errorEventName); } catch (err) { }
+                }
             }
         }
     }
@@ -299,15 +323,15 @@ function sendIotData(data, method, url, eui, authKey, callback, eventBus, succes
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 app.log("onreadystatechange")
-                    if (errorEventName == null) {
-                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
-                    } else {
-                        try{eventBus.trigger(errorEventName);}catch(err){}
-                    }
+                if (errorEventName == null) {
+                    try { eventBus.trigger(defaultErrorEventName + this.status); } catch (err) { }
+                } else {
+                    try { eventBus.trigger(errorEventName); } catch (err) { }
+                }
             }
         }
     }
@@ -342,15 +366,15 @@ function sendTextData(data, method, url, token, callback, eventBus, successEvent
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 app.log("onreadystatechange")
-                    if (errorEventName == null) {
-                        try{eventBus.trigger(defaultErrorEventName + this.status);}catch(err){}
-                    } else {
-                        try{eventBus.trigger(errorEventName);}catch(err){}
-                    }
+                if (errorEventName == null) {
+                    try { eventBus.trigger(defaultErrorEventName + this.status); } catch (err) { }
+                } else {
+                    try { eventBus.trigger(errorEventName); } catch (err) { }
+                }
             }
         }
     }
@@ -372,9 +396,9 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            try{eventBus.trigger("auth"+this.status);}catch(err){}
+            try { eventBus.trigger("auth" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("auth"+this.status);
+            appEventBus.trigger("auth" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
@@ -385,17 +409,17 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    try{eventBus.trigger(tmpErrName);}catch(err){}
+                    try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -426,9 +450,9 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            try{eventBus.trigger("auth"+this.status);}catch(err){}
+            try { eventBus.trigger("auth" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("auth"+this.status);
+            appEventBus.trigger("auth" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
@@ -439,17 +463,17 @@ function deleteConditional(data, url, token, callback, eventBus, successEventNam
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    try{eventBus.trigger(tmpErrName);}catch(err){}
+                    try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
@@ -474,9 +498,9 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
     oReq.onerror = function (oEvent) {
         app.log("onerror " + this.status + " " + oEvent.toString())
         if (appEventBus == null) {
-            try{eventBus.trigger("auth"+this.status);}catch(err){}
+            try { eventBus.trigger("auth" + this.status); } catch (err) { }
         } else {
-            appEventBus.trigger("auth"+this.status);
+            appEventBus.trigger("auth" + this.status);
         }
     }
     oReq.onreadystatechange = function () {
@@ -487,17 +511,17 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
                 if (callback != null) {
                     callback(this.responseText);
                 } else {
-                    try{eventBus.trigger(successEventName);}catch(err){}
+                    try { eventBus.trigger(successEventName); } catch (err) { }
                 }
             } else {
                 var tmpErrName
                 if (errorEventName == null) {
-                    tmpErrName=defaultErrorEventName + this.status
+                    tmpErrName = defaultErrorEventName + this.status
                 } else {
-                    tmpErrName=errorEventName
+                    tmpErrName = errorEventName
                 }
                 if (appEventBus == null) {
-                    try{eventBus.trigger(tmpErrName);}catch(err){}
+                    try { eventBus.trigger(tmpErrName); } catch (err) { }
                 } else {
                     appEventBus.trigger(tmpErrName);
                 }
