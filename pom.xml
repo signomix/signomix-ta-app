@@ -15,6 +15,8 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.16.1.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+    <orderform.url.pl></orderform.url.pl>
+    <orderform.url.en></orderform.url.en>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -227,12 +229,14 @@
               <token>%release%</token>
               <value>${project.version}</value>
             </replacement>
-            <!--
             <replacement>
-              <token>%gaTrackingID%</token>
-              <value>${env.SIGNOMIX_GA_TRACKING_ID}</value>
+              <token>%orderform.url.pl%</token>
+              <value>${orderform.url.pl}</value>
             </replacement>
-            -->
+            <replacement>
+              <token>%orderform.url.en%</token>
+              <value>${orderform.url.en}</value>
+            </replacement>
             <replacement>
               <token>%title%</token>
               <value>${env.SIGNOMIX_TITLE}</value>

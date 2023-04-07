@@ -22,10 +22,10 @@
             </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="upgradeDialog" tabindex="-1" role="dialog" aria-labelledby="upgradeDialogLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <div class="modal" id="upgradeDialog" tabindex="-1" role="dialog" aria-labelledby="upgradeDialogLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <!--<div class="modal-header">
                         <h5 class="modal-title" id="upgradeModalLabel">{app.texts.account.upgrade_title[app.language]}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label={app.texts.account.ok[app.language]}>
                             <span aria-hidden="true">&times;</span>
@@ -33,9 +33,13 @@
                     </div>
                     <div class="modal-body">
                         <p>{app.texts.account.upgrade_info[app.language]}</p>
+                    </div>-->
+                    <div class="modal-body">
+                        <iframe if={app.language=='pl'} src="{upgradeFormPl}&hl=pl&embeded=true" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">Ładuję…</iframe>
+                        <iframe if={app.language!='pl'} src="{upgradeFormEn}&hl=en&embeded=true" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{app.texts.account.ok[app.language]}</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">{app.texts.common.close[app.language]}</button>
                     </div>
                 </div>
             </div>
@@ -59,9 +63,16 @@
             <div class="col-md-6">
                 <div class="alert alert-light border-dark">
                     <button type="button" class="btn btn btn-outline-primary" onclick={ editAccount() } style="margin:2px;">{ app.texts.account.modify[app.language] }</button>
-                    <button type="button" class="btn btn-outline-primary" onclick={ changePassword() } style="margin:2px;">{ app.texts.account.changepass[app.language] }</button>
+                    <button if={isPaidVersion} type="button" class="btn btn-outline-primary" onclick={ changePassword() } style="margin:2px;">{ app.texts.account.changepass[app.language] }</button>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="alert alert-light border-dark">
+                    <button type="button" class="btn btn btn-primary"style="margin:2px;" disabled>{getTariffName()}</button>
+                    <button type="button" class="btn btn-outline-primary"data-toggle="modal" data-target="#upgradeDialog" style="margin:2px;">{ app.texts.account.changetariff[app.language] }</button>
+                </div>
+            </div>
+            <!--
             <div class="col-md-6">
                 <div class="alert alert-light border-dark h3 text-justify">
                     <div class="d-flex">
@@ -73,6 +84,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
         <div class="row" if={ passwordChangeSuccess }>
              <div class="col-md-12">
@@ -118,6 +130,9 @@
         self.passwordChange = false
         self.edited = false
         self.paswordChangeSuccess = false
+        self.isPaidVersion=false
+        self.upgradeFormPl=''
+        self.upgradeFormEn=''
 
         this.on('mount',function(){
             app.log('LOCATION: '+document.location)
@@ -212,6 +227,21 @@
         }
         }
 
+        self.setUpgradeFormUrl = function(){
+            console.log(app.upgradeFormPl)
+            self.upgradeFormPl=app.upgradeFormPl.replace('%1',self.userProfile.uid).replace('%2',self.userProfile.email)
+            self.upgradeFormEn=app.upgradeFormEn.replace('%1',self.userProfile.uid).replace('%2',self.userProfile.email)
+            if(self.upgradeFormPl==''){
+                self.upgradeFormPl = self.upgradeFormEn
+            }
+            if(self.upgradeFormEn!=''){
+                self.isPaidVersion=true
+            }
+            riot.update()
+            console.log(self.upgradeFormPl)
+        }
+
+
         var readMyAccountData = function () {
             getData(app.userAPI + "/" + app.user.name,
                 null,
@@ -229,6 +259,7 @@
         app.log("ACCOUNT: " + text)
         self.userProfile = JSON.parse(text);
         riot.update()
+        self.setUpgradeFormUrl()
         if(app.user.guest){
         self.forceChangePassword()
         }

@@ -912,7 +912,7 @@
                     fields=['w_image_url']
                     break
                 case 'raw':
-                    fields=['w_channel','w_query','w_format']
+                    fields=['w_channel','w_query']
                     break
                 case 'line':
                 case 'stepped':
