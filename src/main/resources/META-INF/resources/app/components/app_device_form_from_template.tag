@@ -497,7 +497,7 @@
         }
 
         var readDevice = function(devEUI) {
-            getData(app.iotAPI + '/' + devEUI,
+            getData(app.iotAPI + '/' + devEUI+'?full=true',
                 null,
                 app.user.token,
                 update,

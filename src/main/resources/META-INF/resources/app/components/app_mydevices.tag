@@ -552,7 +552,7 @@
         
         var readMyDevices = function() {
                 app.log('reading devices ...')
-                getData(app.iotAPI,
+                getData(app.iotAPI+'?full=true',
                     null,
                     app.user.token,
                     updateMyDevices,

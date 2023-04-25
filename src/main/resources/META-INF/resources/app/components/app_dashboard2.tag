@@ -118,7 +118,7 @@
 
     <script charset="UTF-8">
     var self = this
-    self.rowArr = [0,1,2,3,4,5,6]
+    self.rowArr = [0,1,2,3,4,5,6,8,9,10,11,12,13]
     self.colArr = [0,1,2,3]
     self.dashboardConfig = {
         title:'reading dashboard ...',

@@ -312,8 +312,8 @@
             "pl": "Administrator"
         },
         "pro_account": {
-            "en": "Pro",
-            "pl": "Pro"
+            "en": "Professional",
+            "pl": "Professional"
         },
         "extended_account": {
             "en": "Free, extended",
