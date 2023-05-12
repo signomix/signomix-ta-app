@@ -44,15 +44,15 @@
                 </thead>
                 <tbody>
                     <tr each={device in myDevices}>
-                        <td>{(device.userID!=app.user.name?'&Implies;':'')}{device.EUI}</td>
+                        <td>{(device.userID!=app.user.name?'&Implies;':'')}{device.eui}</td>
                         <td>{device.name}</td>
                         <td>{device.type}</td>
                         <td><img height="16px" style="margin-right: 10px;" src={ getStatus(device.lastSeen, device.transmissionInterval) }></td>
                         <td class="text-right">
-                            <i class="material-icons clickable" onclick="{ selectForDownload(device.EUI, device.name) }" title="DOWNLOAD DATA" data-toggle="modal" data-target="#downloadModal">cloud_download</i>
-                            <i class="material-icons clickable" onclick={ editDevice(device.EUI, false) } title="VIEW">open_in_browser</i>
-                            <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ editDevice(device.EUI, true) } title="MODIFY">mode_edit</i>
-                            <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ selectForRemove(device.EUI) } title="REMOVE" data-toggle="modal" data-target="#myModal">delete</i>
+                            <i class="material-icons clickable" onclick="{ selectForDownload(device.eui, device.name) }" title="DOWNLOAD DATA" data-toggle="modal" data-target="#downloadModal">cloud_download</i>
+                            <i class="material-icons clickable" onclick={ editDevice(device.eui, false) } title="VIEW">open_in_browser</i>
+                            <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ editDevice(device.eui, true) } title="MODIFY">mode_edit</i>
+                            <i class="material-icons clickable" if={device.userID == app.user.name || device.administrators.includes(','+app.user.name+',')} onclick={ selectForRemove(device.eui) } title="REMOVE" data-toggle="modal" data-target="#myModal">delete</i>
                         </td>
                     </tr>
                 </tbody>
@@ -510,11 +510,11 @@
                 }
                 self.downloadStarted=true
                 //TODO: toTs=now
-                query=query+' csv.timeseries' 
+                //query=query+' csv.timeseries' 
                 getData( 
-                    app.iotAPI+'/'+self.selectedForDownload+'?'+query,
+                    app.dataAPI+'/'+self.selectedForDownload+'/*?tid='+app.user.token+'&'+query,
                     '',
-                    app.user.token, 
+                    '', 
                     self.handleFile, 
                     self.downloadListener, 
                     'submit:OK', 

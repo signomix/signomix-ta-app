@@ -507,7 +507,7 @@ function sendJsonData(data, method, url, authHeader, token, callback, eventBus, 
         if (this.readyState == 4) {
             app.requests--;
             if (this.status == 200 || this.status == 201) {
-                app.log(JSON.parse(this.responseText));
+                //app.log(JSON.parse(this.responseText));
                 if (callback != null) {
                     callback(this.responseText);
                 } else {

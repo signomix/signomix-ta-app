@@ -1,0 +1,23 @@
+userID
+checkFrames
+altitude
+appeui - applicationEUI
+deviceID
+: 
+""
+appid - applicationID
+: 
+""
+channels - mapa!
+: 
+"temperature,humidity"
+
+downlink
+: 
+""
+
+""
+state
+: 
+"0"
+

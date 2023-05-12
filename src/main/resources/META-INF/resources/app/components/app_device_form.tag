@@ -11,7 +11,7 @@
             <div class="form-group">
                 <div class="input-field">
                     <label for="template">{ app.texts.device_form.template[app.language] }</label>
-                    <select class="form-control" id="template" name="template" value={ selectedTemplate } onchange={ changeTemplate } disabled={ !(allowEdit && !device.EUI) }>
+                    <select class="form-control" id="template" name="template" value={ selectedTemplate } onchange={ changeTemplate } disabled={ !(allowEdit && !device.eui) }>
                         <option each="{t in templates}" value="{t.eui}">{ t.producer+': '+t.eui}</option>
                     </select>
                 </div>
@@ -30,7 +30,7 @@
             <div class="form-row" if="{isVisible('type')}">
                 <div class="form-group col-md-6">
                     <label for="type">{ app.texts.device_form.type[app.language] }</label>
-                    <select class="form-control" id="type" name="type" value={ device.type } onchange={ changeType } disabled={ !(allowEdit && !device.EUI) } required>
+                    <select class="form-control" id="type" name="type" value={ device.type } onchange={ changeType } disabled={ !(allowEdit && !device.eui) } required>
                         <option value="GENERIC">DIRECT</option>
                         <option value="TTN">TTN</option>
                         <option value="LORA">CHIRPSTACK</option>
@@ -60,7 +60,7 @@
             </div>
             <div class="form-row" if="{isVisible('eui')}">
                 <div class="form-group col-md-12">
-                    <form_input id="eui" name="eui" label={ app.texts.device_form.eui[app.language] } type="text" content={ device.EUI } required={device.type=='TTN' || device.type=='KPN' || device.type=='LORA'} readonly={ !(allowEdit && !device.EUI) } hint={ app.texts.device_form.eui_hint[app.language] }></form_input>
+                    <form_input id="eui" name="eui" label={ app.texts.device_form.eui[app.language] } type="text" content={ device.eui } required={device.type=='TTN' || device.type=='KPN' || device.type=='LORA'} readonly={ !(allowEdit && !device.eui) } hint={ app.texts.device_form.eui_hint[app.language] }></form_input>
                 </div>
             </div>
             <div class="form-row" if="{isVisible('key')}">
@@ -138,11 +138,13 @@
                     <form_input id="longitude" name="longitude" label={ app.texts.device_form.longitude[app.language] } type="text" content={ device.longitude } readonly={ !allowEdit } hint={ app.texts.device_form.longitude_hint[app.language] }></form_input>
                 </div>
             </div>
+            <!--
             <div class="form-row" if="{isVisible('downlink')}">
                 <div class="form-group col-md-12">
                     <form_input id="downlink" name="downlink" label={ app.texts.device_form.downlink[app.language] } type="text" content={ device.downlink } readonly={ !allowEdit } hint={ app.texts.device_form.downlink_hint[app.language] }></form_input>
                 </div>
             </div>
+            -->
             <div class="form-row" if="{isVisible('organization')}">
                 <div class="form-group col-md-12">
                     <form_input id="organization" name="organization" label={ app.texts.device_form.organization[app.language] } type="text" content={ device.organizationId } readonly={ !(allowEdit && isAdmin()) } hint={ app.texts.device_form.organization_hint[app.language] }></form_input>
@@ -215,6 +217,43 @@
         self.templates=[]
         self.template = {}
         self.device = {
+            template:null,
+            name:null,
+            applicationEUI:null,
+            applicationID:null,
+            key:null,
+            userID:null,
+            type:"GENERIC",
+            team:null,
+            channels:null,
+            code:null,
+            encoder:null,
+            description:"",
+            transmissionInterval:0,
+            checkFrames:null,
+            pattern:null,
+            commandScript:null,
+            groups:null,
+            deviceID:null,
+            active:true,
+            project:null,
+            latitude:null,
+            longitude:null,
+            altitude:null,
+            retentionTime:null,
+            administrators:null,
+            configuration:null,
+            orgApplicationId:null,
+            applicationConfig:null,
+            organizationId:null,
+            virtual:null,
+            eui:null,
+            channelsAsString:null,
+            codeUnescaped:null,
+            encoderUnescaped:null,
+            configurationMap:null
+            }
+        self.device_prev = {
             'EUI': '',
             'applicationEUI': '',
             'appplicatioID': '',
@@ -306,7 +345,7 @@
                 app.log('UNKNOWN TARGET OF: ' + e)
             }
             if('EXTERNAL'==self.device.type){
-                self.template['pattern']=",type,eui,name,key,description,team,administrator,active,groups,downlink"
+                self.template['pattern']=",type,eui,name,key,description,team,administrator,active,groups"
             }else if('VIRTUAL'==self.device.type){
                 self.template['pattern']=",type,eui,name,key,description,team,administrator,active,groups,project,transmissionInterval"
             }
@@ -412,7 +451,7 @@
             self.device.configuration=self.template.configuration
             self.device.active='true'
             self.device.project=''
-            self.device.downlink=''
+            //self.device.downlink=''
             //self.device.applicationEUI = ''
             //self.device.applicationID=''
             self.device.state=''
@@ -436,27 +475,27 @@
             }
             var formData = {
                 eui: '',
-                appeui: '',
-                appid: '',
+                applicationEUI: '',
+                applicationID: '',
                 name: '',
                 key: '',
                 type: '',
                 team: '',
                 administrators: '',
-                channels: '',
+                channelsAsString: '',
                 transmissionInterval: '',
                 description: '',
                 code: '',
                 pattern: '',
                 groups: '',
-                commandscript: '',
+                commandScript: '',
                 template: '',
                 project: '',
                 active: '',
-                state:'',
+                //state:'',
                 latitude:'',
                 longitude:'',
-                downlink:'',
+                //downlink:'',
                 configuration:'',
                 organizationId:0,
                 orgApplicationId:0
@@ -464,14 +503,14 @@
             if(e.target.elements['eui_input']) formData.eui = e.target.elements['eui_input'].value
             if (self.device.type == 'TTN') {
                 if(e.target.elements['appeui_input']) {
-                    formData.appeui = e.target.elements['appeui_input'].value
+                    formData.applicationEUI = e.target.elements['appeui_input'].value
                 }else{
-                    formData.appeui = self.device.applicationEUI
+                    formData.applicationEUI = self.device.applicationEUI
                 }
                 if(e.target.elements['appid_input']) {
-                    formData.appid = e.target.elements['appid_input'].value
+                    formData.applicationID = e.target.elements['appid_input'].value
                 }else{
-                    formData.appid = self.device.applicationID
+                    formData.applicationID = self.device.applicationID
                 }
             }
             if(e.target.elements['name_input']) {
@@ -500,9 +539,9 @@
                 formData.administrators = self.device.administrators
             }
             if(e.target.elements['channels_input']) {
-                formData.channels = e.target.elements['channels_input'].value
+                formData.channelsAsString = e.target.elements['channels_input'].value
             }else{
-                formData.channels = self.device.channels
+                formData.channelsAsString = self.device.channels
             }
             if(e.target.elements['groups_input']) {
                 formData.groups = e.target.elements['groups_input'].value
@@ -538,18 +577,18 @@
                 formData.encoder = self.device.encoder
             }
             
-            formData.commandscript = self.device.commandscript
+            formData.commandScript = self.device.commandScript
             formData.template = self.device.template
             if(e.target.elements['interval_input']) {
                 formData.transmissionInterval = 60000 * Number(e.target.elements['interval_input'].value)
             }else{
                 formData.transmissionInterval = self.device.transmissionInterval
             }
-            if(e.target.elements['state_input']) {
-                formData.state = e.target.elements['state_input'].value
-            }else{
-                formData.state = self.device.state
-            }
+            //if(e.target.elements['state_input']) {
+            //    formData.state = e.target.elements['state_input'].value
+            //}else{
+            //    formData.state = self.device.state
+            //}
             if(e.target.elements['latitude_input']) {
                 formData.latitude = e.target.elements['latitude_input'].value
             }else{
@@ -560,11 +599,11 @@
             }else{
                 formData.longitude = self.device.longitude
             }
-            if(e.target.elements['downlink_input']) {
-                formData.downlink = e.target.elements['downlink_input'].value
-            }else{
-                formData.downlink = self.device.downlink
-            }
+            //if(e.target.elements['downlink_input']) {
+            //    formData.downlink = e.target.elements['downlink_input'].value
+            //}else{
+            //    formData.downlink = self.device.downlink
+            //}
             if(e.target.elements['configuration_input']) {
                 formData.configuration = e.target.elements['configuration_input'].value
             }else{
@@ -580,19 +619,23 @@
             }else{
                 formData.orgApplicationId = self.device.orgApplicationId
             }
+            app.log(app.iotAPI + devicePath)
             app.log(JSON.stringify(formData))
-            sendData(
-                formData,
-                self.method,
-                app.iotAPI + devicePath,
-                app.user.token,
-                self.submitted,
-                self.listener,
-                'submit:OK',
-                null,
-                app.debug,
-                null //globalEvents
-            )
+            sendJsonData(formData, self.method, app.iotAPI + devicePath, 
+            'Authentication', app.user.token, self.submitted, self.listener, 
+            'submit:OK', null, app.debug, null)
+            //sendJsonData(
+            //    formData,
+            //    self.method,
+            //    app.iotAPI + devicePath,
+            //    app.user.token,
+            //    self.submitted,
+            //    self.listener,
+            //    'submit:OK',
+            //    null,
+            //    app.debug,
+            //    null //globalEvents
+            //)
         }
 
         self.close = function() {

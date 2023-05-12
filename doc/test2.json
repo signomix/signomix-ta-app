@@ -1,0 +1,48 @@
+{
+    "template": "null",
+    "name": "ttn_test",
+    "key": "123",
+    "userID": "tester1",
+    "type": "TTN",
+    "team": ",",
+    "channels": {
+        "temperature": {
+            "name": "temperature",
+            "type": null
+        },
+        "humidity": {
+            "name": "humidity",
+            "type": null
+        }
+    },
+    "code": "var timestamp=sgx.getTimestamp('analog_in_1')\nsgx.put('battery',sgx.getValue('analog_in_1'), timestamp)\nvar pm25 = sgx.getValue('analog_in_2')\nvar pm100 = sgx.getValue('analog_in_3')\nif (pm25 < 0) { pm25 = pm25%2B655,34 }\nif (pm100 < 0) { pm100 = pm100%2B655,34 }\npm25 = Math.round(pm25*10)/10\npm100 = Math.round(pm100*10)/10\nif (pm25 > 0) { sgx.put('pm2_5', pm25, timestamp) }\nif (pm100 > 0) { sgx.put('pm10', pm100, timestamp) }\nsgx.put('temperature',sgx.getValue('temperature_4'), timestamp)\nvar humidity = sgx.getValue('relative_humidity_5')\nif (humidity > 99) { humidity = 99 }\nsgx.put('humidity',humidity, timestamp)\nsgx.put('pressure',sgx.getValue('barometric_pressure_6'), timestamp)\nsgx.put('heca_temperature',sgx.getValue('temperature_8'), timestamp)\nsgx.put('heca_humidity',sgx.getValue('relative_humidity_9'), timestamp) \n// PUT YOUR GPS COORDINATES BELOW\nsgx.put('latitude', sgx.latitude, timestamp)\nsgx.put('longitude', sgx.longitude, timestamp)\n// average from last 24 hours\nvar avg25 = sgx.getMinimum('pm2_5', 1*4, pm25)\nvar avg100 = sgx.getMinimum('pm10', 1*4, pm100)\navg25 = Math.round(avg25)\navg100 = Math.round(avg100)\nif (pm25 > 0) { sgx.put('pm2_5avg',  avg25, timestamp ) }\nif (pm100 > 0) { sgx.put('pm10avg',  avg100, timestamp ) } \nif(pm25==0 || pm100==0) { sgx.addNotification('warning', 'konieczny restart smogometru') }",
+    "encoder": "",
+    "description": "",
+    "lastSeen": -1,
+    "transmissionInterval": 0,
+    "lastFrame": -1,
+    "checkFrames": true,
+    "pattern": null,
+    "downlink": null,
+    "commandScript": null,
+    "groups": ",",
+    "alertStatus": 0,
+    "deviceID": "",
+    "project": "",
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "altitude": 0.0,
+    "state": 0.0,
+    "retentionTime": 0,
+    "configuration": "",
+    "orgApplicationId": 0,
+    "applicationConfig": null,
+    "organizationId": 0,
+    "writable": true,
+    "virtual": false,
+    "eui": "010203040506",
+    "channelsAsString": "temperature,humidity",
+    "codeUnescaped": "var timestamp=sgx.getTimestamp('analog_in_1')\nsgx.put('battery',sgx.getValue('analog_in_1'), timestamp)\nvar pm25 = sgx.getValue('analog_in_2')\nvar pm100 = sgx.getValue('analog_in_3')\nif (pm25 < 0) { pm25 = pm25+655,34 }\nif (pm100 < 0) { pm100 = pm100+655,34 }\npm25 = Math.round(pm25*10)/10\npm100 = Math.round(pm100*10)/10\nif (pm25 > 0) { sgx.put('pm2_5', pm25, timestamp) }\nif (pm100 > 0) { sgx.put('pm10', pm100, timestamp) }\nsgx.put('temperature',sgx.getValue('temperature_4'), timestamp)\nvar humidity = sgx.getValue('relative_humidity_5')\nif (humidity > 99) { humidity = 99 }\nsgx.put('humidity',humidity, timestamp)\nsgx.put('pressure',sgx.getValue('barometric_pressure_6'), timestamp)\nsgx.put('heca_temperature',sgx.getValue('temperature_8'), timestamp)\nsgx.put('heca_humidity',sgx.getValue('relative_humidity_9'), timestamp) \n// PUT YOUR GPS COORDINATES BELOW\nsgx.put('latitude', sgx.latitude, timestamp)\nsgx.put('longitude', sgx.longitude, timestamp)\n// average from last 24 hours\nvar avg25 = sgx.getMinimum('pm2_5', 1*4, pm25)\nvar avg100 = sgx.getMinimum('pm10', 1*4, pm100)\navg25 = Math.round(avg25)\navg100 = Math.round(avg100)\nif (pm25 > 0) { sgx.put('pm2_5avg',  avg25, timestamp ) }\nif (pm100 > 0) { sgx.put('pm10avg',  avg100, timestamp ) } \nif(pm25==0 || pm100==0) { sgx.addNotification('warning', 'konieczny restart smogometru') }",
+    "encoderUnescaped": "",
+    "configurationMap": {}
+}
