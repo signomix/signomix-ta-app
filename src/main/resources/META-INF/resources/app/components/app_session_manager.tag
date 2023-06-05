@@ -1,5 +1,7 @@
 <app_session_manager>
     // thread for refreshing session token
+    /*
+    // It seems that this mechanism is error prone. To be removed.
     var self = this
     self.intervalID = null
     self.listener = riot.observable()
@@ -75,4 +77,5 @@
         //komunikat o zmianie uprawnień
         riot.update();
     })
+    */
 </app_session_manager>

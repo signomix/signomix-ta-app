@@ -47,7 +47,7 @@
                         <td>{(device.userID!=app.user.name?'&Implies;':'')}{device.eui}</td>
                         <td>{device.name}</td>
                         <td>{device.type}</td>
-                        <td><img height="16px" style="margin-right: 10px;" src={ getStatus(device.lastSeen, device.transmissionInterval) }></td>
+                        <td><img height="16px" style="margin-right: 10px;" src={ getStatus(device.lastSeen, device.transmissionInterval, device.alertStatus) }></td>
                         <td class="text-right">
                             <i class="material-icons clickable" onclick="{ selectForDownload(device.eui, device.name) }" title="DOWNLOAD DATA" data-toggle="modal" data-target="#downloadModal">cloud_download</i>
                             <i class="material-icons clickable" onclick={ editDevice(device.eui, false) } title="VIEW">open_in_browser</i>
@@ -293,8 +293,8 @@
             }
         }
         
-        getStatus(lastSeen, interval){
-            if(self.now-lastSeen>interval){
+        getStatus(lastSeen, interval, alertStatus){
+            if((self.now-lastSeen>interval) || alertStatus==2){
                 return '/app/images/KO.svg'
             }else{
                 return '/app/images/OK.svg'

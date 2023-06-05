@@ -125,7 +125,7 @@
                                 <label for="w_dev_id">{ app.texts.dashboard_form.f_widget_deviceid[app.language] }</label>
                                     <select class="form-control" id="w_dev_id" name="w_dev_id" disabled={!allowEdit} required>
                                         <option value="">{ app.texts.dashboard_form.f_widget_select_device[app.language] }</option>
-                                        <option each="{d in myDevices}" value="{d.EUI}" selected="{d.EUI==self.editedWidget.dev_id}">{ d.EUI+': '+d.name}</option>
+                                        <option each="{d in myDevices}" value="{d.eui}" selected="{d.eui==self.editedWidget.dev_id}">{ d.eui+': '+d.name}</option>
                                     </select>
                             </div>
                         </div>
@@ -961,7 +961,7 @@
         getAuthKey = function(eui){
             //console.log(self.myDevices)
             for(i=0;i<self.myDevices.length; i++){
-                if(self.myDevices[i].EUI===eui){
+                if(self.myDevices[i].eui===eui){
                     return self.myDevices[i].key
                 }
             }
@@ -970,7 +970,7 @@
         getDeviceConfig = function(eui){
             //console.log(self.myDevices)
             for(i=0;i<self.myDevices.length; i++){
-                if(self.myDevices[i].EUI===eui){
+                if(self.myDevices[i].eui===eui){
                     return self.myDevices[i].configuration
                 }
             }

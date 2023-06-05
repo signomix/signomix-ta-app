@@ -170,7 +170,7 @@
                 <div class="form-group col-md-12">
                     <label for="status">{ app.texts.device_form.devicestatus[app.language] }</label>
                     <p class="form-control-static" id="status">
-                        <img height="16px" style="margin-right: 10px;" src={ getStatus(self.device.lastSeen, self.device.transmissionInterval) }>last seen { getLastSeenString(self.device.lastSeen)}
+                        <img height="16px" style="margin-right: 10px;" src={ getStatus(self.device.lastSeen, self.device.transmissionInterval, self.device.alertStatus) }>last seen { getLastSeenString(self.device.lastSeen)}
                     </p>
                 </div>
             </div>
@@ -385,8 +385,8 @@
             return app.user.roles.indexOf('admin')>-1
         }
 
-        getStatus(lastSeen, interval) {
-            if (self.now - lastSeen > interval) {
+        getStatus(lastSeen, interval, alertStatus) {
+            if ((self.now - lastSeen > interval) || alertStatus == 2) {
                 return '/app/images/KO.svg'
             } else {
                 return '/app/images/OK.svg'

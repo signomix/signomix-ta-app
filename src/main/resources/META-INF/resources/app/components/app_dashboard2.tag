@@ -336,7 +336,7 @@
 
     var updateDevConfigs = function(data){
         var obj=JSON.parse(data)
-        self.devConfigs[''+obj.EUI]=obj.configuration
+        self.devConfigs[''+obj.eui]=obj.configuration
     }
     var updateAppConfigs = function(data){
         var obj=JSON.parse(data)
