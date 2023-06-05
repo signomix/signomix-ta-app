@@ -95,16 +95,16 @@
             var colors =[] 
 
             var borderColors = [
-                'rgb(54, 162, 235)',
-                'rgb(75, 192, 192)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)'
+                'rgb(54, 162, 235)', //blue
+                'rgb(255, 99, 132)', //red
+                'rgb(75, 192, 192)', //green
+                'rgb(255, 159, 64)' //orange
             ]
             var areaColors = [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(54, 162, 235, 0.2)', //blue
+                'rgba(255, 99, 132, 0.2)', //red
+                'rgba(75, 192, 192, 0.2)', //green
+                'rgba(255, 159, 64, 0.2)' //orange
             ]
             
             if(self.multiLine){
@@ -129,8 +129,8 @@
                             label:self.jsonData[0].length>0?self.jsonData[0][j]['name']:'',
                             borderWidth:1,
                             data: measures,
-                            backgroundColor: colors,
-                            borderColor: borders
+                            backgroundColor: areaColors[j],
+                            borderColor: borderColors[j]
                         }
                     )
                 }
