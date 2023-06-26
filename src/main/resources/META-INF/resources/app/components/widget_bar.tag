@@ -68,10 +68,10 @@
             getWidth()
             self.multiLine = self.jsonData[0].length > 1 && self.jsonData[0][1]['name'] != self.jsonData[0][0]['name']
             self.sort()
-            self.showBarGraph(self.type,false)
+            self.showBarGraph(self.type,false,self.timeUnit)
         }
         
-        self.showBarGraph = function(chartType,afterSwitch){
+        self.showBarGraph = function(chartType,afterSwitch,timeUnit){
             if (!self.front || self.jsonData[0].length == 0 ){ 
                 app.log('return because '+self.front+' '+self.jsonData[0].length)
                 return 
@@ -168,6 +168,7 @@
             }
             
             var barChartOptions = {
+                animation: false,
                 scales:{
                     y:{
                         //beginAtZero: true,
@@ -176,7 +177,7 @@
                     x: {
                         type: (self.format=='timeseries'?'timeseries':'time'),
                         time: {
-                            unit: getChartUnit(dFirst, dLast),
+                            unit: getChartUnit(dFirst, dLast, timeUnit),
                             displayFormats: {
                                 minute: 'mm:ss',
                                 hour: 'HH:mm',
@@ -225,7 +226,7 @@
             return function(e){
                 self.front = !self.front
                 riot.update()
-                self.showBarGraph(self.type,true)
+                self.showBarGraph(self.type,true,self.timeUnit)
             }
         }
         self.sort=function(){
@@ -256,7 +257,7 @@
         self.sortData=function(){
             return function(e){
                 self.sort()
-                self.showBarGraph(self.type,false)
+                self.showBarGraph(self.type,false,self.timeUnit)
             }
         }
 

@@ -72,10 +72,10 @@
             getWidth()
             self.multiLine = self.jsonData[0].length > 1 && self.jsonData[0][1]['name'] != self.jsonData[0][0]['name']
             self.sort()
-            self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation)
+            self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation,self.timeUnit)
         }
         
-        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption,cubicInterpolation){  
+        self.showMultiLineGraph = function(chartType,afterSwitch,chartOption,cubicInterpolation,timeUnit){  
             if (!self.front || self.jsonData[0].length == 0 ){ 
                 app.log('return because '+self.front+' '+self.jsonData[0].length)
                 return 
@@ -166,6 +166,7 @@
             }
 
             var options = {
+                animation: false,
                 responsive: true,
                 plugins: {
                     title: {
@@ -192,7 +193,7 @@
                     x: {
                         type: (self.format=='timeseries'?'timeseries':'time'),
                         time: {
-                            unit: getChartUnit(dFirst, dLast),
+                            unit: getChartUnit(dFirst, dLast, timeUnit),
                             displayFormats: {
                                 minute: 'mm:ss',
                                 hour: 'HH:mm',
@@ -276,7 +277,7 @@
             return function(e){
                 self.front = !self.front
                 riot.update()
-                self.showMultiLineGraph(self.type,true,self.chartOption)
+                self.showMultiLineGraph(self.type,true,self.chartOption,self.timeUnit)
             }
         }
         self.sort=function(){
@@ -307,7 +308,7 @@
         self.sortData=function(){
             return function(e){
                 self.sort()
-                self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation)
+                self.showMultiLineGraph(self.type,false,self.chartOption,self.cubicInterpolation,self.timeUnit)
             }
         }
 

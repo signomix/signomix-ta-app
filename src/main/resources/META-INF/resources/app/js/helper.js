@@ -274,7 +274,10 @@ function isNotEmpty(stringValue){
     }
 }
 
-function getChartUnit(firstTimestamp, lastTimeStamp){
+function getChartUnit(firstTimestamp, lastTimeStamp, unit){
+    if(unit!=null && unit!=undefined && unit!=''){
+        return unit
+    }
     var dist=(lastTimeStamp-firstTimestamp)/1000 //distance in seconds
     var _1year=31536000
     var _1month=2592000

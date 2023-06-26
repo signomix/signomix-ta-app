@@ -851,6 +851,12 @@
             "fr": "Type of X-axis of the chart",
             "pl": "Typ osi X wykresu"
         },
+        "f_widget_timeUnit": {
+            "en": "Time on the x-axis of the chart",
+            "it": "Time on the x-axis of the chart",
+            "fr": "Time on the x-axis of the chart",
+            "pl": "Jednostka czasu na osi X wykresu"
+        },
         "f_widget_chartOption": {
             "en": "Chart style",
             "it": "Stile grafico",
