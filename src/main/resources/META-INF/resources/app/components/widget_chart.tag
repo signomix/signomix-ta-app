@@ -275,9 +275,11 @@
 
         switchCard(){
             return function(e){
+                /*
                 self.front = !self.front
                 riot.update()
                 self.showMultiLineGraph(self.type,true,self.chartOption,self.timeUnit)
+                */
             }
         }
         self.sort=function(){

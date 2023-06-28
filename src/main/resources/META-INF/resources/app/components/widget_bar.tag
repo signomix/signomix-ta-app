@@ -224,9 +224,11 @@
 
         switchCard(){
             return function(e){
+                /*
                 self.front = !self.front
                 riot.update()
                 self.showBarGraph(self.type,true,self.timeUnit)
+                */
             }
         }
         self.sort=function(){

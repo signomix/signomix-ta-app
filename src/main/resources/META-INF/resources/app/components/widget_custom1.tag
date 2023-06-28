@@ -102,11 +102,13 @@
 
         switchCard(){
             return function(e){
+                /*
                 self.front = !self.front
                 riot.update()
                 if(self.front){
                     self.drawContent()
                 }
+                */
             }
         }
 
