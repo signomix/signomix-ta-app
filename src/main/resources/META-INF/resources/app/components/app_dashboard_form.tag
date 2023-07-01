@@ -193,6 +193,7 @@
                         <div class="form-group col-md-12" if={ isOnExtendedTab('w_timeUnit',self.editedWidget.type)}>
                             <label for="w_timeUnit" class="active">{app.texts.dashboard_form.f_widget_timeUnit[app.language]}</label>
                             <select class="form-control" id="w_timeUnit" disabled={!allowEdit}>
+                                <option value="" selected={self.editedWidget.timeUnit=='' || self.editedWidget.timeUnit==undefined}>automatic setting</option>
                                 <option value="year" selected={self.editedWidget.timeUnit=='year'}>year</option>
                                 <option value="quarter" selected={self.editedWidget.timeUnit=='quarter'}>quarter</option>
                                 <option value="month" selected={self.editedWidget.timeUnit=='month'}>month</option>
