@@ -194,12 +194,11 @@
                             <label for="w_timeUnit" class="active">{app.texts.dashboard_form.f_widget_timeUnit[app.language]}</label>
                             <select class="form-control" id="w_timeUnit" disabled={!allowEdit}>
                                 <option value="" selected={self.editedWidget.timeUnit=='' || self.editedWidget.timeUnit==undefined}>automatic setting</option>
-                                <option value="year" selected={self.editedWidget.timeUnit=='year'}>year</option>
-                                <option value="quarter" selected={self.editedWidget.timeUnit=='quarter'}>quarter</option>
-                                <option value="month" selected={self.editedWidget.timeUnit=='month'}>month</option>
-                                <option value="week" selected={self.editedWidget.timeUnit=='week'}>week</option>
-                                <option value="hour" selected={self.editedWidget.timeUnit=='hour'}>hour</option>
-                                <option value="minute" selected={self.editedWidget.timeUnit=='minute'}>minute</option>
+                                <option value="quarter" selected={self.editedWidget.timeUnit=='quarter'}>quarters</option>
+                                <option value="week" selected={self.editedWidget.timeUnit=='week'}>weeks</option>
+                                <option value="day" selected={self.editedWidget.timeUnit=='day'}>days</option>
+                                <option value="hour" selected={self.editedWidget.timeUnit=='hour'}>hours</option>
+                                <option value="minute" selected={self.editedWidget.timeUnit=='minute'}>minutes</option>
                             </select>
                         </div>
                         <div class="form-group col-md-12" if={ isOnExtendedTab('w_command_type',self.editedWidget.type) }>

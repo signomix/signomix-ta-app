@@ -14,7 +14,7 @@
             console.log('using token '+self.token)
             console.log('guest=='+app.user.guest)
             if (!app.user.guest && self.token && self.userNumber) {
-                getData(app.authAPI+'/'+self.token, null, null, getUserData, globalEvents, 'data:ok', 'data.error', app.debug)
+                getData(app.authAPI+'?tid='+self.token, null, null, getUserData, globalEvents, 'data:ok', 'data.error', app.debug)
                 app.requests=0
             }
         })

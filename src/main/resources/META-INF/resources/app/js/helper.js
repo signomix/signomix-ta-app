@@ -287,13 +287,13 @@ function getChartUnit(firstTimestamp, lastTimeStamp, unit){
 
     //console.log('dist:'+dist)
     if(dist>_1year*2){
-        return 'year'
+        return 'quarter'
     }
     if(dist>_1month*6){
         return 'quarter'
     }
     if(dist>_1month*2){
-        return 'month'
+        return 'week'
     }
     if(dist>_1week*2){
         return 'week'

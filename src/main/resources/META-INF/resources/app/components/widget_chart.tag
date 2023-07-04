@@ -196,8 +196,9 @@
                             unit: getChartUnit(dFirst, dLast, timeUnit),
                             displayFormats: {
                                 minute: 'mm:ss',
-                                hour: 'HH:mm',
+                                hour: 'HH:mm:ss',
                                 day: 'D-MM',
+                                week: 'D-MM',
                                 quarter: 'MMM-YYYY'
                             }
                         }
