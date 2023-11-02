@@ -1,5 +1,19 @@
 <app_content>
     <main class="background-image">
+        <div  class="container white mt-2" if={ app.currentPage!='documents'}>
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="card red lighten-1 text-center z-depth-2">
+                        <div class="card-body">
+                            <p class="white-text mb-0"><b>Ta wersja aplikacji nie działa.</b><br>
+                            <a href="https://cloud.signomix.com">Przejdź do nowej wersji Signomiksa.</a></p>
+                            <p class="white-text mb-0"><b>This version of the application does not work.</b><br>
+                            <a href="https://cloud.signomix.com">Go to the new version of Signomix.</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div  class="container white" if={ infoToShow }>
               <div class="row">
                 <div class="col-md-12">
