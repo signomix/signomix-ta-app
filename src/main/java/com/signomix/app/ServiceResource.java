@@ -3,6 +3,7 @@ package com.signomix.app;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
@@ -18,12 +19,24 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
+import com.signomix.app.auth.SessionParams;
+import com.signomix.common.Token;
+import com.signomix.common.db.AuthDaoIface;
+
+import io.agroal.api.AgroalDataSource;
+import io.quarkus.agroal.DataSource;
+import io.quarkus.runtime.StartupEvent;
 import io.vertx.mutiny.core.Vertx;
 
 @ApplicationScoped
 @Path("/")
 public class ServiceResource {
     private static final Logger LOG = Logger.getLogger(ServiceResource.class);
+
+    // TODO: move to config
+    private long sessionTokenLifetime = 30; // minutes
+    private long permanentTokenLifetime = 10 * 365 * 24 * 60; // 10 years in minutes
+
 
     private final Vertx vertx;
 
@@ -36,14 +49,34 @@ public class ServiceResource {
     @ConfigProperty(name = "signomix.google.tracking.id", defaultValue = "")
     String trackingId;
 
+    @Inject
+    @DataSource("auth")
+    AgroalDataSource tsDs;
+    AuthDaoIface authDao = null;
 
     @Inject
     public ServiceResource(Vertx vertx) {
         this.vertx = vertx;
     }
 
-    private String updateContent(HttpHeaders headers, String content){
-        String fileContent=content;
+    public void onApplicationStart(@Observes StartupEvent event) {
+            authDao = new com.signomix.common.tsdb.AuthDao();
+            authDao.setDatasource(tsDs);
+
+    }
+
+    public SessionParams checkToken(String token){
+        Token tokenObj = authDao.getToken(token, sessionTokenLifetime, permanentTokenLifetime);
+        SessionParams sessionParams = new SessionParams();
+        sessionParams.setToken(token);
+        sessionParams.setUser(tokenObj.getUid());
+        sessionParams.setIssuer(tokenObj.getIssuer());
+        sessionParams.setRole("");
+        return sessionParams;
+    }
+
+    private String updateContent(HttpHeaders headers, String content) {
+        String fileContent = content;
         List<String> headerValues;
         String userId = "";
         String issuerId = "";
@@ -72,11 +105,12 @@ public class ServiceResource {
         fileContent = fileContent.replaceAll("\\$token", token);
         fileContent = fileContent.replaceAll("\\$user", userId);
         fileContent = fileContent.replaceAll("\\$gaTrackingID", trackingId);
-        String[] tmpRole=roles.split(",");
-        String roles4Arr="";
-        for(int i=0; i<tmpRole.length; i++){
-            roles4Arr=roles4Arr+"\""+tmpRole[i]+"\"";
-            if(i<tmpRole.length-1) roles4Arr=roles4Arr+",";
+        String[] tmpRole = roles.split(",");
+        String roles4Arr = "";
+        for (int i = 0; i < tmpRole.length; i++) {
+            roles4Arr = roles4Arr + "\"" + tmpRole[i] + "\"";
+            if (i < tmpRole.length - 1)
+                roles4Arr = roles4Arr + ",";
         }
         fileContent = fileContent.replaceAll("\\$roles", roles4Arr);
         return fileContent;
@@ -89,7 +123,7 @@ public class ServiceResource {
         String fileContent;
         try {
             fileContent = vertx.fileSystem().readFileBlocking("app/index.html").toString();
-            fileContent=updateContent(headers, fileContent);
+            fileContent = updateContent(headers, fileContent);
         } catch (Exception ex) {
             throw new NotFoundException("Not found: index.html");
         }
@@ -101,13 +135,13 @@ public class ServiceResource {
     @Produces(MediaType.TEXT_HTML)
     public String readShortFile(@Context HttpHeaders headers, @PathParam("file") String fileName) {
         String fileContent;
-        try{
-            fileContent=vertx.fileSystem().readFileBlocking("app/" + fileName).toString();
-            if("embed.html".equalsIgnoreCase(fileName)){
-                fileContent=updateContent(headers, fileContent);
+        try {
+            fileContent = vertx.fileSystem().readFileBlocking("app/" + fileName).toString();
+            if ("embed.html".equalsIgnoreCase(fileName)) {
+                fileContent = updateContent(headers, fileContent);
             }
         } catch (Exception ex) {
-            throw new NotFoundException("Not found: "+fileName);
+            throw new NotFoundException("Not found: " + fileName);
         }
         return fileContent;
     }

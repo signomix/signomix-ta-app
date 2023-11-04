@@ -5,9 +5,9 @@
                 <div class="col-md-12">
                     <div class="card red lighten-1 text-center z-depth-2">
                         <div class="card-body">
-                            <p class="white-text mb-0"><b>Ta wersja aplikacji nie działa.</b><br>
+                            <p class="white-text mb-0"><b>Ta wersja aplikacji zostanie wkrótce wyłączona.</b><br>Niektóre funkcje mogą działać niestabilnie.<br>Zdefiniuj potrzebne Ci pulpity w nowej wersji i zacznij z niej korzystać.<br>
                             <a href="https://cloud.signomix.com">Przejdź do nowej wersji Signomiksa.</a></p>
-                            <p class="white-text mb-0"><b>This version of the application does not work.</b><br>
+                            <p class="white-text mb-0"><b>This version of the app will be disabled soon.</b><br>Some functions may be unstable.<br>Define the desktops you need in the new version and start using it.<br>
                             <a href="https://cloud.signomix.com">Go to the new version of Signomix.</a></p>
                         </div>
                     </div>

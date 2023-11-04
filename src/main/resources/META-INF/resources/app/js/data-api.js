@@ -171,6 +171,7 @@ function getData(url, query, token, callback, eventBus, successEventName, errorE
     if (token != null) {
         oReq.withCredentials = true;
         oReq.setRequestHeader("Authentication", token);
+        oReq.setRequestHeader("Accept", "application/json");
     }
     oReq.send(query);
     //app.responses--;
@@ -405,7 +406,7 @@ function deleteData(url, token, callback, eventBus, successEventName, errorEvent
         if (this.readyState == 4) {
             app.requests--;
             if (this.status == 200) {
-                app.log(JSON.parse(this.responseText));
+                //app.log(JSON.parse(this.responseText));
                 if (callback != null) {
                     callback(this.responseText);
                 } else {

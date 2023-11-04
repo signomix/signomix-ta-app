@@ -136,18 +136,18 @@
         // dynamic configuration. Look at cricket.json - service propertises
         //app.authAPI = "$serviceurl/api/auth";
         app.release="%release%"
-        app.authAPI = "/api/auth";
-        app.alertAPI = "/api/alert";
-        app.userAPI = "/api/user";
+        app.authAPI = "/api/auth/v2";
+        app.alertAPI = "/api/core/notifications/status";
+        app.userAPI = "/api/core/user";
         app.organizationAPI = "/api/organization";
-        app.dataAPI = "/api/provider/device";
+        app.dataAPI = "/api/provider/v2/device";
         app.groupDataAPI = "/api/provider/group";
         app.iotAPI = "/api/core/device";
         app.groupAPI = "/api/iot/group";
         app.applicationAPI = "/api/application";
         app.templateAPI = "/api/iot/template";
         app.csAPI = "/api/cs";
-        app.dashboardAPI = "/api/dashboard";
+        app.dashboardAPI = "/api/core/v2/dashboards";
         app.recoveryAPI = "/api/recover";
         app.actuatorAPI = "/api/actuator";
         app.subscribeAPI = "/api/subscribe";

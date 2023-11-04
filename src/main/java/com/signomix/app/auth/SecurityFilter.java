@@ -1,11 +1,7 @@
 package com.signomix.app.auth;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
@@ -13,8 +9,9 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.logging.Logger;
+
+import com.signomix.app.ServiceResource;
 
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
@@ -28,6 +25,9 @@ public class SecurityFilter implements ContainerRequestFilter {
 
     private static final String SIGNOMIX_TOKEN_NAME = "signomixToken";
 
+    @Inject
+    ServiceResource serviceResource;
+    
     @Context
     UriInfo info;
 
@@ -82,6 +82,16 @@ public class SecurityFilter implements ContainerRequestFilter {
     }
 
     private SessionParams getUserParams(String token) {
+        SessionParams result = null;
+        try {
+            result = serviceResource.checkToken(token);
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return result;
+    }
+
+    /* private SessionParams getUserParams(String token) {
         AuthClient client;
         SessionParams result = null;
         try {
@@ -102,6 +112,6 @@ public class SecurityFilter implements ContainerRequestFilter {
             // TODO: notyfikacja użytkownika o błędzie
         }
         return result;
-    }
+    } */
 
 }

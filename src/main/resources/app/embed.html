@@ -114,15 +114,15 @@
     <script data-src="/app/components/app_custom_texts.tag" type="riot/tag"></script>
     <script>
         app.release="%release%"
-        app.authAPI = "/api/auth";
-        app.alertAPI = "/api/alert";
-        app.userAPI = "/api/user";
-        app.dataAPI = "/api/provider/device";
+        app.authAPI = "/api/auth/v2";
+        app.alertAPI = "/api/core/notifications/status";
+        app.userAPI = "/api/core/user";
+        app.dataAPI = "/api/provider/v2/device";
         app.groupDataAPI = "/api/provider/group";
-        app.iotAPI = "/api/iot/device";
+        app.iotAPI = "/api/core/device";
         app.groupAPI = "/api/iot/group";
         app.csAPI = "/api/cs";
-        app.dashboardAPI = "/api/dashboard";
+        app.dashboardAPI = "/api/core/v2/dashboard";
         app.recoveryAPI = "/api/recover";
         app.actuatorAPI = "/api/actuator";
         // authomatic login with token (request 'tid' parameter

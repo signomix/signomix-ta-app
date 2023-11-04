@@ -443,7 +443,8 @@
             url=app.groupDataAPI + "/" + config.group + "/"+channelName+"?tid="+(app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
             //url=app.groupAPI + "/" + config.group + "/"+channelName+"?"+(app.shared!=''?'tid='+app.shared+'&':'')+"query=" + queryWithFilter
         }else if(config.dev_id){
-            url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?tid="+ (app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
+            //url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?tid="+ (app.shared!=''?app.shared:app.user.token)+"&query=" + queryWithFilter
+            url=app.dataAPI + "/" + config.dev_id + "/"+channelName+"?query=" + queryWithFilter
         }
         try{
         if(url.length>0 && (typeof config.role == 'undefined' || config.role==null || config.role.length==0 || app.user.roles.includes(config.role))) {
