@@ -79,7 +79,8 @@
             <h3 class="module-title text-right">
             <i class="material-icons clickable" onclick={ refresh } if={app.user.status == 'logged-in' && !app.user.guest}>refresh</i>
             <i class="material-icons clickable" data-toggle="modal" data-target="#linkView"
-                   if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}>link</i>
+                   if={ dashboardConfig.shared && dashboardConfig.sharedToken && !app.embeded && app.shared==''}
+                   >link</i>
             <i class="material-icons-outlined clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && !filter.isSet}>filter_alt</i>
             <i class="material-icons clickable"  data-toggle="modal" data-target="#filterView" if={app.user.status == 'logged-in' && !app.user.guest && filter.isSet}>filter_alt</i>
             </h3>

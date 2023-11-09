@@ -58,11 +58,11 @@ public class SecurityFilter implements ContainerRequestFilter {
                 token = token.substring(0, token.length() - 1);
             }
         }
-        if (null == token || token.isEmpty()) {
+/*         if (null == token || token.isEmpty()) {
             Cookie cookie=request.getCookie(SIGNOMIX_TOKEN_NAME);
             token = cookie!=null?cookie.getValue():"";
             LOG.info("token from cookie");
-        }
+        } */
         LOG.infof("Token value: %s", token);
         if (null != token && !token.isEmpty()) {
             SessionParams sessionParams = getUserParams(token);

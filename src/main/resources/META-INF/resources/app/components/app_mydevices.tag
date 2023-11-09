@@ -583,7 +583,7 @@
         var readMyGroups = function() {
                 app.log('reading groups ...')
                 getData(app.groupAPI,
-                    null,
+                    'offset=0&limit=100',
                     app.user.token,
                     updateMyGroups,
                     self.listener, //globalEvents

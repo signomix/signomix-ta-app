@@ -37,7 +37,6 @@ public class ServiceResource {
     private long sessionTokenLifetime = 30; // minutes
     private long permanentTokenLifetime = 10 * 365 * 24 * 60; // 10 years in minutes
 
-
     private final Vertx vertx;
 
     @ConfigProperty(name = "signomix.statuspage.url", defaultValue = "")
@@ -60,12 +59,12 @@ public class ServiceResource {
     }
 
     public void onApplicationStart(@Observes StartupEvent event) {
-            authDao = new com.signomix.common.tsdb.AuthDao();
-            authDao.setDatasource(tsDs);
+        authDao = new com.signomix.common.tsdb.AuthDao();
+        authDao.setDatasource(tsDs);
 
     }
 
-    public SessionParams checkToken(String token){
+    public SessionParams checkToken(String token) {
         Token tokenObj = authDao.getToken(token, sessionTokenLifetime, permanentTokenLifetime);
         SessionParams sessionParams = new SessionParams();
         sessionParams.setToken(token);
@@ -75,33 +74,41 @@ public class ServiceResource {
         return sessionParams;
     }
 
-    private String updateContent(HttpHeaders headers, String content) {
+    private String updateContent(HttpHeaders headers, String tokenId, String content) {
         String fileContent = content;
         List<String> headerValues;
         String userId = "";
         String issuerId = "";
         String token = "";
         String roles = "";
-        headerValues = headers.getRequestHeader("X-user-id");
-        if (headerValues.size() > 0) {
-            userId = headerValues.get(0);
-            LOG.info("X-user-id: " + userId);
+        if (tokenId != null && !tokenId.isEmpty()) {
+            token = tokenId;
+            if(token.endsWith("/")) {
+                token = token.substring(0,token.length()-1);
+            }
+        } else {
+            headerValues = headers.getRequestHeader("X-user-id");
+            if (headerValues.size() > 0) {
+                userId = headerValues.get(0);
+                LOG.info("X-user-id: " + userId);
+            }
+            headerValues = headers.getRequestHeader("X-user-role");
+            if (headerValues.size() > 0) {
+                roles = headerValues.get(0);
+                LOG.info("X-user-role: " + roles);
+            }
+            headerValues = headers.getRequestHeader("X-issuer-id");
+            if (headerValues.size() > 0) {
+                issuerId = headerValues.get(0);
+                LOG.info("X-issuer-id: " + issuerId);
+            }
+            headerValues = headers.getRequestHeader("X-user-token");
+            if (headerValues.size() > 0) {
+                token = headerValues.get(0);
+                LOG.info("X-user-token: " + token);
+            }
         }
-        headerValues = headers.getRequestHeader("X-user-role");
-        if (headerValues.size() > 0) {
-            roles = headerValues.get(0);
-            LOG.info("X-user-role: " + roles);
-        }
-        headerValues = headers.getRequestHeader("X-issuer-id");
-        if (headerValues.size() > 0) {
-            issuerId = headerValues.get(0);
-            LOG.info("X-issuer-id: " + issuerId);
-        }
-        headerValues = headers.getRequestHeader("X-user-token");
-        if (headerValues.size() > 0) {
-            token = headerValues.get(0);
-            LOG.info("X-user-token: " + token);
-        }
+
         fileContent = fileContent.replaceAll("\\$token", token);
         fileContent = fileContent.replaceAll("\\$user", userId);
         fileContent = fileContent.replaceAll("\\$gaTrackingID", trackingId);
@@ -119,11 +126,11 @@ public class ServiceResource {
     @GET
     @Path("/app/")
     @Produces(MediaType.TEXT_HTML)
-    public String readindexFile(@Context HttpHeaders headers) {
+    public String readindexFile(@Context HttpHeaders headers, @QueryParam("tid") String token) {
         String fileContent;
         try {
             fileContent = vertx.fileSystem().readFileBlocking("app/index.html").toString();
-            fileContent = updateContent(headers, fileContent);
+            fileContent = updateContent(headers, token, fileContent);
         } catch (Exception ex) {
             throw new NotFoundException("Not found: index.html");
         }
@@ -133,12 +140,13 @@ public class ServiceResource {
     @GET
     @Path("/app/{file}")
     @Produces(MediaType.TEXT_HTML)
-    public String readShortFile(@Context HttpHeaders headers, @PathParam("file") String fileName) {
+    public String readShortFile(@Context HttpHeaders headers, @PathParam("file") String fileName,
+            @QueryParam("tid") String token) {
         String fileContent;
         try {
             fileContent = vertx.fileSystem().readFileBlocking("app/" + fileName).toString();
             if ("embed.html".equalsIgnoreCase(fileName)) {
-                fileContent = updateContent(headers, fileContent);
+                fileContent = updateContent(headers, token, fileContent);
             }
         } catch (Exception ex) {
             throw new NotFoundException("Not found: " + fileName);
