@@ -36,10 +36,10 @@ public class SecurityFilter implements ContainerRequestFilter {
     @Context
     HttpServerRequest request;
 
-    @ConfigProperty(name = "signomix.app.key", defaultValue = "not_configured")
+/*  @ConfigProperty(name = "signomix.app.key", defaultValue = "not_configured")
     String appKey;
-    @ConfigProperty(name = "signomix.auth.host", defaultValue = "not_configured")
-    String authHost;
+     @ConfigProperty(name = "signomix.auth.host", defaultValue = "not_configured")
+    String authHost; */
 
     @Override
     public void filter(ContainerRequestContext context) {
@@ -49,10 +49,6 @@ public class SecurityFilter implements ContainerRequestFilter {
         final String address = request.remoteAddress().toString();
 
         String token = request.getParam("tid", "");
-        //String token=(String)context.getProperty("tid");
-        LOG.infof("App key: %s", appKey);
-        LOG.infof("Auth host: %s", authHost);
-        // LOG.infof("Request %s %s from IP %s", method, path, address);
         if (null != token && !token.isEmpty()) {
             if (token.endsWith("/")) {
                 token = token.substring(0, token.length() - 1);
